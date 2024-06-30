@@ -1,7 +1,28 @@
 const express = require('express');
 const { register,login,editUser } = require('./auth.js'); // Adjust the path as necessary
+const { OAuth2Client } = require('google-auth-library');
 
 const router = express.Router();
+
+const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const client = new OAuth2Client(CLIENT_ID);
+
+router.post('/google-login', async (req, res) => {
+  const { token } = req.body;
+  try {
+      const ticket = await client.verifyIdToken({
+          idToken: token,
+          audience: CLIENT_ID,
+      });
+      const payload = ticket.getPayload();
+      // Your user handling logic here
+
+      res.status(200).json({ message: 'Login successful', user: payload });
+  } catch (error) {
+      console.error('Error verifying Google token:', error);
+      res.status(401).json({ message: 'Unauthorized' });
+  }
+});
 
 router.post('/register', async (req, res) => {
   const { name, email, password } = req.body;

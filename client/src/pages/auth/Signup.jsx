@@ -1,43 +1,68 @@
-import React, { useState, useEffect } from 'react';
-import './Login.css'; // Assuming the CSS is saved in Signup.css
+import React, { useState } from 'react';
+import './Login.css'; // Corrected the CSS import to match the component
+import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
 // import Logo from '../../images/logo.png';
+
 const Signup = () => {
-    
-    
-    // useEffect(() => {
-    //     document.body.style.backgroundColor = 'red';
-    // }, []);
-    
+  // Initialize formData state to manage form inputs
   const [formData, setFormData] = useState({
-    username: '',
+    name: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
 
+  // Handle form input changes
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
   };
-
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+  // Handle form submission for signup
+  const handleSignup = async (e) => {
     e.preventDefault();
-    // Logic to handle the signup
-    console.log(formData);
+    if (formData.password !== formData.confirmPassword) {
+      console.log("Passwords do not match.");
+      return;
+    }
+    try {
+      const response = await axios.post('http://localhost:5000/register', formData);
+      console.log('Signup successful:', response.data);
+      // Redirect to login page or dashboard as needed
+      navigate('/login');
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data);
+      } else if (error.request) {
+        console.log(error.request);
+      } else {
+        console.log('Error', error.message);
+      }
+    }
   };
 
-return (
+  // Handle Google Signup
+  const handleGoogleSignup = () => {
+    window.open("http://localhost:5000/auth/google/callback", "_self");
+  };
+
+  return (
     <div className="signup-card">
-        {/* <img src="{Logo}" /> */}
-        <form onSubmit={handleSubmit} className="signup-form">
+        {/* <img src={Logo} alt="Logo" /> */}
+        <form onSubmit={handleSignup} className="signup-form">
             <h1 style={{ textAlign: 'center' }}>Sign Up</h1>
             <p style={{ textAlign: 'center' }}>Enter details to create your account</p>
             <div>
-                <label htmlFor="username">Name</label>
+                <label htmlFor="name">Name</label>
                 <input
                     type="text"
-                    id="username"
-                    name="username"
-                    value={formData.username}
+                    id="name"
+                    name="name"
+                    value={formData.name}
                     onChange={handleChange}
                     required
                 />
@@ -53,7 +78,6 @@ return (
                     required
                 />
             </div>
-            <div className="password-">
             <div>
                 <label htmlFor="password">Password</label>
                 <input
@@ -65,23 +89,22 @@ return (
                     required
                 />
             </div>
-                <div>
-                    <label htmlFor="confirmPassword">Confirm Password</label>
-                    <input
-                        type="password"
-                        id="confirmPassword"
-                        name="confirmPassword"
-                        value={formData.confirmPassword}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
+            <div>
+                <label htmlFor="confirmPassword">Confirm Password</label>
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    required
+                />
             </div>
             <button type="submit">Sign Up</button>
         </form>
         <div className="login-options">
             <p>Or sign up with:</p>
-            <button className="google-login">Login with Google</button>
+            <button className="google-login" onClick={handleGoogleSignup}>Sign Up with Google</button>
         </div>
         <div className="login-links">
             <p>
@@ -92,7 +115,7 @@ return (
             </p>
         </div>
     </div>
-);
+  );
 };
 
 export default Signup;

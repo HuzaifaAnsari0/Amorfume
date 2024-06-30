@@ -1,17 +1,19 @@
 import "./App.css";
 // import RouterPage from "./Components/RouterPage";
-import Login from "./pages/auth/Login";
-import Signup from "./pages/auth/Signup";
+import Signup from "./pages/auth/Signup.jsx";
+import Login from "./pages/auth/Login.jsx"
+import Home from "./pages/home/home.jsx";
+import {Routes, Route} from 'react-router-dom';
 
 function App() {
   return (
-  //  <Login />
-   <Signup />
-  //   <div className="App">
-   
-  //   {/* <RouterPage /> */}
-  
-  // </div> 
+<>
+<Routes>
+  <Route path="/" element={<Home />} />
+  <Route path="/login" element={<Login />} />
+  <Route path="/signup" element={<Signup />} />
+</Routes>
+</>
   )
 }
 
