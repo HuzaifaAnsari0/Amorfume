@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 
 // User schema
 const userSchema = new mongoose.Schema({
-  // googleId: {
-  //   type: String,
-  //   required: function() { return this.isGoogleSignUp; },
-  //   sparse: true,
-  // },
+  googleId: {
+    type: String,
+    required: false,
+    sparse: true,
+  },
   name: {
     type: String,
     required: true,

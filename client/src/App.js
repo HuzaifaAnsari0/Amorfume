@@ -3,6 +3,7 @@ import "./App.css";
 import Signup from "./pages/auth/Signup.jsx";
 import Login from "./pages/auth/Login.jsx"
 import Home from "./pages/home/home.jsx";
+import Payment from "./pages/payment/pay.jsx";
 import {Routes, Route} from 'react-router-dom';
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
   <Route path="/" element={<Home />} />
   <Route path="/login" element={<Login />} />
   <Route path="/signup" element={<Signup />} />
+  <Route path="/payment" element={<Payment />} />
 </Routes>
 </>
   )
