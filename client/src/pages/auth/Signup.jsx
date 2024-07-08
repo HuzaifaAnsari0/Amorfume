@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Login.css'; // Corrected the CSS import to match the component
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
+import GoogleLogo from "../../assets/images/google.webp";
 // import Logo from '../../images/logo.png';
 
 const Signup = () => {
@@ -56,9 +57,10 @@ const Signup = () => {
         <form onSubmit={handleSignup} className="signup-form">
             <h1 style={{ textAlign: 'center' }}>Sign Up</h1>
             <p style={{ textAlign: 'center' }}>Enter details to create your account</p>
-            <div>
+            <div className='initial'>
                 <label htmlFor="name">Name</label>
                 <input
+                    placeholder='Enter your name'
                     type="text"
                     id="name"
                     name="name"
@@ -67,9 +69,10 @@ const Signup = () => {
                     required
                 />
             </div>
-            <div>
+            <div className='initial'>
                 <label htmlFor="email">Email</label>
                 <input
+                    placeholder='Enter your email'
                     type="email"
                     id="email"
                     name="email"
@@ -78,9 +81,10 @@ const Signup = () => {
                     required
                 />
             </div>
-            <div>
+            <div className='initial'>
                 <label htmlFor="password">Password</label>
                 <input
+                    placeholder='Enter your password'
                     type="password"
                     id="password"
                     name="password"
@@ -89,9 +93,10 @@ const Signup = () => {
                     required
                 />
             </div>
-            <div>
+            <div className='initial'>
                 <label htmlFor="confirmPassword">Confirm Password</label>
                 <input
+                    placeholder='Confirm your password'
                     type="password"
                     id="confirmPassword"
                     name="confirmPassword"
@@ -102,17 +107,20 @@ const Signup = () => {
             </div>
             <button type="submit">Sign Up</button>
         </form>
-        <div className="login-options">
-            <p>Or sign up with:</p>
-            <button className="google-login" onClick={handleGoogleSignup}>Sign Up with Google</button>
-        </div>
         <div className="login-links">
-            <p>
+            <p style={{marginRight: '90px'}}>
                 Already have an account? <a href="/login">Login</a>
             </p>
             <p>
-                Forgot your password? <a href="/forgot-password">Reset Password</a>
+               <a href="/forgot-password">Forgot Password?</a>
             </p>
+        </div>
+        <div className="login-options">
+            <p>OR: </p>
+           
+            <div>
+            <img className="google-login" onClick={handleGoogleSignup} src={GoogleLogo} alt="Google Logo" />
+            </div>
         </div>
     </div>
   );

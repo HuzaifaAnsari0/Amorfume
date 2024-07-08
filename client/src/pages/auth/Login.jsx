@@ -56,9 +56,10 @@ const Login = () => {
             <form onSubmit={handleLogin} className="signup-form">
                 <h1 style={{ textAlign: 'center' }}>Login</h1>
                 <p style={{ textAlign: 'center' }}>Enter details to create your account</p>
-                <div>
+                <div className='initial'>
                     <label htmlFor="email">Email</label>
                     <input
+                        placeholder='Enter your email'
                         type="email"
                         id="email"
                         name="email"
@@ -67,9 +68,10 @@ const Login = () => {
                         required
                     />
                 </div>
-                <div className="password-">
+                <div className="initial">
                     <label htmlFor="password">Password</label>
                     <input
+                        placeholder='Enter your password'
                         type="password"
                         id="password"
                         name="password"
@@ -91,11 +93,11 @@ const Login = () => {
                 /> */}
             </div>
             <div className="login-links">
-                <p>
+                 <p style={{marginRight: '90px'}}>
                     Don't have an account? <a href="/signup">Sign Up</a>
                 </p>
                 <p>
-                    Forgot your password? <a href="/forgot-password">Reset Password</a>
+                   <a href="/forgot-password">Forgot Password</a>
                 </p>
             </div>
         </div>
