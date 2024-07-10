@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import {jwtDecode} from 'jwt-decode'; // You might need to install jwt-decode
+import React, { useState} from 'react';
 import './Login.css'; // Assuming the CSS is saved in Signup.css
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
@@ -12,9 +13,17 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/login', { email, password });
-            console.log('Login successful:', response.data);
-            navigate('/');
+            const response = await axios.post('http://localhost:5000/login', { email, password});
+            const token = response.data.token;
+            localStorage.setItem('token', token); // Store the token
+            
+            // Decode token to get isAdmin
+            const decoded = jwtDecode(token);
+            if (decoded.isAdmin) {
+                navigate('/admin-dashboard');
+            } else {
+                navigate('/');
+            }
         } catch (error) {
             if (error.response) {
                 console.log(error.response.data);

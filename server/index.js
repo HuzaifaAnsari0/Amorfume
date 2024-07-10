@@ -1,14 +1,15 @@
 const express = require("express");
 require("dotenv").config(); // Ensure this is at the top to load environment variables first
 const connectDB = require("./src/db.js"); // Adjust the path as necessary
-const router = require("./src/user/router.js"); // Adjust the path as necessary
+const router = require("./src/router/userRouter.js"); // Adjust the path as necessary
+const adminRoutes = require("./src/router/adminRoutes.js"); // Adjust the path as necessary
 const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 5000;
 const session = require("express-session");
 const passport = require("passport");
 const OAuth2Strategy = require("passport-google-oauth2").Strategy;
-const userdb = require("./src/user/userModel.js");
+const userdb = require("./src/model/userModel.js");
 const bodyParser = require('body-parser');
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
@@ -136,6 +137,8 @@ app.post("/validate", async (req, res) => {
 /*********************************************************
                       
 *********************************************************/
+
+app.use('/', adminRoutes); // admin routes
 
 // Use router for all routes
 app.use("/", router);

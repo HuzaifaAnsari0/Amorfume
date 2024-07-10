@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('./userModel.js'); // Adjust the path as necessary
+const User = require('../model/userModel.js'); // Adjust the path as necessary
 require('dotenv').config();
 
 /*********************************************************
@@ -55,11 +55,14 @@ const login = async (email, password) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return { message: "Invalid credentials", status: 401 };
 
+    const isAdmin = user.role === 1;
     // Generate a token for the user
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '24h' });
+    const token = jwt.sign({ userId: user._id, isAdmin:isAdmin}, process.env.JWT_SECRET);
 
+    console.log('isAdmin:', isAdmin);
     // Return success message and token
     return {
+      isAdmin:true,
       message: "Logged in successfully",
       token: token,
       status: 200

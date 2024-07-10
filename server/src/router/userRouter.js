@@ -1,5 +1,5 @@
 const express = require('express');
-const { register,login,editUser } = require('./auth.js'); // Adjust the path as necessary
+const { register,login,editUser } = require('../user/auth.js'); // Adjust the path as necessary
 const { OAuth2Client } = require('google-auth-library');
 
 const router = express.Router();
