@@ -2,7 +2,7 @@ const express = require('express');
 const Product = require('../model/productModel.js'); // Adjust the path as necessary
 const router = express.Router();
 
-router.post('/products', async (req, res) => {
+router.post('/insert-products', async (req, res) => {
     try {
       const product = new Product(req.body);
       await product.save();

@@ -4,7 +4,7 @@ const AdminDashboard = () => {
     const navigate = useNavigate();
 
     const handleProducts = () => {
-        navigate('/admin-dashboard/products');
+        navigate('/admin-dashboard/insert-products');
     };
 
     return (
