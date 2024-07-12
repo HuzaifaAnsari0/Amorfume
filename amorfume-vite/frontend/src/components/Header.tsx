@@ -1,5 +1,6 @@
 import React from 'react';
 import { BeakerIcon } from '@heroicons/react/24/solid'
+import Signup from '../pages/auth/Signup';
 
 const Header = () => {
     let Links =[
