@@ -1,15 +1,24 @@
-
+import { Routes, Route } from 'react-router-dom';
 import './App.css'
-import Header from './assets/components/Header'
+import Home from './pages/Home';
+// import Signup from './pages/auth/Signup'
+
 
 function App() {
-
+  
   return (
-    <>  
-     <Header />
-     <div className='bg-indigo-600 w-full h-full'></div>
-    </>
-  )
-}
+     <>
+    
+        <div className="App">
+        <Routes>
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </div>
+      </>
+   );
+    
+  }
+   
+
 
 export default App
