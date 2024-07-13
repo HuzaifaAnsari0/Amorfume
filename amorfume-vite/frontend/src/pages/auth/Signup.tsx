@@ -14,8 +14,8 @@ function Signup() {
       });
     
       // Handle form input changes
-      const handleChange = (e) => {
-        const { name, value } = e.target;
+      const handleChange = (e: React.FormEvent<HTMLFormElement>) => {
+        const { name, value } = e.currentTarget;
         setFormData((prevFormData) => ({
           ...prevFormData,
           [name]: value,
@@ -23,7 +23,7 @@ function Signup() {
       };
       const navigate = useNavigate();
       // Handle form submission for signup
-      const handleSignup = async (e) => {
+      const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (formData.password !== formData.confirmPassword) {
           console.log("Passwords do not match.");
@@ -33,8 +33,8 @@ function Signup() {
           const response = await axios.post('http://localhost:5000/register', formData);
           console.log('Signup successful:', response.data);
           // Redirect to login page or dashboard as needed
-          navigate('/login');
-        } catch (error) {
+          navigate('/');
+        } catch (error: any) {
           if (error.response) {
             console.log(error.response.data);
           } else if (error.request) {
@@ -46,12 +46,11 @@ function Signup() {
       };
     
       // Handle Google Signup
-      const handleGoogleSignup = () => {
+      const handleGoogleSignup = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault(); 
         window.open("http://localhost:5000/auth/google/callback", "_self");
       };
     
-
-
   return (
     <section className="py-4 md:py-8 dark:bg-gray-800">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">

@@ -75,10 +75,13 @@ passport.serializeUser((user, done) => {
   done(null, user.id); // Serialize user ID instead of the whole object
 });
 
-passport.deserializeUser((id, done) => {
-  userdb.findById(id, (err, user) => { // Assuming userdb supports findById
-    done(err, user);
-  });
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await userdb.findById(id); // Assuming userdb supports findById
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
 });
 
 // initial google ouath login

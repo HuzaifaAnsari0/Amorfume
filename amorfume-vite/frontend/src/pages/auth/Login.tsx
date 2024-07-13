@@ -1,6 +1,5 @@
 import {jwtDecode} from 'jwt-decode'; // You might need to install jwt-decode
 import React, { useState} from 'react';
-import './Login.css'; // Assuming the CSS is saved in Signup.css
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 // import { GoogleLogin } from 'react-google-login'; 
@@ -10,7 +9,11 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
-    const handleLogin = async (e) => {
+    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+        interface DecodedToken {
+            isAdmin: boolean;
+            // Include other properties from the token as needed
+          }
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:5000/login', { email, password});
@@ -18,13 +21,13 @@ const Login = () => {
             localStorage.setItem('token', token); // Store the token
             
             // Decode token to get isAdmin
-            const decoded = jwtDecode(token);
+            const decoded: DecodedToken = jwtDecode(token);
             if (decoded.isAdmin) {
                 navigate('/admin-dashboard');
             } else {
                 navigate('/');
             }
-        } catch (error) {
+        } catch (error: any) {
             if (error.response) {
                 console.log(error.response.data);
                 alert('Login failed: ' + error.response.data.message); // Assuming the error response contains a message
