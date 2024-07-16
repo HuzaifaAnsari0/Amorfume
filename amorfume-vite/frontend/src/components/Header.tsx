@@ -1,16 +1,9 @@
 import React from 'react';
 import { BeakerIcon } from '@heroicons/react/24/solid'
-import Signup from '../pages/auth/Signup';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
-    let Links =[
-        {name:'Store', link: '/store'},
-        {name:'About', link: '/about'},
-        {name:'Signup', link: '/signup'},
-        {name:'Cart', link: '/cart'},
-
-
-    ]
+ 
 
     return (
         <div className='shadow-md w-full'>
@@ -22,12 +15,21 @@ const Header = () => {
                 </div>
                 {/* NavLink */}
                 <ul className='flex pl-9 md:pl-0'>
-                    {
-                        Links.map(link => (
+                    
+                        
                         <li className=' font-semibold my-7 md:my-0 md:ml-8'>
-                            <a href='/'>{link.name}</a>
-                            </li>))
-                    }
+                           <Link to="/Store">Store</Link>
+                        </li>
+                        <li className=' font-semibold my-7 md:my-0 md:ml-8'>
+                        <Link to="/About">About</Link>
+                        </li>
+                        <li className=' font-semibold my-7 md:my-0 md:ml-8'>
+                            <Link to="/signup">Signup</Link>
+                            </li>
+                        <li className=' font-semibold my-7 md:my-0 md:ml-8'>
+                        <Link to="/Cart">Cart</Link>
+                        </li>
+                    
                 </ul>
 
             </div>

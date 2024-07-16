@@ -5,7 +5,7 @@ const ProtectedRoute = () => {
     const isAdmin = localStorage.getItem('isAdmin') === 'true'; // Retrieve isAdmin flag
     
     if (!isAuthenticated) {
-      return <Navigate to="/signup" />;
+      return <Navigate to="/login" />;
     }
   
     if (!isAdmin) {

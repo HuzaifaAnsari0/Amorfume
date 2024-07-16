@@ -3,14 +3,18 @@ import { useNavigate } from 'react-router-dom';
 const AdminDashboard = () => {
     const navigate = useNavigate();
 
-    const handleProducts = () => {
+    const InsertProducts = () => {
         navigate('/admin-dashboard/insert-products');
+    };
+    const ViewProducts = () => {
+        navigate('/admin-dashboard/view-products');
     };
 
     return (
         <div>
             <h1>Admin Dashboard</h1>
-            <button onClick={handleProducts}> Products</button>
+            <button onClick={InsertProducts}>Insert Products</button> <br />
+            <button onClick={ViewProducts}>View Products</button> 
         </div>
     );
 }
