@@ -1,68 +1,70 @@
 import React from 'react';
-import  { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 function Signup() {
 
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-      });
-    
-      // Handle form input changes
-      const handleChange = (e: React.FormEvent<HTMLFormElement>) => {
-        const { name, value } = e.currentTarget;
-        setFormData((prevFormData) => ({
-          ...prevFormData,
-          [name]: value,
-        }));
-      };
-      const navigate = useNavigate();
-      // Handle form submission for signup
-      const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (formData.password !== formData.confirmPassword) {
-          console.log("Passwords do not match.");
-          return;
-        }
-        try {
-          const response = await axios.post('http://localhost:5000/register', formData);
-          console.log('Signup successful:', response.data);
-          // Redirect to login page or dashboard as needed
-          navigate('/');
-        } catch (error: any) {
-          if (error.response) {
-            console.log(error.response.data);
-          } else if (error.request) {
-            console.log(error.request);
-          } else {
-            console.log('Error', error.message);
-          }
-        }
-      };
-    
-      // Handle Google Signup
-      const handleGoogleSignup = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault(); 
-        window.open("http://localhost:5000/auth/google/callback", "_self");
-      };
-    
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  // Handle form input changes
+  const handleChange = (e: React.FormEvent<HTMLFormElement>) => {
+    const { name, value } = e.currentTarget;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+  const navigate = useNavigate();
+  // Handle form submission for signup
+  const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (formData.password !== formData.confirmPassword) {
+      console.log("Passwords do not match.");
+      return;
+    }
+    try {
+      const response = await axios.post('http://localhost:5000/register', formData);
+      console.log('Signup successful:', response.data);
+      // Redirect to login page or dashboard as needed
+      navigate('/');
+    } catch (error: any) {
+      if (error.response) {
+        console.log(error.response.data);
+      } else if (error.request) {
+        console.log(error.request);
+      } else {
+        console.log('Error', error.message);
+      }
+    }
+  };
+
+  // Handle Google Signup
+  const handleGoogleSignup = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    window.open("http://localhost:5000/auth/google/callback", "_self");
+  };
+
   return (
     <section className="py-4 md:py-8 dark:bg-gray-800">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <a href="/" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-          <img className="w-8 h-8 mr-2" src="https://www.svgrepo.com/show/335276/oldelectrum-logo.svg" alt="osher.ai logo" />
-         AMORFUME
+          <img className="w-8 h-8 mr-2" src="logo.png" alt="osher.ai logo" />
+          AMORFUME
         </a>
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-              Sign in to your account
-            </h1>
+            <div className="flex justify-center items-center">
+              <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                Sign Up to your account
+              </h1>
+            </div>
             <form onSubmit={handleGoogleSignup} method="post" action="">
               <button className="w-full inline-flex items-center justify-center py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" type="submit">
                 <svg className="w-5 h-5 mr-2" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -73,7 +75,7 @@ function Signup() {
                     <path d="M10.7019 3.95805C12.1276 3.936 13.5055 4.47247 14.538 5.45722L17.393 2.60218C15.5852 0.904587 13.1858 -0.0287217 10.7019 0.000673888C6.92087 0.000673888 3.46322 2.13185 1.76562 5.51234L5.08732 8.08813C5.87733 5.71811 8.09302 3.95805 10.7019 3.95805V3.95805Z" fill="#EA4335"></path>
                   </g>
                 </svg>
-                Sign in with Google
+                Sign Up with Google
               </button>
             </form>
             <div className="flex items-center">
@@ -85,56 +87,56 @@ function Signup() {
               <div>
                 <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your name</label>
                 <input
- placeholder='Enter your name'
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-teal-600 focus:border-teal-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
- />
+                  placeholder='Enter your name'
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-teal-600 focus:border-teal-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                />
               </div>
-<div>
+              <div>
                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
                 <input
- placeholder='Enter your email'
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-teal-600 focus:border-teal-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
- />
+                  placeholder='Enter your email'
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-teal-600 focus:border-teal-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                />
               </div>
 
-<div>
+              <div>
                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your name</label>
                 <input
- placeholder='Enter your password'
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-teal-600 focus:border-teal-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
- />
+                  placeholder='Enter your password'
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-teal-600 focus:border-teal-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                />
               </div>
 
-             <div>
+              <div>
                 <label htmlFor="confirmPassword" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your name</label>
                 <input
- placeholder='Confirm Your Password'
-                    type="passwor"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    required
-className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-teal-600 focus:border-teal-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
- />
+                  placeholder='Confirm Your Password'
+                  type="passwor"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  required
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-teal-600 focus:border-teal-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                />
               </div>
 
               <div className="flex items-center justify-between">
@@ -143,15 +145,15 @@ className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
                     <input id="remember" aria-describedby="remember" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-teal-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-teal-600 dark:ring-offset-gray-800" />
                   </div>
 
-                
+
                 </div>
                 <a href="/forgot-password" className="text-sm font-medium text-teal-600 hover:underline dark:text-teal-500">Forgot password?</a>
               </div>
               <button type="submit" className="text-white bg-teal-600 py-1.5 px-4 rounded font-bold w-full">
-                Sign in
+                Sign Up
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Already have an account? <a href="" className="font-medium text-teal-600 hover:underline dark:text-teal-500">Sign in</a>
+                Already have an account? <a href="/login" className="font-medium text-teal-600 hover:underline dark:text-teal-500">Login</a>
               </p>
             </form>
           </div>
