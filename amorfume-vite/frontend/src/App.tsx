@@ -7,7 +7,7 @@ import AdminDashboard from './pages/admin/adminDashboard';
 import Products from './pages/admin/product';
  import ProtectedRoute from './pages/auth/ProtectedRoute'; // Adjust the import path as necessary
 import ViewProducts from './pages/admin/ViewProducts';
-
+import UpdateProduct from './pages/admin/UpdateProducts';
 function App() {
   return (
       <div className="App">
@@ -18,6 +18,7 @@ function App() {
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
             <Route path="/admin-dashboard/insert-products" element={<Products />} />
             <Route path="/admin-dashboard/view-products" element={<ViewProducts />} />
+            <Route path="/update-product/:productId" element={<UpdateProduct />} />
           </Route>
           <Route path="/" element={<Home />} />
        </Routes>
