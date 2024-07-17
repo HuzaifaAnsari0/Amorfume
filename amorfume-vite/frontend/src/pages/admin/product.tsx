@@ -15,14 +15,14 @@ function ProductForm() {
   });
   const [error, setError] = useState('');
   const Navigate = useNavigate();
-  const handleChange = (e: React.FormEvent<HTMLFormElement>) => {
-    const { name, value } = e.currentTarget;
+  
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
     setProduct(prevState => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
-
   const validateForm = () => {
     const { name, price, volume, description, image1, image2, image3, category } = product; // Include category in validation
     if (!name || !price || !volume || !description || !image1 || !image2 || !image3 || !category) {

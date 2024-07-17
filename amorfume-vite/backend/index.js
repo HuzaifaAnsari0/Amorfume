@@ -43,7 +43,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(
+passport.use('google-register',
   new OAuth2Strategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -71,6 +71,30 @@ passport.use(
   }
 ));
 
+
+passport.use('google-login', new OAuth2Strategy({
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: "/auth/google/login/callback",
+  scope: ["email", "profile"],
+},
+async function(accessToken, refreshToken, profile, cb) {
+  try {
+    // Attempt to find the user in the database
+    const user = await userdb.findOne({ googleId: profile.id });
+    if (!user) {
+      // User not found, you can decide how to handle this.
+      // For example, redirect to signup or return an error.
+      return cb(null, false, { message: 'User not found' });
+    }
+    // User found, return the user object
+    return cb(null, user);
+  } catch (err) {
+    return cb(err);
+  }
+}));
+
+
 passport.serializeUser((user, done) => {
   done(null, user.id); // Serialize user ID instead of the whole object
 });
@@ -85,12 +109,22 @@ passport.deserializeUser(async (id, done) => {
 });
 
 // initial google ouath login
-app.get("/auth/google",passport.authenticate("google",{scope:["profile","email"]}));
+app.get("/auth/google",passport.authenticate("google-register",{scope:["profile","email"]}));
 
-app.get("/auth/google/callback",passport.authenticate("google",{
+app.get("/auth/google/callback",passport.authenticate("google-register",{
   successRedirect:"http://localhost:3000/",
   failureRedirect:"http://localhost:3000/signup"
 }))
+
+// Route for initiating login
+app.get("/auth/google/login", passport.authenticate("google-login", { scope: ["profile", "email"] }));
+
+// Callback route for login
+app.get("/auth/google/login/callback", passport.authenticate("google-login", {
+  successRedirect: "http://localhost:3000/", // Adjust as needed
+  failureRedirect: "http://localhost:3000/login" // Adjust as needed
+}));
+
 
 /*********************************************************
                       Payment

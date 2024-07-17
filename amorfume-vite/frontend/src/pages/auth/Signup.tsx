@@ -14,13 +14,14 @@ function Signup() {
   });
 
   // Handle form input changes
-  const handleChange = (e: React.FormEvent<HTMLFormElement>) => {
-    const { name, value } = e.currentTarget;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
       [name]: value,
     }));
   };
+  
   const navigate = useNavigate();
   // Handle form submission for signup
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {

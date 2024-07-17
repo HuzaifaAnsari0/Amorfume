@@ -14,8 +14,9 @@ function UpdateProduct() {
     image3: '',
     category: '',
   });
-  const handleChange = (e: React.FormEvent<HTMLFormElement>) => {
-    const { name, value } = e.currentTarget;
+  
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
     setProduct(prevState => ({
       ...prevState,
       [name]: value,
