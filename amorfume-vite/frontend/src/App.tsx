@@ -8,12 +8,35 @@ import Products from './pages/admin/product';
  import ProtectedRoute from './pages/auth/ProtectedRoute'; // Adjust the import path as necessary
 import ViewProducts from './pages/admin/ViewProducts';
 import UpdateProduct from './pages/admin/UpdateProducts';
+import Cart from './components/Cart';
+import Customise from './pages/Customise';
+import Kids from './pages/Category/Kids';
+import Adults from './pages/Category/Adults';
+import Teens from './pages/Category/Teens';
+import Store from './pages/Store';
+import About from './pages/company/About';
+import Blog from './pages/company/Blog';
+import Terms from './pages/company/Terms';
+import Privacy from './pages/company/PrivacyPolicy';
+import Contact from './pages/company/Contact';
+
 function App() {
   return (
       <div className="App">
        <Routes>
        <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/store" element={<Store />} />
+          <Route path="/kids" element={<Kids />} />
+          <Route path="/teens" element={<Teens />} />
+          <Route path="/adults" element={<Adults />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/customise" element={<Customise />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/contact" element={<Contact />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
             <Route path="/admin-dashboard/insert-products" element={<Products />} />

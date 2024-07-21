@@ -12,7 +12,7 @@ const Footer = () => {
                                 <a href="/">
                                     <div className="flex items-center space-x-2 text-2xl font-medium">
                                         <span>
-                                            <img src={amorfumeLogo} alt="Amorfume Logo" width="64" height="64" className="w-24" />
+                                            <img src={amorfumeLogo} alt="Amorfume Logo" width="100" height="120" className="w-40" />
                                         </span>
 
                                     </div>
@@ -56,7 +56,7 @@ const Footer = () => {
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="/industryapplications"
+                                            <a href="/customise"
                                                 className="text-md leading-6 text-gray-300 hover:text-gray-50">Customisation
                                             </a>
                                         </li>
@@ -87,11 +87,7 @@ const Footer = () => {
                                 <div>
                                     <h3 className="text-md font-semibold leading-6 text-white">Resources</h3>
                                     <ul role="list" className="mt-6 space-y-4">
-                                        <li>
-                                            <a href="/pricing"
-                                                className="text-md leading-6 text-gray-300 hover:text-gray-50">Pricing
-                                            </a>
-                                        </li>
+                                      
                                         <li>
                                             <a href="/blog" className="text-md leading-6 text-gray-300 hover:text-gray-50">Blog
                                             </a>
@@ -113,17 +109,17 @@ const Footer = () => {
                                     <h3 className="text-md font-semibold leading-6 text-white">User Page</h3>
                                     <ul role="list" className="mt-6 space-y-4">
                                         <li>
-                                            <a href="/aboutus"
+                                            <a href="/profile"
                                                 className="text-md leading-6 text-gray-300 hover:text-gray-50">Profile
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="/careers"
+                                            <a href="/contact"
                                                 className="text-md leading-6 text-gray-300 hover:text-gray-50">Customer Support
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="/contactus"
+                                            <a href="/cart"
                                                 className="text-md leading-6 text-gray-300 hover:text-gray-50">Cart
                                             </a>
                                         </li>
@@ -134,9 +130,9 @@ const Footer = () => {
                     </div>
                     <div className="mt-16 border-t border-gray-400/30 pt-8 sm:mt-20 lg:mt-24">
                         <div className="text-md text-center text-white">
-                            Copyright © 2024 Amorfume
-                            <span className="text-gray-50">♥</span>Designed and Developed by
-                            <a rel="noopener" href="https://www.tarlose.com"> Tarlose
+                            Copyright © 2024 Amorfume {" "}
+                            <span className="text-gray-50 w-4 h-4">♥</span>{" "}Designed and Developed by
+                            <a rel="noopener" href="https://www.tarlose.com" className='text-semibold text-amber-500'> Tarlose
                             </a>
                         </div>
                     </div>

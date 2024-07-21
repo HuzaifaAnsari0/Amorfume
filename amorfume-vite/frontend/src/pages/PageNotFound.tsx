@@ -1,0 +1,7 @@
+import 
+
+const PageNotFound = () => {
+    return (
+
+    )
+}
