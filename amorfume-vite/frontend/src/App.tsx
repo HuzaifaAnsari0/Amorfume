@@ -19,11 +19,13 @@ import Blog from './pages/company/Blog';
 import Terms from './pages/company/Terms';
 import Privacy from './pages/company/PrivacyPolicy';
 import Contact from './pages/company/Contact';
+import PageNotFound from './pages/PageNotFound';
 
 function App() {
   return (
       <div className="App">
        <Routes>
+       <Route path="*" element={<PageNotFound />} />
        <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/store" element={<Store />} />
