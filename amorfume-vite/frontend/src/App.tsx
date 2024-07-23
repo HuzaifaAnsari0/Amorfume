@@ -20,6 +20,8 @@ import Terms from './pages/company/Terms';
 import Privacy from './pages/company/PrivacyPolicy';
 import Contact from './pages/company/Contact';
 import PageNotFound from './pages/PageNotFound';
+import ForgetPassword from './pages/auth/ForgotPassword';
+import ResetPassword from './pages/auth/ResetPassword';
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
        <Route path="*" element={<PageNotFound />} />
        <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgetPassword />} />
+          <Route path="/reset-password/:id/:token" element={<ResetPassword />} />
           <Route path="/store" element={<Store />} />
           <Route path="/kids" element={<Kids />} />
           <Route path="/teens" element={<Teens />} />

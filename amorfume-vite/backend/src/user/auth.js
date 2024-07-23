@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../model/userModel.js'); // Adjust the path as necessary
+const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 /*********************************************************
@@ -106,4 +107,31 @@ const editUser = async (userId, updates) => {
   }
 };
 
-module.exports = { register, login, editUser };
+/*********************************************************
+                      Forgot Password
+*********************************************************/
+async function sendEmail(to, subject, text) {
+  // Create a transporter object using the default SMTP transport
+  let transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
+    secure: false,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  // Send mail with defined transport object
+  let info = await transporter.sendMail({
+    from: '"Amorfume" <your_email_address>', // sender address
+    to: to, // list of receivers
+    subject: subject, // Subject line
+    text: text, // plain text body
+    // html: "<b>Hello world?</b>", // html body (optional)
+  });
+
+  // console.log('Message sent: %s', info.messageId);
+}
+
+module.exports = { register, login, editUser, sendEmail };

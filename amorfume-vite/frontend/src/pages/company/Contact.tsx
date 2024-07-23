@@ -1,8 +1,32 @@
 import MaxWidthWrapper from "../../@/components/MaxWidthWrapper"
 import Footer from "../../components/Footer"
 import Header from "../../components/Header"
+import axios from 'axios';
+import { useState } from 'react';
 
-const Contact = () => {
+
+function Contact() {
+    const [formData, setFormData] = useState({
+      name: '',
+      email: '',
+      message: '',
+    });
+  
+    const handleChange = (e) => {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+  
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      try {
+        await axios.post('http://localhost:5000/contactus', formData);
+        alert('Message sent successfully');
+        // Clear form or redirect user
+      } catch (error) {
+        console.error('Error sending message:', error);
+        alert('Failed to send message');
+      }
+    };
     return (
         <div>
             <Header />
@@ -89,18 +113,18 @@ const Contact = () => {
                 </div>
                 <div className="card h-fit max-w-6xl p-5 md:p-12" id="form">
                     <h2 className="mb-4 text-2xl font-bold dark:text-white">Ready to Get Started?</h2>
-                    <form id="contactForm">
+                    <form onSubmit={handleSubmit} id="contactForm">
                         <div className="mb-6">
                             <div className="mx-0 mb-1 sm:mb-4">
                                 <div className="mx-0 mb-1 sm:mb-4">
-                                    <label htmlFor="name" className="pb-1 text-xs uppercase tracking-wider"></label><input type="text" id="name" placeholder="Your name" className="mb-2 w-full rounded-md border border-gray-400 py-2 pl-2 pr-4 shadow-md dark:text-gray-300 sm:mb-0" name="name" />
+                                    <label htmlFor="name" className="pb-1 text-xs uppercase tracking-wider"></label><input type="text" id="name" placeholder="Your Name" value={formData.name} onChange={handleChange} required className="mb-2 w-full rounded-md border border-gray-400 py-2 pl-2 pr-4 shadow-md dark:text-gray-300 sm:mb-0" name="name" />
                                 </div>
                                 <div className="mx-0 mb-1 sm:mb-4">
-                                    <label htmlFor="email" className="pb-1 text-xs uppercase tracking-wider"></label><input type="email" id="email"  placeholder="Your email address" className="mb-2 w-full rounded-md border border-gray-400 py-2 pl-2 pr-4 shadow-md dark:text-gray-300 sm:mb-0" name="email" />
+                                    <label htmlFor="email" className="pb-1 text-xs uppercase tracking-wider"></label><input type="email" id="email" value={formData.email} onChange={handleChange} placeholder="Your email address" className="mb-2 w-full rounded-md border border-gray-400 py-2 pl-2 pr-4 shadow-md dark:text-gray-300 sm:mb-0" name="email" />
                                 </div>
                             </div>
                             <div className="mx-0 mb-1 sm:mb-4">
-                                <label htmlFor="textarea" className="pb-1 text-xs uppercase tracking-wider"></label><textarea id="textarea" name="textarea"  placeholder="Write your message..." className="mb-2 w-full rounded-md border border-gray-400 py-2 pl-2 pr-4 shadow-md dark:text-gray-300 sm:mb-0"></textarea>
+                                <label htmlFor="textarea" className="pb-1 text-xs uppercase tracking-wider"></label><textarea id="textarea" name="message"  value={formData.message} onChange={handleChange} placeholder="Write your message..." required className="mb-2 w-full rounded-md border border-gray-400 py-2 pl-2 pr-4 shadow-md dark:text-gray-300 sm:mb-0"></textarea>
                             </div>
                         </div>
                         <div className="text-center">
