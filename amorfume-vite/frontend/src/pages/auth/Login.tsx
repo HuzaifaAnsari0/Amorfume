@@ -18,7 +18,7 @@ const Login = () => {
             const response = await axios.post('http://localhost:5000/login', { email, password});
             const token = response.data.token;
             localStorage.setItem('token', token); // Store the token
-            console.log('Login successful:', response.data);
+            // console.log('Login successful:', response.data);
             // Decode token to get isAdmin
             const decoded: DecodedToken = jwtDecode(token);
             const isAdminValue = decoded.isAdmin;

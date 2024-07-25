@@ -19,9 +19,9 @@ const Store = () => {
                         </MaxWidthWrapper>
 
 
-                        <div>
+                        {/* <div>
                             image will come
-                        </div>
+                        </div> */}
                     </div>
                   
 

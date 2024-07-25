@@ -32,8 +32,10 @@ function Signup() {
     }
     try {
       const response = await axios.post('http://localhost:5000/register', formData);
-      console.log('Signup successful:', response.data);
+      // console.log('Signup successful:', response.data);
+      localStorage.setItem('token', response.data.token); // Storing the token
       // Redirect to login page or dashboard as needed
+      //console.log('Stored token:', localStorage.getItem('token')); // Debug: Check immediately after storing
       navigate('/');
     } catch (error: any) {
       if (error.response) {
