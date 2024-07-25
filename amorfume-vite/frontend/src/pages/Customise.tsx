@@ -122,7 +122,7 @@ const  Customise = () => {
                             hidden sm:block lg:hidden xl:block'/>
                             <img src="" className='absolute 2-20 -left-6 -bottom-6
                             select-none'/>
-                            <Bottle className='w-64' imgSrc={Random} />
+                            <Bottle className='w-100' imgSrc={Random} />
                         </div>
                     </div>
                     
@@ -255,7 +255,7 @@ const  Customise = () => {
                                 bg-white shadow-2xl ring-1 ring-gray-900/10 h-full w-full' />
                             </div>
 
-                            <Bottle className='w-60' imgSrc={horse}/>
+                            <Bottle className='w-100' imgSrc={horse}/>
                         </div>
                     </div>
 

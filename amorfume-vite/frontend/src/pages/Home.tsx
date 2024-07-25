@@ -17,14 +17,13 @@ import { Link } from 'react-router-dom';
 import { buttonVariants } from '../@/components/button';
 import Foooter from '../components/Footer1';
 import Footer from '../components/Footer';
-
+import Trial from '../assets/images/trial.png'
 const  Home = () => {
     return(
         <>
         <Header />
         <div className="bg-slate-50">
-            
-          
+            <img src={Trial} />
 
         
         </div>
