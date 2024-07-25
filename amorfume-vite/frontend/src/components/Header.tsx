@@ -10,13 +10,24 @@ const Header = () => {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    // Mock function to simulate checking user authentication status
+    // Function to check if the user is logged in
     const checkUserLoggedIn = () => {
-        const token = localStorage.getItem("token");
-        // console.log("Checking if user is logged in:", token);
-        return token ? true : false;
+      const token = localStorage.getItem("token");
+      return !!token;
     };
-    
+  
+    useEffect(() => {
+      // Check if the token is present in the URL query parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get('token');
+      if (token) {
+        localStorage.setItem("token", token);
+        window.history.replaceState({}, document.title, "/"); // Remove token from URL
+      }
+      setIsLoggedIn(checkUserLoggedIn());
+    }, []);
+  
+
     useEffect(() => {
         // console.log("Effect running");
         setIsLoggedIn(checkUserLoggedIn());

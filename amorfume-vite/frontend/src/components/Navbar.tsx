@@ -7,18 +7,22 @@ import { useEffect, useState } from "react";
 const Navbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    // Mock function to simulate checking user authentication status
+    // Function to check if the user is logged in
     const checkUserLoggedIn = () => {
         const token = localStorage.getItem("token");
-        console.log("Checking if user is logged in:", token);
-        return token ? true : false;
-    };
+        return !!token;
+      };
     
-    useEffect(() => {
-        console.log("Effect running");
+      useEffect(() => {
+        // Check if the token is present in the URL query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+        if (token) {
+          localStorage.setItem("token", token);
+          window.history.replaceState({}, document.title, "/"); // Remove token from URL
+        }
         setIsLoggedIn(checkUserLoggedIn());
-    }, []);
-
+      }, []);
     return (
         <nav className="sticky z-[100] h-14 inset-x-0 top-0 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all">
             <MaxWidthWrapper>

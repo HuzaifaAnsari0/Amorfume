@@ -13,6 +13,7 @@ const userdb = require("./src/model/userModel.js");
 const bodyParser = require('body-parser');
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
+const jwt = require('jsonwebtoken');
 // Connect to MongoDB
 connectDB();
 
@@ -39,6 +40,9 @@ app.use(
   })
 );
 
+/*********************************************************
+                      Google OAuth
+*********************************************************/
 // Passport setup
 app.use(passport.initialize());
 app.use(passport.session());
@@ -64,7 +68,8 @@ passport.use('google-register',
 
           await user.save();
         }
-      return done(null,user)
+        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
+      return done(null,{ user, token })
   } catch (error) {
       return done(error,null)
   }
@@ -87,16 +92,22 @@ async function(accessToken, refreshToken, profile, cb) {
       // For example, redirect to signup or return an error.
       return cb(null, false, { message: 'User not found' });
     }
+
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
     // User found, return the user object
-    return cb(null, user);
+    return cb(null, { user, token });
+
   } catch (err) {
-    return cb(err);
+    return cb(err, null);
   }
 }));
 
-
-passport.serializeUser((user, done) => {
-  done(null, user.id); // Serialize user ID instead of the whole object
+passport.serializeUser((userObj, done) => {
+  if (userObj && userObj.user && userObj.user.id) {
+    done(null, userObj.user.id); // Serialize user ID instead of the whole object
+  } else {
+    done(new Error('User object does not have an id property'), null);
+  }
 });
 
 passport.deserializeUser(async (id, done) => {
@@ -107,23 +118,28 @@ passport.deserializeUser(async (id, done) => {
     done(err, null);
   }
 });
-
 // initial google ouath login
 app.get("/auth/google",passport.authenticate("google-register",{scope:["profile","email"]}));
 
-app.get("/auth/google/callback",passport.authenticate("google-register",{
-  successRedirect:"http://localhost:3000/",
-  failureRedirect:"http://localhost:3000/signup"
-}))
+app.get("/auth/google/callback", passport.authenticate("google-register", {
+  failureRedirect: "http://localhost:3000/signup"
+}), (req, res) => {
+  if (req.user && req.user.token) {
+    res.redirect(`http://localhost:3000/?token=${req.user.token}`);
+  } else {
+    res.redirect('http://localhost:3000/signup');
+  }
+});
 
-// Route for initiating login
-app.get("/auth/google/login", passport.authenticate("google-login", { scope: ["profile", "email"] }));
-
-// Callback route for login
 app.get("/auth/google/login/callback", passport.authenticate("google-login", {
-  successRedirect: "http://localhost:3000/", // Adjust as needed
-  failureRedirect: "http://localhost:3000/login" // Adjust as needed
-}));
+  failureRedirect: "http://localhost:3000/login"
+}), (req, res) => {
+  if (req.user && req.user.token) {
+    res.redirect(`http://localhost:3000/?token=${req.user.token}`);
+  } else {
+    res.redirect('http://localhost:3000/login');
+  }
+});
 
 
 /*********************************************************
