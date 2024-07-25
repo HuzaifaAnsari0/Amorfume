@@ -60,7 +60,7 @@ const login = async (email, password) => {
     // Generate a token for the user
     const token = jwt.sign({ userId: user._id, isAdmin:isAdmin}, process.env.JWT_SECRET);
 
-    console.log('isAdmin:', isAdmin);
+    // console.log('isAdmin:', isAdmin);
     // Return success message and token
     return {
       isAdmin:true,

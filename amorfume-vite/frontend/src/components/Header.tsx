@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import NavLogo from '../assets/images/amorfumeLogoBlack.png'
 import { ChevronDown, ShoppingBag, User } from 'lucide-react';
@@ -7,6 +7,20 @@ const Header = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   
     const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    // Mock function to simulate checking user authentication status
+    const checkUserLoggedIn = () => {
+        const token = localStorage.getItem("token");
+        // console.log("Checking if user is logged in:", token);
+        return token ? true : false;
+    };
+    
+    useEffect(() => {
+        // console.log("Effect running");
+        setIsLoggedIn(checkUserLoggedIn());
+    }, []);
 
  
     return (
@@ -55,9 +69,11 @@ const Header = () => {
                 </div>
               )}
             </li>
-            <li className='font-semibold my-7 md:my-0 md:ml-8'>
-              <Link to="/signup">Signup</Link>
-            </li>
+            {!isLoggedIn && (
+              <li className='font-semibold my-7 md:my-0 md:ml-8'>
+                <Link to="/signup">Signup</Link>
+              </li>
+            )}
             <li className='font-semibold my-7 md:my-0 md:ml-8'>
               <Link to="/cart"><ShoppingBag /></Link>
             </li>
