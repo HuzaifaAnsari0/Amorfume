@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 import { BrowserRouter as Router } from "react-router-dom";
-
+import { CartProvider } from './components/CartContext.tsx';
 
 const rootElement = document.getElementById("root");
 if (rootElement) {
@@ -11,7 +11,9 @@ if (rootElement) {
   root.render(
     <React.StrictMode>
       <Router>
+        <CartProvider>
         <App />
+        </CartProvider>
       </Router>
     </React.StrictMode>
   );
