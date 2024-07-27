@@ -22,6 +22,8 @@ import Contact from './pages/company/Contact';
 import PageNotFound from './pages/PageNotFound';
 import ForgetPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
+import UserProfilePage from './pages/UserProfilePage';
+import ProductView from './pages/ProductView';
 
 function App() {
   return (
@@ -37,6 +39,8 @@ function App() {
           <Route path="/teens" element={<Teens />} />
           <Route path="/adults" element={<Adults />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/view" element={<ProductView />} />
+          <Route path="/user" element={<UserProfilePage />} />
           <Route path="/customise" element={<Customise />} />
           <Route path="/about" element={<About />} />
           <Route path="/blog" element={<Blog />} />

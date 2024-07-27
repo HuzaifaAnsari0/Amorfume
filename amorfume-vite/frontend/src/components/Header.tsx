@@ -42,8 +42,25 @@ const Header = () => {
               <img src={NavLogo} alt="Nav Logo" />
             </Link>
           </div>
+
+    
           {/* NavLink */}
           <ul className='flex pl-9 md:pl-0'>
+          <li className='font-semibold my-7 md:my-0 md:ml-8'>
+              
+
+
+              <form action="" className="relative mx-auto w-max">
+                <input type="search" 
+                      className="peer cursor-pointer relative z-10 h-8 w-8 rounded-full border bg-transparent pl-12 outline-none focus:w-full focus:cursor-text focus:border-lime-300 focus:pl-16 focus:pr-4" />
+                <svg xmlns="http://www.w3.org/2000/svg" className="absolute inset-y-0 my-auto h-8 w-12 border-r border-transparent stroke-gray-500 px-3.5 peer-focus:border-lime-300 peer-focus:stroke-lime-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </form>
+              
+              
+                          </li>
+            
             <li className='font-semibold my-7 md:my-0 md:ml-8'>
               <Link to="/Store">Store</Link>
             </li>
@@ -54,6 +71,8 @@ const Header = () => {
               </button>
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+
+
                   <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                     <Link
                       to="/kids"
@@ -85,11 +104,12 @@ const Header = () => {
                 <Link to="/signup">Signup</Link>
               </li>
             )}
+            
             <li className='font-semibold my-7 md:my-0 md:ml-8'>
               <Link to="/cart"><ShoppingBag /></Link>
             </li>
             <li className='font-semibold my-7 md:my-0 md:ml-8'>
-              <Link to="/profile"><User /></Link>
+              <Link to="/user"><User /></Link>
             </li>
           </ul>
         </div>
