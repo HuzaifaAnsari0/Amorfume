@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useCart } from './CartContext';
 
 interface Product {
     _id: string;
@@ -11,17 +12,6 @@ interface Product {
     image2: string;
     image3: string;
     category: 'adult' | 'kids' | 'teens';
-import { useCart } from './CartContext';
-
-interface Product {
-  _id: string;
-  name: string;
-  price: number;
-  description: string;
-  image1: string;
-  image2: string;
-  image3: string;
-  category: 'adult' | 'kids' | 'teens';
 }
 
 const Products = () => {
@@ -41,19 +31,6 @@ const Products = () => {
         setLoading(false);
       });
   }, []);
-
-  const addToCart = (product: Product) => {
-    setCart((prevCart) => {
-      // Check if the product is already in the cart
-      const isProductInCart = prevCart.find((item) => item._id === product._id);
-      if (!isProductInCart) {
-        // If not, add the product to the cart
-        return [...prevCart, product];
-      }
-      // If the product is already in the cart, return the cart as is
-      return prevCart;
-    });
-  };
 
   if (loading) return <p>Loading...</p>;
 
@@ -75,6 +52,5 @@ const Products = () => {
     </section>
   );
 }
-};
 
 export default Products;
