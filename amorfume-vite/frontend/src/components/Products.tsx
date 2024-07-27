@@ -11,12 +11,23 @@ interface Product {
     image2: string;
     image3: string;
     category: 'adult' | 'kids' | 'teens';
+import { useCart } from './CartContext';
+
+interface Product {
+  _id: string;
+  name: string;
+  price: number;
+  description: string;
+  image1: string;
+  image2: string;
+  image3: string;
+  category: 'adult' | 'kids' | 'teens';
 }
 
 const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [cart, setCart] = useState<Product[]>([]); // State to hold cart items
+  const { addToCart } = useCart();
 
   useEffect(() => {
     fetch('http://localhost:5000/view-products')
@@ -64,5 +75,6 @@ const Products = () => {
     </section>
   );
 }
+};
 
 export default Products;
