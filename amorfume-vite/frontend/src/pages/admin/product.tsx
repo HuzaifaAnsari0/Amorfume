@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Assuming you're using react-router for navigation
+import { Link, useNavigate } from 'react-router-dom'; // Assuming you're using react-router for navigation
 import NavLogo from '../../assets/images/amorfumeLogoBlack.png'
 import { BetweenHorizontalEnd, ScanEye } from 'lucide-react';
 
@@ -80,7 +80,11 @@ function ProductForm() {
       <div className="flex flex-col h-screen">
         {/* Navbar */}
         <div className="flex justify-between items-center bg-slate-100 p-4">
-          <div className="text-lg font-semibold w-40"><img src={NavLogo} alt="" /></div>
+        <Link to="/admin-dashboard"> 
+                <div className="text-lg font-semibold w-40">
+                    <img src={NavLogo} alt="" />
+                </div>
+                </Link>
           <div className="text-xl font-semibold">Admin Dashboard</div>
           <button onClick={goToWebsite} className="bg-fuchsia-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Go to Website
@@ -91,7 +95,7 @@ function ProductForm() {
         <div className="flex flex-1 overflow-hidden">
           {/* Sidebar */}
           <div className="w-64 bg-slate-600 text-black flex flex-col">
-            <div className="flex p-5 font-bold text-lg">Operations</div>
+            <div className="flex p-5 font-bold text-lg text-white">Operations</div>
             <button onClick={InsertProducts} className=" flex py-2 px-4 hover:bg-gray-700 text-white"> <BetweenHorizontalEnd className='text-white px-1' />Insert Products</button>
             <button onClick={ViewProducts} className="flex py-2 px-4 hover:bg-gray-700 text-white"><ScanEye className=' text-white px-1' /> View & Update Products</button>
           </div>
@@ -99,7 +103,7 @@ function ProductForm() {
           {/* Content Area */}
           <div className="flex-1 py-0  overflow-auto">
 
-            <section className='max-w-4xl p-6 mx-auto bg-blue-300 rounded-md shadow-md dark:bg-gray-300 mt-20'>
+            <section className='max-w-4xl p-6 mx-auto bg-slate-100 rounded-md shadow-md dark:bg-gray-300 mt-20'>
               <h2 className="text-2xl font-bold text-center mb-4">Insert Products</h2>
               <form onSubmit={handleSubmit} className="space-y-4">
                 {error && <p className="text-red-500">{error}</p>}

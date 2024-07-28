@@ -47,6 +47,7 @@ const Cart = () => {
                                             </div>
                                         </div>
                                         <div className="flex items-center justify-center lg:justify-end w-full max-w-[200px] mx-auto lg:mx-0">
+                                            <div>
                                             <input
                                                 type="number"
                                                 min="1"
@@ -54,8 +55,13 @@ const Cart = () => {
                                                 onChange={(e) => handleQuantityChange(product._id, parseInt(e.target.value))}
                                                 className="w-16 text-center border border-gray-300 rounded"
                                             />
-                                            <h6 className="font-medium text-lg leading-8 text-indigo-600 ml-4">${totalPrice.toFixed(2)}</h6>
+                                            </div>
+                                           <div>
                                             <button onClick={() => handleRemoveFromCart(product._id)} className="ml-4 px-4 py-2 bg-red-600 text-white rounded">Remove</button>
+                                            </div>
+                                            <div>
+                                            <h6 className="font-medium text-lg leading-8 text-indigo-600 ml-4">${totalPrice.toFixed(2)}</h6>
+                                            </div>
                                         </div>
                                     </div>
                                 );

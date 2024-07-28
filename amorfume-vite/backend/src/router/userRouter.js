@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const User = require('../model/userModel.js'); // Adjust based on your user model
 const { sendEmail } = require('../user/auth.js'); // Implement this function based on your email sending method
 const jwt = require('jsonwebtoken');
+const Product = require('../model/productModel.js'); // Adjust the path as necessary
 
 const router = express.Router();
 
@@ -85,6 +86,20 @@ router.post('/reset-password/:id/:token', async (req, res) => {
   } catch (err) {
     console.error(err); // Log the error for server-side debugging
     res.status(500).json({ Status: "An error occurred on the server" });
+  }
+});
+
+router.get('/store/view-product/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+      const product = await Product.findById(id);
+      if (product) {
+          res.json(product);
+      } else {
+          res.status(404).json({ message: 'Product not found' });
+      }
+  } catch (err) {
+      res.status(500).json({ message: 'Server error' });
   }
 });
 

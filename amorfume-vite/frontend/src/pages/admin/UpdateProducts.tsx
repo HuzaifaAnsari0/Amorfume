@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import NavLogo from '../../assets/images/amorfumeLogoBlack.png';
+import { BetweenHorizontalEnd, ScanEye } from 'lucide-react';
 
 function UpdateProduct() {
   const navigate = useNavigate();
@@ -66,9 +67,11 @@ function UpdateProduct() {
     <>
       <div className="flex flex-col h-screen">
         <div className="flex justify-between items-center bg-slate-100 p-4">
-          <div className="text-lg font-semibold w-40">
-            <img src={NavLogo} alt="NavLogo" />
-          </div>
+        <Link to="/admin-dashboard"> 
+                <div className="text-lg font-semibold w-40">
+                    <img src={NavLogo} alt="" />
+                </div>
+                </Link>
           <div className="text-xl font-semibold">Admin Dashboard</div>
           <button
             onClick={goToWebsite}
@@ -80,13 +83,10 @@ function UpdateProduct() {
 
         <div className="flex flex-1 overflow-hidden">
           <div className="w-64 bg-slate-600 text-black flex flex-col">
-            <div className="flex p-5 font-bold text-lg">Operations</div>
-            <button onClick={InsertProducts} className="py-2 px-4 hover:bg-gray-700">
-              Insert Products
-            </button>
-            <button onClick={ViewProducts} className="py-2 px-4 hover:bg-gray-700">
-              View & Update Products
-            </button>
+            <div className="flex p-5 font-bold text-lg text-white">Operations</div>
+            <button onClick={InsertProducts} className=" flex py-2 px-4 hover:bg-gray-700 text-white"> <BetweenHorizontalEnd className='text-white px-1' />Insert Products</button>
+            <button onClick={ViewProducts} className="flex py-2 px-4 hover:bg-gray-700 text-white"><ScanEye className=' text-white px-1' /> View & Update Products</button>
+     
           </div>
 
           <div className="flex-1 p-10 overflow-auto">
