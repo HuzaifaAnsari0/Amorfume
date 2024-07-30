@@ -24,6 +24,8 @@ import ForgetPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
 import UserProfilePage from './pages/UserProfilePage';
 import ProductView from './pages/ProductView';
+import Disclaimer from './pages/company/Disclaimer';
+import Sustainability from './pages/company/Sustainability';
 
 function App() {
   return (
@@ -47,6 +49,8 @@ function App() {
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/disclaimer" element={<Disclaimer />} />
+          <Route path="/sustainability" element={<Sustainability />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
             <Route path="/admin-dashboard/insert-products" element={<Products />} />
