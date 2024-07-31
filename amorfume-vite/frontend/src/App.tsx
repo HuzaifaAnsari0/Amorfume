@@ -26,6 +26,7 @@ import UserProfilePage from './pages/UserProfilePage';
 import ProductView from './pages/ProductView';
 import Disclaimer from './pages/company/Disclaimer';
 import Sustainability from './pages/company/Sustainability';
+import EmptyCart from './components/EmptyCart';
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <Route path="/teens" element={<Teens />} />
           <Route path="/adults" element={<Adults />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/emptycart" element={<EmptyCart />} />
           <Route path="/store/productview/:id" element={<ProductView />} />
           <Route path="/user" element={<UserProfilePage />} />
           <Route path="/customise" element={<Customise />} />

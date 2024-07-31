@@ -103,4 +103,22 @@ router.get('/store/view-product/:id', async (req, res) => {
   }
 });
 
+router.get('/search', async (req, res) => {
+  const query = req.query.q;
+  if (!query) {
+    return res.status(400).send({ error: 'Query parameter "q" is required' });
+  }
+
+  console.log('Search query:', query); // Log the query
+
+  try {
+    const results = await Product.find({ name: new RegExp(query, 'i') });
+    console.log('Search results:', results); // Log the results
+    res.send(results);
+  } catch (error) {
+    console.error('Error fetching search results:', error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+});
+
 module.exports = router;
