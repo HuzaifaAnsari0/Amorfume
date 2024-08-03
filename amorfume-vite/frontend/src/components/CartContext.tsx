@@ -1,5 +1,12 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
+interface UserDetails {
+  name: string;
+  number: string;
+  address: string;
+  email: string;
+}
+
 interface Product {
   _id: string;
   name: string;
@@ -14,11 +21,13 @@ interface Product {
 
 interface CartContextType {
   cart: Product[];
+  userDetails: UserDetails;
+  setUserDetails: (details: UserDetails) => void;
   addToCart: (product: Product) => void;
   removeFromCart: (productId: string) => void;
   updateCartQuantity: (productId: string, quantity: number) => void;
   addToCartWithQuantity: (product: Product, quantity: number) => void;
-
+  calculateTotal: () => number;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -33,6 +42,12 @@ export const useCart = () => {
 
 export const CartProvider = ({ children, userId }: { children: ReactNode, userId: string }) => {
   const [cart, setCart] = useState<Product[]>([]);
+  const [userDetails, setUserDetails] = useState<UserDetails>({
+    name: '',
+    number: '',
+    address: '',
+    email: ''
+  });
 
   useEffect(() => {
     const storedCart = localStorage.getItem(`cart_${userId}`);
@@ -87,8 +102,12 @@ export const CartProvider = ({ children, userId }: { children: ReactNode, userId
     localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCart));
   };
 
+  const calculateTotal = () => {
+    return cart.reduce((total, product) => total + (product.price * (product.quantity || 1)), 0);
+  };
+
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateCartQuantity, addToCartWithQuantity }}>
+    <CartContext.Provider value={{ cart, userDetails, setUserDetails, addToCart, removeFromCart, updateCartQuantity, addToCartWithQuantity, calculateTotal }}>
       {children}
     </CartContext.Provider>
   );

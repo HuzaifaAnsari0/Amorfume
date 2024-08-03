@@ -26,7 +26,7 @@ import UserProfilePage from './pages/UserProfilePage';
 import ProductView from './pages/ProductView';
 import Disclaimer from './pages/company/Disclaimer';
 import Sustainability from './pages/company/Sustainability';
-import EmptyCart from './components/EmptyCart';
+import Payment from './pages/Payment/Payment';
 
 function App() {
   return (
@@ -42,7 +42,6 @@ function App() {
           <Route path="/teens" element={<Teens />} />
           <Route path="/adults" element={<Adults />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/emptycart" element={<EmptyCart />} />
           <Route path="/store/productview/:id" element={<ProductView />} />
           <Route path="/user" element={<UserProfilePage />} />
           <Route path="/customise" element={<Customise />} />
@@ -53,6 +52,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/disclaimer" element={<Disclaimer />} />
           <Route path="/sustainability" element={<Sustainability />} />
+          <Route path="/payment" element={<Payment />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
             <Route path="/admin-dashboard/insert-products" element={<Products />} />

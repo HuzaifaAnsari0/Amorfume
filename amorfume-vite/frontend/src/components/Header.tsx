@@ -4,6 +4,17 @@ import NavLogo from '../assets/images/amorfumeLogoBlack.png'
 import { ChevronDown, ShoppingBag, User } from 'lucide-react';
 import axios from 'axios';
 
+// interface result {
+//   _id: string;
+//   name: string;
+//   price: number;
+//   description: string;
+//   image1: string;
+//   image2: string;
+//   image3: string;
+//   category: 'adult' | 'kids' | 'teens';
+//   quantity?: number;
+// }
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);

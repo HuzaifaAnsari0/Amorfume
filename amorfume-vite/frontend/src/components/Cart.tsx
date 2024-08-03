@@ -1,10 +1,15 @@
 import MaxWidthWrapper from "../@/components/MaxWidthWrapper";
 import Footer from "./Footer";
 import Header from "./Header";
+import { useNavigate } from 'react-router-dom';
 import { useCart } from './CartContext';
+import EmptyCart from "./EmptyCart";
+// import { useEffect } from "react";
 
 const Cart = () => {
-    const { cart, removeFromCart, updateCartQuantity } = useCart();
+    const navigate = useNavigate();
+
+    const { cart, removeFromCart, updateCartQuantity, calculateTotal} = useCart();
 
     const handleRemoveFromCart = (productId: string) => {
         removeFromCart(productId);
@@ -15,7 +20,19 @@ const Cart = () => {
         updateCartQuantity(productId, quantity);
     };
 
+    const navigateToPaymentPage = () => {
+        if (cart.length === 0) {
+            alert("Your cart is empty. Please add items to the cart before proceeding to payment.");
+            return;
+        }
+        navigate('/payment'); // Adjust the path to your payment page
+      };
+
+
     return (
+        <>
+        {cart.length === 0 ? 
+        (<EmptyCart />):(
         <div>
             <Header />
             <MaxWidthWrapper>
@@ -30,10 +47,11 @@ const Cart = () => {
                             </p>
                         </div>
 
-                        {cart.length === 0 ? (
-                            <p>Your cart is empty</p>
-                        ) : (
-                            cart.map((product) => {
+                        {/* {cart.length === 0 ? (
+                            {emptyCart()}
+                            
+                        ) : ( */}
+                            {cart.map((product) => {
                                 const quantity = product.quantity || 1;
                                 const totalPrice = product.price * quantity;
 
@@ -65,11 +83,12 @@ const Cart = () => {
                                     </div>
                                 );
                             })
-                        )}
+                       // )
+                        }
                     </div>
                     <div className="flex items-center justify-between w-full py-6">
                     <p className="font-manrope font-medium text-2xl leading-9 text-gray-900">Total</p>
-                    <h6 className="font-manrope font-medium text-2xl leading-9 text-indigo-500">$405.00</h6>
+                    <h6 className="font-manrope font-medium text-2xl leading-9 text-indigo-500">${calculateTotal().toFixed(2)}</h6>
                 </div>
                     <div className="flex items-center flex-col sm:flex-row justify-center gap-3 mt-8">
                 <button
@@ -81,8 +100,8 @@ const Cart = () => {
                     </svg>
                 </button>
                 <button
-                    className="rounded-full w-full max-w-[280px] py-4 text-center justify-center items-center bg-indigo-600 font-semibold text-lg text-white flex transition-all duration-500 hover:bg-indigo-700">Continue
-                    to Payment
+                    className="rounded-full w-full max-w-[280px] py-4 text-center justify-center items-center bg-indigo-600 font-semibold text-lg text-white flex transition-all duration-500 hover:bg-indigo-700"
+                    onClick={navigateToPaymentPage}>Continue to Payment
                     <svg className="ml-2" xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22"
                         fill="none">
                         <path d="M8.75324 5.49609L14.2535 10.9963L8.75 16.4998" stroke="white" stroke-width="1.6"
@@ -96,6 +115,8 @@ const Cart = () => {
             </MaxWidthWrapper>
             <Footer />
         </div>
+        )}
+        </>
     );
 };
 

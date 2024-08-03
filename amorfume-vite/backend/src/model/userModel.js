@@ -32,12 +32,17 @@ const userSchema = new mongoose.Schema({
     default: 0,
     enum: [0, 1], // 0 = user, 1 = admin
   },
-  phoneNumber: {
+  contact: {
     type: String,
     required: false,
     trim: true,
   },
   address: {
+    type: String,
+    required: false,
+    trim: true,
+  },
+  pincode: {
     type: String,
     required: false,
     trim: true,
