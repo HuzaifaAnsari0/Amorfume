@@ -23,10 +23,16 @@ import ForgetPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
 import UserProfilePage from './pages/UserProfilePage';
 import ProductView from './pages/ProductView';
+<<<<<<< HEAD
 import Stores from './trial/Stores';
 import Home from './pages/Home';
 import StoreOF from './trial/StoreOF';
 import TrialProductview from './trial/TrialProductview';
+=======
+import Disclaimer from './pages/company/Disclaimer';
+import Sustainability from './pages/company/Sustainability';
+import Payment from './pages/Payment/Payment';
+>>>>>>> ccd7a34718f37b43d87bfa881e5f388fa939cb2b
 
 function App() {
   return (
@@ -47,7 +53,7 @@ function App() {
           <Route path="/teens" element={<Teens />} />
           <Route path="/adults" element={<Adults />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/view" element={<ProductView />} />
+          <Route path="/store/productview/:id" element={<ProductView />} />
           <Route path="/user" element={<UserProfilePage />} />
           <Route path="/customise" element={<Customise />} />
           <Route path="/about" element={<About />} />
@@ -55,6 +61,9 @@ function App() {
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/disclaimer" element={<Disclaimer />} />
+          <Route path="/sustainability" element={<Sustainability />} />
+          <Route path="/payment" element={<Payment />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
             <Route path="/admin-dashboard/insert-products" element={<Products />} />

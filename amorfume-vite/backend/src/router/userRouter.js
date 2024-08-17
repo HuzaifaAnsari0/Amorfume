@@ -6,21 +6,25 @@ const bcrypt = require('bcrypt');
 const User = require('../model/userModel.js'); // Adjust based on your user model
 const { sendEmail } = require('../user/auth.js'); // Implement this function based on your email sending method
 const jwt = require('jsonwebtoken');
+const Product = require('../model/productModel.js'); // Adjust the path as necessary
 
 const router = express.Router();
 
+//----------------------------------------------
 router.post('/register', async (req, res) => {
   const { name, email, password } = req.body;
   const result = await register(name, email, password);
   res.status(result.status).json({ message: result.message, token: result.token });
 });
 
+//----------------------------------------------
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   const result = await login(email, password);
   res.status(result.status).json({ message: result.message, token: result.token });
 });
 
+//----------------------------------------------
 router.put('/edit/:userId', async (req, res) => {
   const { userId } = req.params;
   const updates = req.body; // Contains the fields to update
@@ -40,8 +44,7 @@ router.post('/contactus', async (req, res) => {
   }
 });
 
-// This is a simplified example. You'll need to adjust it according to your setup.
-
+//----------------------------------------------
 router.post('/forgot-password', async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
@@ -61,6 +64,7 @@ router.post('/forgot-password', async (req, res) => {
   res.send('Password reset email sent.');
 });
 
+//----------------------------------------------
 router.post('/reset-password/:id/:token', async (req, res) => {
   const { id } = req.params;
   const { password } = req.body;
@@ -87,5 +91,110 @@ router.post('/reset-password/:id/:token', async (req, res) => {
     res.status(500).json({ Status: "An error occurred on the server" });
   }
 });
+
+//----------------------------------------------
+router.get('/store/view-product/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+      const product = await Product.findById(id);
+      if (product) {
+          res.json(product);
+      } else {
+          res.status(404).json({ message: 'Product not found' });
+      }
+  } catch (err) {
+      res.status(500).json({ message: 'Server error' });
+  }
+});
+
+//----------------------------------------------
+router.get('/search', async (req, res) => {
+  const query = req.query.q;
+  if (!query) {
+    return res.status(400).send({ error: 'Query parameter "q" is required' });
+  }
+
+  console.log('Search query:', query); // Log the query
+
+  try {
+    const results = await Product.find({ name: new RegExp(query, 'i') });
+    console.log('Search results:', results); // Log the results
+    res.send(results);
+  } catch (error) {
+    console.error('Error fetching search results:', error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+});
+
+//----------------------------------------------
+router.get('/user', async (req, res) => {
+  try {
+    // Extract the token from the request headers
+    const token = req.headers.authorization?.split(' ')[1];
+
+    if (!token) {
+      return res.status(401).send({ error: 'Unauthorized' });
+    }
+
+    // Verify the token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Get the user ID from the decoded token
+    const userId = decoded.userId;
+
+    // Fetch user data from the database
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).send({ error: 'User not found' });
+    }
+
+    // Send user data as response
+    res.send(user);
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+});
+
+//----------------------------------------------
+// Middleware to authenticate the user
+const authenticate = (req, res, next) => {
+  const token = req.headers['authorization'];
+  if (token) {
+    const tokenPart = token.split(' ')[1];
+    jwt.verify(tokenPart, process.env.JWT_SECRET, (err, decoded) => {
+      if (err) {
+        return res.status(401).send('Unauthorized');
+      } else {
+        req.userId = decoded._id; // Assuming the user ID is stored in the token as 'id'
+        next();
+      }
+    });
+  } else {
+    res.status(401).send('Unauthorized');
+  }
+};
+
+router.post('/updateUser', authenticate, async (req, res) => {
+  const { contact, address, pincode } = req.body;
+  const userId = req.userId; // Extracted from the token
+
+  try {
+    const user = await User.findById(userId);
+    if (user) {
+      user.contact = contact;
+      user.address = address;
+      user.pincode = pincode;
+      await user.save();
+      res.status(200).json(user);
+    } else {
+      res.status(404).send('User not found');
+    }
+  } catch (error) {
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+});
+
 
 module.exports = router;

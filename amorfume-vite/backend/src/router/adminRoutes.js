@@ -1,6 +1,7 @@
 const express = require('express');
 const Product = require('../model/productModel.js'); // Adjust the path as necessary
 const router = express.Router();
+const User = require('../model/userModel.js'); // Adjust the path as necessary
 
 router.post('/insert-products', async (req, res) => {
     try {
@@ -42,6 +43,15 @@ router.post('/insert-products', async (req, res) => {
       res.json({ message: 'Product deleted successfully' });
     } catch (error) {
       res.status(400).json({ message: 'Error deleting product', error: error.message });
+    }
+  });
+
+  router.get('/admin-dashboard', async (req, res) => {
+    try {
+      const user = await User.find(); // Adjust the query as needed
+      res.json(user);
+    } catch (error) {
+      res.status(500).json({ message: 'Error fetching user details', error });
     }
   });
 module.exports = router;

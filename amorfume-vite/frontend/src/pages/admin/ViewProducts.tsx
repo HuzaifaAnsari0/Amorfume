@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Assuming you're using react-router for navigation
+import { Link, useNavigate } from 'react-router-dom'; // Assuming you're using react-router for navigation
 import NavLogo from '../../assets/images/amorfumeLogoBlack.png';
+import { BetweenHorizontalEnd, ScanEye } from 'lucide-react';
 
 interface Product {
   _id: string;
@@ -72,8 +73,11 @@ function Products() {
     <div className="flex flex-col h-screen">
       {/* Navbar */}
       <div className="flex justify-between items-center bg-slate-100 p-4">
-        <div className="text-lg font-semibold w-40"><img src={NavLogo} alt="" /></div>
-        <div className="text-xl font-semibold">Admin Dashboard</div>
+        <Link to="/admin-dashboard">
+          <div className="text-lg font-semibold w-40">
+            <img src={NavLogo} alt="" />
+          </div>
+        </Link>        <div className="text-xl font-semibold">Admin Dashboard</div>
         <button onClick={goToWebsite} className="bg-fuchsia-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
           Go to Website
         </button>
@@ -83,21 +87,21 @@ function Products() {
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
         <div className="w-64 bg-slate-600 text-black flex flex-col">
-          <div className="flex p-5 font-bold text-lg">Operations</div>
-          <button onClick={InsertProducts} className="py-2 px-4 hover:bg-gray-700">Insert Products</button>
-          <button onClick={ViewProducts} className="py-2 px-4 hover:bg-gray-700">View & Update Products</button>
+          <div className="flex p-5 font-bold text-lg text-white">Operations</div>
+          <button onClick={InsertProducts} className=" flex py-2 px-4 hover:bg-gray-700 text-white"> <BetweenHorizontalEnd className='text-white px-1' />Insert Products</button>
+          <button onClick={ViewProducts} className="flex py-2 px-4 hover:bg-gray-700 text-white"><ScanEye className=' text-white px-1' /> View & Update Products</button>
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 p-10 overflow-auto">
+        {/* <div className="flex-1 p-10 overflow-auto">
           <div className="p-4">
-            <h2 className="text-2xl font-bold text-center mb-4">Products</h2>
+            <h2 className="text-2xl font-bold text-center mb-4 ">Products</h2>
             {products.length > 0 ? (
               <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {products.map(product => (
                   <li key={product._id} className="border p-4 rounded-lg">
                     <h3 className="text-xl font-semibold">{product.name} - ${product.price}</h3>
-                    <p>Volume: {product.volume}ml</p>
+                    <p>Volume: {product.volume}</p>
                     <p>Description: {product.description}</p>
                     <p>Category: {product.category}</p>
                     <div className="flex space-x-2 mt-2">
@@ -124,8 +128,45 @@ function Products() {
               <div className="text-center">No products found.</div>
             )}
           </div>
-          {/* Additional content can be added here */}
-        </div>
+          Additional content can be added here
+        </div> */}
+        {products.length > 0 ? (
+          products.map(product => (
+            <div key={product._id} className="relative m-10 flex w-4/5 h-4/5 flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+                <img className="object-cover relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl"  src={product.image1} alt="product image" />
+              
+              <div className="mt-4 px-5 pb-5">
+                <h5 className="text-lg py-1 tracking-tight text-slate-900"><span className='font-bold'>Name: </span>{product.name}</h5>
+                <p className="text-lg py-1 tracking-tight text-slate-900"><span className='font-bold'>Volume: </span>{product.volume}</p>
+                <p className="text-sm py-1 tracking-tight text-slate-900"><span className='font-bold'>Description: </span>{product.description}</p>
+                <p className="text-lg py-1 tracking-tight text-slate-900"><span className='font-bold'>Category: </span>{product.category}</p>
+                <div className="mt-2 mb-5 flex items-center justify-between">
+                  <p>
+                    <span className="text-lg text-slate-900"><span className='font-bold'>Price: </span>${product.price}</span>
+                  </p>
+                </div>
+
+                <div className='flex justify-items-center'> 
+                <button
+                  onClick={() => handleUpdate(product._id)}
+                  className="flex items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
+                >
+                  Update
+                </button>
+                <button
+                  onClick={() => handleDelete(product._id)}
+                  className="flex items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300 mx-4"
+                >
+                  Delete
+                </button>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="text-center">No products found.</div>
+        )}
+
       </div>
     </div>
   );

@@ -1,5 +1,12 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
+interface UserDetails {
+  name: string;
+  number: string;
+  address: string;
+  email: string;
+}
+
 interface Product {
   _id: string;
   name: string;
@@ -14,9 +21,13 @@ interface Product {
 
 interface CartContextType {
   cart: Product[];
+  userDetails: UserDetails;
+  setUserDetails: (details: UserDetails) => void;
   addToCart: (product: Product) => void;
   removeFromCart: (productId: string) => void;
   updateCartQuantity: (productId: string, quantity: number) => void;
+  addToCartWithQuantity: (product: Product, quantity: number) => void;
+  calculateTotal: () => number;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -29,15 +40,21 @@ export const useCart = () => {
   return context;
 };
 
-export const CartProvider = ({ children }: { children: ReactNode }) => {
+export const CartProvider = ({ children, userId }: { children: ReactNode, userId: string }) => {
   const [cart, setCart] = useState<Product[]>([]);
+  const [userDetails, setUserDetails] = useState<UserDetails>({
+    name: '',
+    number: '',
+    address: '',
+    email: ''
+  });
 
   useEffect(() => {
-    const storedCart = localStorage.getItem('cart');
+    const storedCart = localStorage.getItem(`cart_${userId}`);
     if (storedCart) {
       setCart(JSON.parse(storedCart));
     }
-  }, []);
+  }, [userId]);
 
   const addToCart = (product: Product) => {
     const existingProductIndex = cart.findIndex(p => p._id === product._id);
@@ -52,13 +69,13 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
 
     setCart(updatedCart);
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCart));
   };
 
   const removeFromCart = (productId: string) => {
     const updatedCart = cart.filter(product => product._id !== productId);
     setCart(updatedCart);
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCart));
   };
 
   const updateCartQuantity = (productId: string, quantity: number) => {
@@ -66,11 +83,31 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       product._id === productId ? { ...product, quantity } : product
     );
     setCart(updatedCart);
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCart));
+  };
+
+  const addToCartWithQuantity = (product: Product, quantity: number) => {
+    const existingProductIndex = cart.findIndex(p => p._id === product._id);
+    let updatedCart;
+
+    if (existingProductIndex !== -1) {
+      updatedCart = cart.map((p, index) => 
+        index === existingProductIndex ? { ...p, quantity: (p.quantity || 0) + quantity } : p
+      );
+    } else {
+      updatedCart = [...cart, { ...product, quantity }];
+    }
+
+    setCart(updatedCart);
+    localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCart));
+  };
+
+  const calculateTotal = () => {
+    return cart.reduce((total, product) => total + (product.price * (product.quantity || 1)), 0);
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateCartQuantity }}>
+    <CartContext.Provider value={{ cart, userDetails, setUserDetails, addToCart, removeFromCart, updateCartQuantity, addToCartWithQuantity, calculateTotal }}>
       {children}
     </CartContext.Provider>
   );

@@ -103,6 +103,16 @@ const Footer = () => {
                                                 className="text-md leading-6 text-gray-300 hover:text-gray-50">Privacy Policy
                                             </a>
                                         </li>
+                                        <li>
+                                            <a href="/disclaimer"
+                                                className="text-md leading-6 text-gray-300 hover:text-gray-50">Disclaimer
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/sustainability"
+                                                className="text-md leading-6 text-gray-300 hover:text-gray-50">Sustainability
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                                 <div className="mt-10 md:mt-0">
