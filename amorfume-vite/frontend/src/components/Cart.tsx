@@ -25,8 +25,14 @@ const Cart = () => {
             alert("Your cart is empty. Please add items to the cart before proceeding to payment.");
             return;
         }
-        navigate('/payment'); // Adjust the path to your payment page
-      };
+        const token = localStorage.getItem('token'); // Check for token in local storage
+        if (token) {
+            navigate('/payment'); // Adjust the path to your payment page
+        } else {
+            navigate('/login'); // Adjust the path to your login page
+        }
+    };
+
 
 
     return (

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Assuming you're using react-router for navigation
 import NavLogo from '../../assets/images/amorfumeLogoBlack.png';
 import { BetweenHorizontalEnd, ScanEye } from 'lucide-react';

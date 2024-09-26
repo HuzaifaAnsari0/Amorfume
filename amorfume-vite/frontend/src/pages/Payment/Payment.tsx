@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import logo from '../../assets/images/bottleBlack.png';
 import axios from 'axios';
 
@@ -42,6 +42,12 @@ const Payment = () => {
 
   const updateUserData = async () => {
     try {
+      const token = localStorage.getItem('token');
+      console.log('Updating user data with:', {
+        contact: user.contact,
+        address: user.address,
+        pincode: user.pincode
+      });
       const response = await axios.post('http://localhost:5000/updateUser', {
         contact: user.contact,
         address: user.address,
@@ -49,7 +55,7 @@ const Payment = () => {
       }, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${token}`
         }
       });
   

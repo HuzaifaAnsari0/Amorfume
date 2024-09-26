@@ -1,4 +1,3 @@
-import React from "react";
 import MaxWidthWrapper from "../@/components/MaxWidthWrapper";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
