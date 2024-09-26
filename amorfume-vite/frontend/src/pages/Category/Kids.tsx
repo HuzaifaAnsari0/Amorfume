@@ -1,11 +1,4 @@
 import { ArrowRight, Check, Star } from 'lucide-react';
-import User1 from "../../assets/images/users/user-1.png"
-import User2 from "../../assets/images/users/user-1.png"
-import User3 from "../../assets/images/users/user-1.png"
-import User4 from "../../assets/images/users/user-1.png"
-import User5 from "../../assets/images/users/user-1.png"
-import Logo from "../../assets/images/Amor.png"
-import MaxWidthWrapper from '../../@/components/MaxWidthWrapper';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
@@ -15,113 +8,34 @@ const Kids = () => {
         <>
         <Header/>
        <div className="bg-slate-50">
-        
-        
-        <section>
-                <MaxWidthWrapper className="pb-24 pt-10 lg:grid lg:grid-cols-3
-                sm:pb-32 lg:gap-x-0 xl:gap-x-8 lg:pt-24 xl:pt-32 lg:pb-52">
 
-                    <div className='col-span-2 px-6 lg:px-0 lg:pt-4'>
-                        <div className='relative mx-auto text-center lg:text-left 
-                        flex flex-col items-center lg:items-start'>
-                            <div className=" absolute w-28 left-0 -top-20 hidden lg:block">
-                                <img src={Logo} className="w-full"/>
-                            </div>
-                            <h1 className='relative w-fit tracking-tight text-balance 
-                                mt-16 font-bold !leading-tight text-gray-900 
-                                text-5xl md:text-6xl lg:text-7xl'>
-                                Your Image on a  
-                                <span className='bg-fuchsia-600 text-white'>Custom</span> Perfume
-                            </h1>
-
-                            <p className='mt-8 text-lg lg:pr-10 max-w-prrose text-center lg:text-left text-balance md:text-wrap'>
-                              Capture your favorite memories with your own 
-                              <span className='font-semibold'>one-of-one</span> along your fragrance.
-                              Amorfume allows you to protect your memories, not just the way you smell.
-                            </p>
-
-                            <ul className='mt-8 space-y-2 tet-left font-medium flex
-                            flex-col items-center sm:items-start'>
-                                <div className='space-y-2'>
-                                    <li className='flex gap-1.5 items-center text-left'>
-                                       <Check className='h-5 w-5 shrink-0 text-fuchsia-500' />
-                                        High Quality, Durable Material
-                                    </li>
-                                    <li className='flex gap-1.5 items-center text-left'>
-                                       <Check className='h-5 w-5 shrink-0 text-fuchsia-500' /> 
-                                       A print that lasts 
-                                    </li>
-                                    <li className='flex gap-1.5 items-center text-left'>
-                                       <Check className='h-5 w-5 shrink-0 text-fuchsia-500' /> 
-                                       Modern perfume for modern you
-                                    </li>
+                    <div className="px-4 lg:px-6 lg:px-8 py-10">
+                    <div className="relative">
+                        <div className="hs-carousel relative overflow-hidden w-full h-[30rem] md:h-[calc(100vh-106px)]  bg-gray-100 rounded-2xl dark:bg-neutral-800">
+                        <div className="hs-carousel-body absolute top-0 bottom-0 start-0 flex flex-nowrap transition-transform duration-700 opacity-0">
+                            <div className="hs-carousel-slide">
+                            <div className="h-[30rem] md:h-[calc(100vh-106px)]  flex flex-col " >
+                                <img className="h-[30rem] md:h-[calc(100vh-106px)]  flex flex-col bg-cover bg-center bg-no-repeat" src="https://www.hindustantimes.com/ht-img/img/2023/07/20/1600x900/5_flowers_that_flower_throughout_the_year_1689828870160_1689828884481.jpg" />
+                                <div className="mt-auto w-2/3 md:max-w-lg ps-5 pb-5 md:ps-10 md:pb-10">
+                                <span className="block text-white">Nike React</span>
+                                <span className="block text-white text-xl md:text-3xl">Rewriting sport's playbook for billions of athletes</span>
+                                <div className="mt-5">
+                                    <a className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl bg-white border border-transparent text-black hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" href="#">
+                                    Read Case Studies
+                                    </a>
                                 </div>
-
-                            </ul>
-
-                            <div className='mt-12 flex flex-col sm:flex-row items-center sm:items-start gap-5'> 
-                                <div  className='flex -space-x-4'>
-                                    <img className='inline-block h-10 w-10 rounded-full ring-2 ring-slate-100' 
-                                        src={User1}
-                                        alt='user image'
-                                        />
-                                    <img className='inline-block h-10 w-10 rounded-full ring-2 ring-slate-100' 
-                                        src={User2}
-                                        alt='user image'
-                                        />
-                                    <img className='inline-block h-10 w-10 rounded-full ring-2 ring-slate-100' 
-                                        src={User3}
-                                        alt='user image'
-                                        />
-                                    <img className='inline-block h-10 w-10 rounded-full ring-2 ring-slate-100' 
-                                        src={User4}
-                                        alt='user image'
-                                        />
-                                    <img className='inline-block h-10 w-10 rounded-full ring-2 ring-slate-100 object-cover' 
-                                        src={User5}
-                                        alt='user image'
-                                        />
-                                    
-                                </div>
-
-                                <div className='flex flex-col justify-between items-center
-                                sm:items-start'>
-                                    <div className='flex gap-0.5'>
-                                        <Star  className='h-4 w-4 text-fuchsia-400 
-                                        fill-fuchsia-400'/>
-                                        <Star  className='h-4 w-4 text-fuchsia-400 
-                                        fill-fuchsia-400'/>
-                                        <Star  className='h-4 w-4 text-fuchsia-400 
-                                        fill-fuchsia-400'/>
-                                        <Star  className='h-4 w-4 text-fuchsia-400 
-                                        fill-fuchsia-400'/>
-                                        <Star  className='h-4 w-4 text-fuchsia-400 
-                                        fill-fuchsia-400'/>
-                                    </div>
-                                    
-                                    <p>
-                                        <span className='fomnt-semibold'>1,250</span> happy
-                                        customers
-                                        </p>
                                 </div>
                             </div>
-                        </div>
+                            </div>
 
+                        
+                    </div>
+                    </div>
+                    </div>
                     </div>
 
-                    <div className='col-span-full lg:col-span-1 w-full flex
-                    justify-center px-8 sm:px-16 md:px-0 mt-32lg:mx-0 lg:mt-20
-                    h-fit'>
-                        <div className="relative md:max-w-xl">
-                            <img src="" className='absolute w-40 lg:w-52 left-56 -top-20 select-none 
-                            hidden sm:block lg:hidden xl:block'/>
-                            <img src="" className='absolute 2-20 -left-6 -bottom-6
-                            select-none'/>
-                        </div>
-                    </div>
-                    
-                </MaxWidthWrapper>
-            </section>
+
+        
        </div>
 
        <Footer />

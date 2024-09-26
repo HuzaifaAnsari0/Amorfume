@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css'
-import Home from './pages/Home';
 import Signup from './pages/auth/Signup';
 import Login from './pages/auth/Login';
 import AdminDashboard from './pages/admin/adminDashboard';
@@ -24,9 +23,16 @@ import ForgetPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
 import UserProfilePage from './pages/UserProfilePage';
 import ProductView from './pages/ProductView';
+<<<<<<< HEAD
+import Stores from './trial/Stores';
+import Home from './pages/Home';
+import StoreOF from './trial/StoreOF';
+import TrialProductview from './trial/TrialProductview';
+=======
 import Disclaimer from './pages/company/Disclaimer';
 import Sustainability from './pages/company/Sustainability';
 import Payment from './pages/Payment/Payment';
+>>>>>>> ccd7a34718f37b43d87bfa881e5f388fa939cb2b
 
 function App() {
   return (
@@ -37,6 +43,11 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgetPassword />} />
           <Route path="/reset-password/:id/:token" element={<ResetPassword />} />
+          {/* Trial */}
+          <Route path="/stores" element={<Stores />} />
+          <Route path="/storeof" element={<StoreOF />} />
+          <Route path="/pview" element={<TrialProductview />} />
+          {/* Trial END */}
           <Route path="/store" element={<Store />} />
           <Route path="/kids" element={<Kids />} />
           <Route path="/teens" element={<Teens />} />
