@@ -178,7 +178,7 @@ const authenticate = (req, res, next) => {
 
 router.post('/updateUser', authenticate, async (req, res) => {
   const { contact, address, pincode } = req.body;
-  const userId = req.userId; // Extracted from the token
+  const userId = req.body.userId; // Extracted from the token
 
   try {
     const user = await User.findById(userId);

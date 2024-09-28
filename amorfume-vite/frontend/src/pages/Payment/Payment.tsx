@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import logo from '../../assets/images/bottleBlack.png';
-import axios from 'axios';
+import UpdateUser from './UpdateUser'; // Import the UpdateUser component
+import { useNavigate } from 'react-router-dom';
 
 const Payment = () => {
-
   const [user, setUser] = useState<any>({
     name: '',
     email: '',
@@ -13,6 +13,8 @@ const Payment = () => {
   });
 
   const [detailsConfirmed, setDetailsConfirmed] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const fetchUserData = async () => {
     const response = await fetch('http://localhost:5000/user', {
@@ -21,6 +23,7 @@ const Payment = () => {
       }
     });
     const userData = await response.json();
+    setUserId(userData._id); // Assuming the user ID is in the _id field
     return userData;
   };
 
@@ -31,45 +34,6 @@ const Payment = () => {
     };
     getUserData();
   }, []);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setUser((prevUser: any) => ({
-      ...prevUser,
-      [name]: value
-    }));
-  };
-
-  const updateUserData = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      console.log('Updating user data with:', {
-        contact: user.contact,
-        address: user.address,
-        pincode: user.pincode
-      });
-      const response = await axios.post('http://localhost:5000/updateUser', {
-        contact: user.contact,
-        address: user.address,
-        pincode: user.pincode
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      });
-  
-      if (response.status !== 200) {
-        throw new Error('Failed to update user data');
-      }
-  
-      const updatedUser = response.data;
-      setUser(updatedUser);
-      setDetailsConfirmed(true); // Enable the payment button
-    } catch (error) {
-      console.error('Error updating user data:', error);
-    }
-  };
 
   const paymentHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -82,7 +46,7 @@ const Payment = () => {
       // Fetch user data
       const user = await fetchUserData();
 
-      const response = await fetch('http://localhost:5000/order', { 
+      const response = await fetch('http://localhost:5000/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -105,7 +69,7 @@ const Payment = () => {
         description: "some description",
         image: logo,
         order_id: order.id,
-        handler: async function(response: any) {
+        handler: async function (response: any) {
           const body = { ...response };
 
           const validateResponse = await fetch('http://localhost:5000/validate', {
@@ -133,7 +97,7 @@ const Payment = () => {
       };
 
       const rzp1 = new Razorpay(options);
-      rzp1.on("payment.failed", function(response: any) {
+      rzp1.on("payment.failed", function (response: any) {
         alert(response.error.code);
         alert(response.error.description);
         alert(response.error.source);
@@ -150,74 +114,20 @@ const Payment = () => {
   };
 
   return (
+    <div className='mt-3'>
     <div className="max-w-lg mx-auto p-5 border border-gray-300 rounded-lg bg-gray-100">
-      <h1 className="text-center mb-5 text-2xl font-bold">Razor Pay</h1>
-      <div>
-        <h2 className="mb-2 text-xl">Check User Details</h2>
-        <label className="block mb-2">
-          Name:
-          <input
-            type="text"
-            name="name"
-            value={user.name}
-            className="w-full p-2 mt-1 border border-gray-300 rounded"
-            readOnly
-          />
-        </label>
-        <label className="block mb-2">
-          Email:
-          <input
-            type="email"
-            name="email"
-            value={user.email}
-            className="w-full p-2 mt-1 border border-gray-300 rounded"
-            readOnly
-          />
-        </label>
-        <label className="block mb-2">
-          Contact:
-          <input
-            type="text"
-            name="contact"
-            value={user.contact}
-            onChange={handleChange}
-            className="w-full p-2 mt-1 border border-gray-300 rounded"
-          />
-        </label>
-        <label className="block mb-2">
-          Address:
-          <input
-            type="text"
-            name="address"
-            value={user.address}
-            onChange={handleChange}
-            className="w-full p-2 mt-1 border border-gray-300 rounded"
-          />
-        </label>
-        <label className="block mb-2">
-          Pincode:
-          <input
-            type="text"
-            name="pincode"
-            value={user.pincode}
-            onChange={handleChange}
-            className="w-full p-2 mt-1 border border-gray-300 rounded"
-          />
-        </label>
+      <h1 className="text-center mb-4 text-2xl font-bold">Razor Pay</h1>
+      <UpdateUser user={user} setUser={setUser} setDetailsConfirmed={setDetailsConfirmed} userId={userId} />
+      <div className="flex justify-center mt-4 mb-0">
+        <button
+          className={`inline-block px-4 py-2 bg-blue-500 text-white items-center rounded hover:bg-blue-600 ${!detailsConfirmed ? 'opacity-50 cursor-not-allowed' : ''}`}
+          onClick={paymentHandler}
+          disabled={!detailsConfirmed}
+        >
+          Pay now
+        </button>
       </div>
-      <button
-        className="inline-block px-4 py-2 mt-5 mr-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        onClick={updateUserData}
-      >
-        Use These Details
-      </button>
-      <button
-        className={`inline-block px-4 py-2 mt-5 bg-blue-500 text-white rounded hover:bg-blue-600 ${!detailsConfirmed ? 'opacity-50 cursor-not-allowed' : ''}`}
-        onClick={paymentHandler}
-        disabled={!detailsConfirmed}
-      >
-        Pay now
-      </button>
+    </div>
     </div>
   );
 };
