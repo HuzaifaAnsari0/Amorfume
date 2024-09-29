@@ -44,7 +44,7 @@ const Header = () => {
     const performSearch = async (query: string) => {
       try {
         const response = await axios.get(`http://localhost:5000/search`, { params: { q: query } });
-        console.log(response.data); // Log the response to check the structure
+        // console.log(response.data); // Log the response to check the structure
         setSearchResults(response.data);
   
         // If there is exactly one search result, navigate to the product page

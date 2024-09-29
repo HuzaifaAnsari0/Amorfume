@@ -49,6 +49,8 @@ export const CartProvider = ({ children, userId }: { children: ReactNode, userId
     email: ''
   });
 
+  const [popupMessage, setPopupMessage] = useState<string | null>(null);
+
   useEffect(() => {
     const storedCart = localStorage.getItem(`cart_${userId}`);
     if (storedCart) {
@@ -70,6 +72,11 @@ export const CartProvider = ({ children, userId }: { children: ReactNode, userId
 
     setCart(updatedCart);
     localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCart));
+
+    setPopupMessage('Successfully added to cart!');
+    setTimeout(() => {
+      setPopupMessage(null);
+    }, 5000);
   };
 
   const removeFromCart = (productId: string) => {
@@ -100,6 +107,12 @@ export const CartProvider = ({ children, userId }: { children: ReactNode, userId
 
     setCart(updatedCart);
     localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCart));
+
+    // Show popup message
+    setPopupMessage('Successfully added to cart!');
+    setTimeout(() => {
+      setPopupMessage(null);
+    }, 5000);
   };
 
   const calculateTotal = () => {
@@ -109,6 +122,11 @@ export const CartProvider = ({ children, userId }: { children: ReactNode, userId
   return (
     <CartContext.Provider value={{ cart, userDetails, setUserDetails, addToCart, removeFromCart, updateCartQuantity, addToCartWithQuantity, calculateTotal }}>
       {children}
+      {popupMessage && (
+        <div className="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded shadow-lg">
+          {popupMessage}
+        </div>
+      )}
     </CartContext.Provider>
   );
 };

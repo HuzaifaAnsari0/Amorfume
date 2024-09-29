@@ -8,7 +8,10 @@ interface User {
     id: string;
     name: string;
     email: string;
-    // Add other user fields as needed
+    contact: string;
+    address: string;
+    pincode: string;
+    role: Number;
 }
 
 const AdminDashboard = () => {
@@ -65,12 +68,15 @@ const AdminDashboard = () => {
                 <div className="flex-1 p-10 overflow-auto">
                     {users.length > 0 ? (
                         <div className="p-6 bg-gray-100 rounded-lg shadow-md">
-                            <h2 className="text-2xl font-semibold mb-4 text-gray-800">User Details</h2>
+                            <h2 className="text-2xl font-semibold mb-3 text-gray-800">User Details</h2>
                             {users.map(user => (
-                                <div key={user.id} className="p-4 bg-white border border-gray-200 rounded-md mb-4">
-                                    <p className="mb-2"><strong className="text-gray-700">Name:</strong> {user.name}</p>
-                                    <p className="mb-2"><strong className="text-gray-700">Email:</strong> {user.email}</p>
-                                    {/* Render other user details as needed */}
+                                <div key={user.id} className="p-4 bg-white border border-gray-200 rounded-md mb-3">
+                                    <p className=""><strong className="text-gray-700">Name:</strong> {user.name}</p>
+                                    <p className=""><strong className="text-gray-700">Email:</strong> {user.email}</p>
+                                    <p className=""><strong className="text-gray-700">Contact:</strong> {user.contact}</p>
+                                    <p className=""><strong className="text-gray-700">Address:</strong> {user.address}</p>
+                                    <p className=""><strong className="text-gray-700">Pincode:</strong> {user.pincode}</p>
+                                    <p className=""><strong className="text-gray-700">Role:</strong> {user.role === 1 ? 'Admin' : 'User'}</p>
                                 </div>
                             ))}
                         </div>

@@ -119,7 +119,7 @@ const Footer = () => {
                                     <h3 className="text-md font-semibold leading-6 text-white">User Page</h3>
                                     <ul role="list" className="mt-6 space-y-4">
                                         <li>
-                                            <a href="/profile"
+                                            <a href="/user"
                                                 className="text-md leading-6 text-gray-300 hover:text-gray-50">Profile
                                             </a>
                                         </li>

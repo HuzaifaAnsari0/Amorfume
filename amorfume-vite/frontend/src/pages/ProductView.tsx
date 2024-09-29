@@ -63,7 +63,7 @@ const ProductView = () => {
                                 <div className="img">
                                     <div className="img-box h-full max-lg:mx-auto ">
                                         <img src={product.image1} alt={product.name}
-                                            className="max-lg:mx-auto lg:ml-auto h-full" />
+                                            className="max-lg:mx-auto lg:ml-auto h-auto" />
                                     </div>
                                 </div>
                                 <div
@@ -160,7 +160,7 @@ const ProductView = () => {
                                                         d="M7.66669 12.629L10.4289 15.3913C10.8734 15.8357 11.0956 16.0579 11.3718 16.0579C11.6479 16.0579 11.8701 15.8357 12.3146 15.3913L18.334 9.37183"
                                                         stroke="white" stroke-width="1.6" stroke-linecap="round" />
                                                 </svg>
-                                                <span className="font-normal text-base text-gray-900 ">Branded shirt</span>
+                                                <span className="font-normal text-base text-gray-900 ">Citrus, apple, berries, etc.</span>
                                             </li>
                                             <li className="flex items-center gap-3">
                                                 <svg width="26" height="26" viewBox="0 0 26 26" fill="none"
@@ -170,7 +170,7 @@ const ProductView = () => {
                                                         d="M7.66669 12.629L10.4289 15.3913C10.8734 15.8357 11.0956 16.0579 11.3718 16.0579C11.6479 16.0579 11.8701 15.8357 12.3146 15.3913L18.334 9.37183"
                                                         stroke="white" stroke-width="1.6" stroke-linecap="round" />
                                                 </svg>
-                                                <span className="font-normal text-base text-gray-900 ">3 color shirt</span>
+                                                <span className="font-normal text-base text-gray-900 ">Exotic spices, amber, and vanilla.</span>
                                             </li>
                                             <li className="flex items-center gap-3">
                                                 <svg width="26" height="26" viewBox="0 0 26 26" fill="none"
@@ -180,8 +180,7 @@ const ProductView = () => {
                                                         d="M7.66669 12.629L10.4289 15.3913C10.8734 15.8357 11.0956 16.0579 11.3718 16.0579C11.6479 16.0579 11.8701 15.8357 12.3146 15.3913L18.334 9.37183"
                                                         stroke="white" stroke-width="1.6" stroke-linecap="round" />
                                                 </svg>
-                                                <span className="font-normal text-base text-gray-900 ">Pure Cotton Shirt with 60% as
-                                                    40%</span>
+                                                <span className="font-normal text-base text-gray-900 ">Citrus, apple, berries, etc.</span>
                                             </li>
                                             <li className="flex items-center gap-3">
                                                 <svg width="26" height="26" viewBox="0 0 26 26" fill="none"
@@ -191,14 +190,14 @@ const ProductView = () => {
                                                         d="M7.66669 12.629L10.4289 15.3913C10.8734 15.8357 11.0956 16.0579 11.3718 16.0579C11.6479 16.0579 11.8701 15.8357 12.3146 15.3913L18.334 9.37183"
                                                         stroke="white" stroke-width="1.6" stroke-linecap="round" />
                                                 </svg>
-                                                <span className="font-normal text-base text-gray-900 ">all size is available</span>
+                                                <span className="font-normal text-base text-gray-900 ">Rose, jasmine, and other floral scents.</span>
                                             </li>
                                         </ul>
                                         <p className="text-gray-900 text-lg leading-8 font-medium mb-4">Size</p>
                                         <div className="w-full pb-4 border-b border-gray-100 flex-wrap">
                                             <div className="grid grid-cols-3 min-[500px]:grid-cols-5 gap-5 max-w-md">
                                                 <button
-                                                    className="bg-white text-center py-4 px-1 w-full font-semibold text-lg leading-8 text-gray-900 border border-gray-200 flex items-center rounded-full justify-center transition-all duration-300 hover:bg-gray-50 hover:shadow-sm hover:shadow-gray-100 hover:border-gray-300 visited:border-gray-300 visited:bg-gray-50">30 ML</button>
+                                                    className="bg-white text-center py-4 px-1 w-auto font-semibold text-lg leading-8 text-gray-900 border border-gray-200 flex items-center rounded-full justify-center transition-all duration-300 hover:bg-gray-50 hover:shadow-sm hover:shadow-gray-100 hover:border-gray-300 visited:border-gray-300 visited:bg-gray-50">30 ML</button>
                                                 <button
                                                     className="bg-white text-center py-4 px-1 w-full font-semibold text-lg leading-8 text-gray-900 border border-gray-200 flex items-center rounded-full justify-center transition-all duration-300 hover:bg-gray-50 hover:shadow-sm hover:shadow-gray-100 hover:border-gray-300 visited:border-gray-300 visited:bg-gray-50">50 ML</button>
                                                 <button

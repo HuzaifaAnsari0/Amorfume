@@ -26,8 +26,8 @@ const EmptyCart = () => {
 
             </div> */}
                     <div className='flex flex-col items-center gap-4'>
-                        <img src={BabyCart} className='w-48 pt-8 mr-10' />
-                        <h2 className='mt-2 tracking-tight text-center text-balance !leading-tight font-bold text-5xl md:text-6xl text-gray-900'>
+                        <img src={BabyCart} className='w-72 pt-8 mr-10' />
+                        <h2 className='mt-2 mb-3 tracking-tight text-center text-balance !leading-tight font-bold text-5xl md:text-6xl text-gray-900'>
                             Your Cart is Empty
                         </h2>
                     </div>

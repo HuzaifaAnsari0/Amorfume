@@ -2,6 +2,7 @@ import {jwtDecode} from 'jwt-decode'; // You might need to install jwt-decode
 import { useState} from 'react';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
+import logo from '../../assets/images/fullBlack.png';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -48,8 +49,11 @@ const Login = () => {
     window.open("http://localhost:5000/auth/google/login/callback", "_self");
   };
 
-    return (<div className="py-4 md:py-8 dark:bg-gray-800 flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 xl:px-20">
-        <form onSubmit={handleLogin} className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:max-w-lg xl:p-8 dark:bg-gray-800 dark:border-gray-700 p-6 space-y-4 md:space-y-6 sm:p-8">
+    return (<div className="md:py-8 dark:bg-gray-800 flex flex-col items-center justify-center px-6 py-4 mx-auto md:h-screen lg:py-0 xl:px-20">
+        <div className='w-64 h-28'>
+        <img className="mb-3" src={logo} alt="osher.ai logo" />
+        </div>
+        <form onSubmit={handleLogin} className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:max-w-lg xl:p-8 dark:bg-gray-800 dark:border-gray-700 p-4 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">Login</h1>
             <p className="text-gray-600 dark:text-gray-400 text-center">Enter details to create your account</p>
             <form onClick={handleGoogleSignup} method="post" action="">

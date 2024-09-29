@@ -24,7 +24,7 @@ import ResetPassword from './pages/auth/ResetPassword';
 import UserProfilePage from './pages/UserProfilePage';
 import ProductView from './pages/ProductView';
 import Stores from './trial/Stores';
-import Home from './pages/Home';
+// import Home from './pages/Home';
 import StoreOF from './trial/StoreOF';
 import TrialProductview from './trial/TrialProductview';
 import Disclaimer from './pages/company/Disclaimer';
@@ -45,7 +45,7 @@ function App() {
           <Route path="/storeof" element={<StoreOF />} />
           <Route path="/pview" element={<TrialProductview />} />
           {/* Trial END */}
-          <Route path="/store" element={<Store />} />
+          <Route path="/store" element={<StoreOF />} />
           <Route path="/kids" element={<Kids />} />
           <Route path="/teens" element={<Teens />} />
           <Route path="/adults" element={<Adults />} />
@@ -67,7 +67,7 @@ function App() {
             <Route path="/admin-dashboard/view-products" element={<ViewProducts />} />
             <Route path="/update-product/:productId" element={<UpdateProduct />} />
           </Route>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Stores />} />
        </Routes>
       </div>
   );
