@@ -185,7 +185,7 @@ app.post("/validate", async (req, res) => {
         return res.status(400).json({msg: " Transaction is not legit!"});
     }
 
-    res.json({msg: " Transaction is legit!", orderId: razorpay_order_id,paymentId: razorpay_payment_id});
+    res.json({msg: " Transaction is legit!", status: "success", orderId: razorpay_order_id,paymentId: razorpay_payment_id});
 })
 /*********************************************************
                       

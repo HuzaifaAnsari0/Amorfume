@@ -1,5 +1,26 @@
 const mongoose = require('mongoose');
 
+const productSchema = new mongoose.Schema({
+  productId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product',
+    required: true
+  },
+  name: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  quantity: {
+    type: Number,
+    required: true
+  },
+  price: {
+    type: Number,
+    required: true
+  }
+}, { _id: false });
+
 const orderHistorySchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -50,7 +71,8 @@ const orderHistorySchema = new mongoose.Schema({
     required: true,
     enum: ['pending', 'completed', 'failed'],
     default: 'pending'
-  }
+  },
+  products: [productSchema]
 }, { timestamps: true });
 
 const OrderHistory = mongoose.model('OrderHistory', orderHistorySchema);

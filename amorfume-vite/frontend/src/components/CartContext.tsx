@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 interface UserDetails {
   name: string;
@@ -28,6 +28,9 @@ interface CartContextType {
   updateCartQuantity: (productId: string, quantity: number) => void;
   addToCartWithQuantity: (product: Product, quantity: number) => void;
   calculateTotal: () => number;
+  setCart: React.Dispatch<React.SetStateAction<Product[]>>; // Add setCart to the context type
+  popupMessage: string | null;
+  setPopupMessage: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -48,8 +51,7 @@ export const CartProvider = ({ children, userId }: { children: ReactNode, userId
     address: '',
     email: ''
   });
-
-  const [popupMessage, setPopupMessage] = useState<string | null>(null);
+  const [popupMessage, setPopupMessage] = useState<string | null>(null); // State for popup message
 
   useEffect(() => {
     const storedCart = localStorage.getItem(`cart_${userId}`);
@@ -57,6 +59,10 @@ export const CartProvider = ({ children, userId }: { children: ReactNode, userId
       setCart(JSON.parse(storedCart));
     }
   }, [userId]);
+
+  useEffect(() => {
+    localStorage.setItem(`cart_${userId}`, JSON.stringify(cart));
+  }, [cart, userId]);
 
   const addToCart = (product: Product) => {
     const existingProductIndex = cart.findIndex(p => p._id === product._id);
@@ -71,8 +77,8 @@ export const CartProvider = ({ children, userId }: { children: ReactNode, userId
     }
 
     setCart(updatedCart);
-    localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCart));
 
+    // Show popup message
     setPopupMessage('Successfully added to cart!');
     setTimeout(() => {
       setPopupMessage(null);
@@ -82,7 +88,6 @@ export const CartProvider = ({ children, userId }: { children: ReactNode, userId
   const removeFromCart = (productId: string) => {
     const updatedCart = cart.filter(product => product._id !== productId);
     setCart(updatedCart);
-    localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCart));
   };
 
   const updateCartQuantity = (productId: string, quantity: number) => {
@@ -90,7 +95,6 @@ export const CartProvider = ({ children, userId }: { children: ReactNode, userId
       product._id === productId ? { ...product, quantity } : product
     );
     setCart(updatedCart);
-    localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCart));
   };
 
   const addToCartWithQuantity = (product: Product, quantity: number) => {
@@ -106,7 +110,6 @@ export const CartProvider = ({ children, userId }: { children: ReactNode, userId
     }
 
     setCart(updatedCart);
-    localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCart));
 
     // Show popup message
     setPopupMessage('Successfully added to cart!');
@@ -120,7 +123,7 @@ export const CartProvider = ({ children, userId }: { children: ReactNode, userId
   };
 
   return (
-    <CartContext.Provider value={{ cart, userDetails, setUserDetails, addToCart, removeFromCart, updateCartQuantity, addToCartWithQuantity, calculateTotal }}>
+    <CartContext.Provider value={{ cart, userDetails, setUserDetails, addToCart, removeFromCart, updateCartQuantity, addToCartWithQuantity, calculateTotal, setCart, popupMessage, setPopupMessage }}>
       {children}
       {popupMessage && (
         <div className="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded shadow-lg">

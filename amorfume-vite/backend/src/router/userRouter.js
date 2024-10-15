@@ -7,6 +7,7 @@ const User = require('../model/userModel.js'); // Adjust based on your user mode
 const { sendEmail } = require('../user/auth.js'); // Implement this function based on your email sending method
 const jwt = require('jsonwebtoken');
 const Product = require('../model/productModel.js'); // Adjust the path as necessary
+const OrderHistory = require('../model/orderHistory.js'); // Assuming you have the orderHistory model
 
 const router = express.Router();
 
@@ -196,5 +197,30 @@ router.post('/updateUser', authenticate, async (req, res) => {
   }
 });
 
+//----------------------------------------------
+router.post('/order-history', async (req, res) => {
+  const { userId, name, email, contact, address, pincode, orderId, amount, currency, status, products } = req.body;
+
+  try {
+    const orderHistory = new OrderHistory({
+      userId,
+      name,
+      email,
+      contact,
+      address,
+      pincode,
+      orderId,
+      amount,
+      currency,
+      status,
+      products
+    });
+
+    await orderHistory.save();
+    res.json({ message: 'Order added to history successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 module.exports = router;

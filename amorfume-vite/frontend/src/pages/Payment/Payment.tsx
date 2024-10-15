@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import logo from '../../assets/images/bottleBlack.png';
 import UpdateUser from './UpdateUser'; // Import the UpdateUser component
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../../components/CartContext'; // Import useCart to get cart details
 
 const Payment = () => {
   const [user, setUser] = useState<any>({
@@ -14,7 +15,9 @@ const Payment = () => {
 
   const [detailsConfirmed, setDetailsConfirmed] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
+  const [popupMessage, setPopupMessage] = useState<string | null>(null); // State for popup message
   const navigate = useNavigate();
+  const { cart, calculateTotal, setCart } = useCart(); // Get cart details and total amount
 
   const fetchUserData = async () => {
     const response = await fetch('http://localhost:5000/user', {
@@ -38,9 +41,9 @@ const Payment = () => {
   const paymentHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    const amount = 500;
+    const amount = calculateTotal() * 100; // Convert to smallest currency unit (e.g., paise for INR)
     const currency = 'INR';
-    const receiptId = 'receipt#1';
+    const receiptId = `receipt_${Date.now()}`;
 
     try {
       // Fetch user data
@@ -82,14 +85,57 @@ const Payment = () => {
 
           const jsonResponse = await validateResponse.json();
           console.log('jsonResponse', jsonResponse);
+
+          if (jsonResponse.status === 'success') {
+            console.log("inside")
+            // Create order in order history
+            await fetch('http://localhost:5000/order-history', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+              },
+              body: JSON.stringify({
+                userId,
+                name: user.name,
+                email: user.email,
+                contact: user.contact,
+                address: user.address,
+                pincode: user.pincode,
+                orderId: order.id,
+                amount: amount / 100, // Convert back to main currency unit
+                currency,
+                status: 'completed',
+                products: cart.map(product => ({
+                  productId: product._id,
+                  name: product.name,
+                  quantity: product.quantity,
+                  price: product.price
+                }))
+              })
+            });
+
+            // Show success popup message
+            setPopupMessage('Order created successfully!');
+            setTimeout(() => {
+              setPopupMessage(null);
+            }, 5000);
+
+            // Empty the cart
+            setCart([]);
+            localStorage.setItem(`cart_${userId}`, JSON.stringify([]));
+
+            // Redirect to success page or show success message
+            navigate('/');
+          }
         },
         prefill: {
           name: user.name, // Use fetched user data here
           email: user.email, // Use fetched user data here
-          contact: 'come contact', // Use fetched user data here
+          contact: user.contact, // Use fetched user data here
         },
         notes: {
-          address: "some address", // Use fetched user data here
+          address: user.address, // Use fetched user data here
         },
         theme: {
           color: "#3399cc",
@@ -115,19 +161,24 @@ const Payment = () => {
 
   return (
     <div className='mt-3'>
-    <div className="max-w-lg mx-auto p-5 border border-gray-300 rounded-lg bg-gray-100">
-      <h1 className="text-center mb-4 text-2xl font-bold">Razor Pay</h1>
-      <UpdateUser user={user} setUser={setUser} setDetailsConfirmed={setDetailsConfirmed} userId={userId} />
-      <div className="flex justify-center mt-4 mb-0">
-        <button
-          className={`inline-block px-4 py-2 bg-blue-500 text-white items-center rounded hover:bg-blue-600 ${!detailsConfirmed ? 'opacity-50 cursor-not-allowed' : ''}`}
-          onClick={paymentHandler}
-          disabled={!detailsConfirmed}
-        >
-          Pay now
-        </button>
+      <div className="max-w-lg mx-auto p-5 border border-gray-300 rounded-lg bg-gray-100">
+        <h1 className="text-center mb-4 text-2xl font-bold">Razor Pay</h1>
+        <UpdateUser user={user} setUser={setUser} setDetailsConfirmed={setDetailsConfirmed} userId={userId} />
+        <div className="flex justify-center mt-4 mb-0">
+          <button
+            className={`inline-block px-4 py-2 bg-blue-500 text-white items-center rounded hover:bg-blue-600 ${!detailsConfirmed ? 'opacity-50 cursor-not-allowed' : ''}`}
+            onClick={paymentHandler}
+            disabled={!detailsConfirmed}
+          >
+            Pay now
+          </button>
+        </div>
       </div>
-    </div>
+      {popupMessage && (
+        <div className="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded shadow-lg">
+          {popupMessage}
+        </div>
+      )}
     </div>
   );
 };
