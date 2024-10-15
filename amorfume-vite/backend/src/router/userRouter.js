@@ -33,6 +33,7 @@ router.put('/edit/:userId', async (req, res) => {
   res.status(result.status).json({ message: result.message });
 });
 
+//----------------------------------------------
 router.post('/contactus', async (req, res) => {
   try {
     const { name, email, message } = req.body;

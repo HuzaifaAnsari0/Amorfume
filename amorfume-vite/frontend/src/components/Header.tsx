@@ -151,7 +151,7 @@ const Header = () => {
             <li className='font-semibold my-7 md:my-0 md:ml-8'>
               <Link to="/Store">Store</Link>
             </li>
-            <li className='font-semibold my-7 md:my-0 md:ml-8 relative'>
+            {/* <li className='font-semibold my-7 md:my-0 md:ml-8 relative'>
               <button onClick={toggleDropdown} className='flex items-center'>
                 Products
                 <ChevronDown />
@@ -184,8 +184,8 @@ const Header = () => {
                     </Link>
                   </div>
                 </div>
-              )}
-            </li>
+              )} 
+            </li>*/}
             {!isLoggedIn && (
               <li className='font-semibold my-7 md:my-0 md:ml-8'>
                 <Link to="/signup">Signup</Link>

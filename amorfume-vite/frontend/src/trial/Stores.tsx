@@ -45,6 +45,10 @@ const Stores = () => {
       });
   }, []);
 
+  const latestProducts = products
+  .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())  // Sort by newest
+  .slice(0, 8);  // Take the latest 8 products
+
   if (loading) return <p>Loading...</p>;
 
   return (
@@ -156,25 +160,27 @@ const Stores = () => {
       </div>
 
       {/*Products*/}
-      <div className="container" id="products-1">
+      <div className="container" id="products">
         <div className="row">
+        {latestProducts.map((product) => (
           <div className="col-12 col-lg-3 col-md-4">
             <div className="card">
-              <img src={Product1} className="card-img-top" alt="..." />
+            <Link to={`/store/productview/${product._id}`}>
+              <img src={product.image1} className="card-img-top" alt="..." />
               <div className="card-body">
-                <h5 className="card-title">Amorfume Special</h5>
-                <p className="card-text">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                </p>
-                <a href="#" className="btn btn-primary"
-                ><ShoppingBag className="bi bi-cart-plus" /></a>
-                <h4 id="price">$200</h4>
+                <h5 className="card-title">{product.name}</h5>
+                {/* <p className="card-text mb-4">{product.description}</p> */}
+                <a href="/" className="btn btn-primary"
+                ><ShoppingBag className="bi bi-cart-plus" onClick={() => addToCart(product)}/></a>
+                <h4 id="price">${product.price}</h4>
               </div>
+              </Link>
             </div>
           </div>
-
+          ))}
         </div>
       </div>
+
       {/*----------------------------------------------
                                          Products END
                -------------------------------------------------------- */}

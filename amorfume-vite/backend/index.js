@@ -59,6 +59,17 @@ passport.use('google-register',
       let user = await userdb.findOne({googleId:profile.id});
 
       if(!user){
+          // If no user is found by googleId, check if the email already exists
+          const existingUserByEmail = await userdb.findOne({ email: profile.emails[0].value });
+      
+        if(existingUserByEmail){
+          // If a user with the same email exists, log them in (update googleId if needed)
+          existingUserByEmail.googleId = profile.id; 
+          const token = jwt.sign({ userId: existingUserByEmail.id }, process.env.JWT_SECRET);
+          return done(null, { user: existingUserByEmail, token });
+      }
+      
+        // If no user is found by email either, create a new user
           user = new userdb({
               googleId:profile.id,
               name:profile.displayName,
