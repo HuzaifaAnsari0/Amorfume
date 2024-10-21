@@ -13,17 +13,13 @@ const UpdateUser = ({ user, setUser, setDetailsConfirmed, userId }: any) => {
   const updateUserData = async () => {
     try {
       const token = localStorage.getItem('token');
-      // console.log('Updating user data with:', {
-      //   userId: userId,
-      //   contact: user.contact,
-      //   address: user.address,
-      //   pincode: user.pincode,
-      //   token: token
-      // });
       const response = await axios.post('http://localhost:5000/updateUser', {
         userId: userId,
         contact: user.contact,
+        country: user.country,
         address: user.address,
+        state: user.state,
+        city: user.city,
         pincode: user.pincode
       }, {
         headers: {
@@ -78,11 +74,41 @@ const UpdateUser = ({ user, setUser, setDetailsConfirmed, userId }: any) => {
         />
       </label>
       <label className="block mb-2">
+        Country:
+        <input
+          type="text"
+          name="country"
+          value={user.country}
+          onChange={handleChange}
+          className="w-full p-2 mt-1 border border-gray-300 rounded"
+        />
+      </label>
+      <label className="block mb-2">
         Address:
         <input
           type="text"
           name="address"
           value={user.address}
+          onChange={handleChange}
+          className="w-full p-2 mt-1 border border-gray-300 rounded"
+        />
+      </label>
+      <label className="block mb-2">
+        State:
+        <input
+          type="text"
+          name="state"
+          value={user.state}
+          onChange={handleChange}
+          className="w-full p-2 mt-1 border border-gray-300 rounded"
+        />
+      </label>
+      <label className="block mb-2">
+        City:
+        <input
+          type="text"
+          name="city"
+          value={user.city}
           onChange={handleChange}
           className="w-full p-2 mt-1 border border-gray-300 rounded"
         />

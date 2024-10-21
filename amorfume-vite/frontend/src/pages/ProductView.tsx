@@ -4,7 +4,7 @@ import MaxWidthWrapper from "../@/components/MaxWidthWrapper";
 import Slider from "../components/Slider";
 import Faq from "../components/Faq";
 import Features from "../components/Features";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useCart } from '../components/CartContext';
 
@@ -27,7 +27,8 @@ const ProductView = () => {
     const [loading, setLoading] = useState(true);
     const [quantity, setQuantity] = useState(1);
     const { addToCartWithQuantity } = useCart();
-
+    const [mainImage, setMainImage] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     const handleIncrement = () => {
         setQuantity(prevQuantity => prevQuantity + 1);
@@ -37,11 +38,17 @@ const ProductView = () => {
         setQuantity(prevQuantity => (prevQuantity > 1 ? prevQuantity - 1 : 1));
     };
 
+    const handleBuyNow = ()=> {
+        addToCartWithQuantity(product, quantity);
+        navigate('/cart');    
+    }
+
     useEffect(() => {
         fetch(`http://localhost:5000/store/view-product/${id}`)
             .then(response => response.json())
             .then(data => {
                 setProduct(data);
+                setMainImage(data.image1); // Set the initial main image
                 setLoading(false);
             })
             .catch(error => {
@@ -60,10 +67,14 @@ const ProductView = () => {
                     <section className="relative ">
                         <div className="w-full mx-auto px-4 sm:px-6 lg:px-0">
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mx-auto max-md:px-2 ">
-                                <div className="img">
+                            <div className="img">
                                     <div className="img-box h-full max-lg:mx-auto ">
-                                        <img src={product.image1} alt={product.name}
+                                        <img src={mainImage} alt={product.name}
                                             className="max-lg:mx-auto lg:ml-auto h-auto" />
+                                        <div className="flex space-x-7 mt-3">
+                                            <img className="h-28 w-28 cursor-pointer" src={product.image2} alt="Thumbnail 2" onClick={() => setMainImage(product.image2)} />
+                                            <img className="h-28 w-28 cursor-pointer" src={product.image3} alt="Thumbnail 3" onClick={() => setMainImage(product.image3)} />
+                                        </div>
                                     </div>
                                 </div>
                                 <div
@@ -75,7 +86,7 @@ const ProductView = () => {
                                             <h6
                                                 className="font-manrope font-semibold text-2xl leading-9 text-gray-900 pr-5 sm:border-r border-gray-200 mr-5">
                                                 ${product.price}</h6>
-                                            {/* <div className="flex items-center gap-2">
+                                            <div className="flex items-center gap-2">
                                 <div className="flex items-center gap-1">
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -145,10 +156,10 @@ const ProductView = () => {
 
                                 </div>
                                 <span className="pl-2 font-normal leading-7 text-gray-500 text-sm ">1624 review</span>
-                            </div> */}
+                            </div>
 
                                         </div>
-                                        <p className="text-gray-500 text-base font-normal mb-5">
+                                        <p className="text-gray-500 text-base font-normal mb-3">
                                             {product.description}
                                         </p>
                                         <ul className="grid gap-y-4 mb-8">
@@ -193,25 +204,25 @@ const ProductView = () => {
                                                 <span className="font-normal text-base text-gray-900 ">Rose, jasmine, and other floral scents.</span>
                                             </li>
                                         </ul>
-                                        <p className="text-gray-900 text-lg leading-8 font-medium mb-4">Size</p>
+                                        <p className="text-gray-900 text-lg leading-8 font-medium mb-0">Size</p>
                                         <div className="w-full pb-4 border-b border-gray-100 flex-wrap">
-                                            <div className="grid grid-cols-3 min-[500px]:grid-cols-5 gap-5 max-w-md">
+                                            <div className="grid grid-cols-3 min-[500px]:grid-cols-3 gap-3 max-w-md">
                                                 <button
-                                                    className="bg-white text-center py-4 px-1 w-auto font-semibold text-lg leading-8 text-gray-900 border border-gray-200 flex items-center rounded-full justify-center transition-all duration-300 hover:bg-gray-50 hover:shadow-sm hover:shadow-gray-100 hover:border-gray-300 visited:border-gray-300 visited:bg-gray-50">30 ML</button>
+                                                    className="bg-white text-center h-16 py-4 px-1 w-auto font-semibold text-lg leading-8 text-gray-900 border border-gray-200 flex items-center rounded-full justify-center transition-all duration-300 hover:bg-gray-50 hover:shadow-sm hover:shadow-gray-100 hover:border-gray-300 visited:border-gray-300 visited:bg-gray-50">30 ML</button>
                                                 <button
-                                                    className="bg-white text-center py-4 px-1 w-full font-semibold text-lg leading-8 text-gray-900 border border-gray-200 flex items-center rounded-full justify-center transition-all duration-300 hover:bg-gray-50 hover:shadow-sm hover:shadow-gray-100 hover:border-gray-300 visited:border-gray-300 visited:bg-gray-50">50 ML</button>
+                                                    className="bg-white text-center h-16 py-4 px-1 w-full font-semibold text-lg leading-8 text-gray-900 border border-gray-200 flex items-center rounded-full justify-center transition-all duration-300 hover:bg-gray-50 hover:shadow-sm hover:shadow-gray-100 hover:border-gray-300 visited:border-gray-300 visited:bg-gray-50">50 ML</button>
                                                 <button
-                                                    className="bg-white text-center py-4 px-1 w-full font-semibold text-lg leading-8 text-gray-900 border border-gray-200 flex items-center rounded-full justify-center transition-all duration-300 hover:bg-gray-50 hover:shadow-sm hover:shadow-gray-100 hover:border-gray-300 visited:border-gray-300 visited:bg-gray-50">100 ML</button>
+                                                    className="bg-white text-center h-16 py-4 px-1 w-full font-semibold text-lg leading-8 text-gray-900 border border-gray-200 flex items-center rounded-full justify-center transition-all duration-300 hover:bg-gray-50 hover:shadow-sm hover:shadow-gray-100 hover:border-gray-300 visited:border-gray-300 visited:bg-gray-50">100 ML</button>
 
                                             </div>
 
                                         </div>
 
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 py-8">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 py-3">
                                             <div className="flex sm:items-center sm:justify-center w-full">
                                                 <button
                                                     onClick={handleDecrement}
-                                                    className="group py-4 px-6 border border-gray-400 rounded-l-full bg-white transition-all duration-300 hover:bg-gray-50 hover:shadow-sm hover:shadow-gray-300"
+                                                    className="group py-3 px-4 border border-gray-400 rounded-l-full bg-white transition-all duration-300 hover:bg-gray-50 hover:shadow-sm hover:shadow-gray-300"
                                                 >
                                                     <svg
                                                         className="stroke-gray-900 group-hover:stroke-black"
@@ -230,12 +241,12 @@ const ProductView = () => {
                                                     type="text"
                                                     value={quantity}
                                                     readOnly
-                                                    className="font-semibold text-gray-900 cursor-pointer text-lg py-[13px] px-6 w-full sm:max-w-[118px] outline-0 border-y border-gray-400 bg-transparent placeholder:text-gray-900 text-center hover:bg-gray-50"
+                                                    className="font-semibold text-gray-900 cursor-pointer text-lg py-[13px] px-6 w-full sm:max-w-[118px] outline-0 border-y border-black-400 bg-transparent placeholder:text-gray-900 text-center hover:bg-gray-50"
                                                     placeholder="1"
                                                 />
                                                 <button
                                                     onClick={handleIncrement}
-                                                    className="group py-4 px-6 border border-gray-400 rounded-r-full bg-white transition-all duration-300 hover:bg-gray-50 hover:shadow-sm hover:shadow-gray-300"
+                                                    className="group  py-3 px-4 border border-gray-400 rounded-r-full bg-white transition-all duration-300 hover:bg-gray-50 hover:shadow-sm hover:shadow-gray-300"
                                                 >
                                                     <svg
                                                         className="stroke-gray-900 group-hover:stroke-black"
@@ -276,7 +287,7 @@ const ProductView = () => {
                                             
                                             <button
                                                 className="text-center w-full px-5 py-4 rounded-[100px] bg-indigo-600 flex items-center justify-center font-semibold text-lg text-white shadow-sm transition-all duration-500 hover:bg-indigo-700 hover:shadow-indigo-400"
-                                                onClick={() => addToCartWithQuantity(product, quantity)}>
+                                                onClick={handleBuyNow}>
                                                 Buy Now
                                             </button>
                                             

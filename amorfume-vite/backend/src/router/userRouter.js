@@ -179,14 +179,17 @@ const authenticate = (req, res, next) => {
 };
 
 router.post('/updateUser', authenticate, async (req, res) => {
-  const { contact, address, pincode } = req.body;
+  const { contact, country, address, state, city, pincode } = req.body;
   const userId = req.body.userId; // Extracted from the token
 
   try {
     const user = await User.findById(userId);
     if (user) {
       user.contact = contact;
+      user.country = country;
       user.address = address;
+      user.state = state;
+      user.city = city;
       user.pincode = pincode;
       await user.save();
       res.status(200).json(user);
@@ -199,16 +202,50 @@ router.post('/updateUser', authenticate, async (req, res) => {
 });
 
 //----------------------------------------------
-router.post('/order-history', async (req, res) => {
-  const { userId, name, email, contact, address, pincode, orderId, amount, currency, status, products } = req.body;
+router.post('/updateUserProfile', authenticate, async (req, res) => {
+  const { name, email, contact, country, address, state, city, pincode } = req.body;
+  const userId = req.body.userId; // Extracted from the token
+
+  // Log the request data to see if it matches what you expect
+  // console.log('Request data:', req.body);
 
   try {
+    const user = await User.findById(userId);
+    if (user) {
+      user.name = name;
+      user.email = email;
+      user.contact = contact;
+      user.country = country;
+      user.address = address;
+      user.state = state;
+      user.city = city;
+      user.pincode = pincode;
+      await user.save();
+      res.status(200).json(user);
+    } else {
+      res.status(404).send('User not found');
+    }
+  } catch (error) {
+    console.error('Error saving user data:', error); // Log the error for debugging
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+});
+
+//----------------------------------------------
+router.post('/order-history', async (req, res) => {
+  const { userId, name, email, contact, country, address, state, city, pincode, orderId, amount, currency, status, products } = req.body;
+
+  try {
+    // console.log('Order history:', req.body);
     const orderHistory = new OrderHistory({
       userId,
       name,
       email,
       contact,
+      country,
       address,
+      state,
+      city,
       pincode,
       orderId,
       amount,
@@ -223,5 +260,23 @@ router.post('/order-history', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+//----------------------------------------------
+router.get('/order-history/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    // Fetch the order history for the specific user
+    const orderHistory = await OrderHistory.find({ userId }).populate('products.productId'); // Populate product details if needed
+    if (!orderHistory || orderHistory.length === 0) {
+      return res.status(404).json({ message: 'No order history found for this user.' });
+    }
+
+    res.json(orderHistory);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 
 module.exports = router;

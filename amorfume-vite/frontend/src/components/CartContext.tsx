@@ -77,6 +77,7 @@ export const CartProvider = ({ children, userId }: { children: ReactNode, userId
     }
 
     setCart(updatedCart);
+    localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCart)); // Update local storage
 
     // Show popup message
     setPopupMessage('Successfully added to cart!');
@@ -88,6 +89,7 @@ export const CartProvider = ({ children, userId }: { children: ReactNode, userId
   const removeFromCart = (productId: string) => {
     const updatedCart = cart.filter(product => product._id !== productId);
     setCart(updatedCart);
+    localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCart)); // Update local storage
   };
 
   const updateCartQuantity = (productId: string, quantity: number) => {
@@ -95,6 +97,7 @@ export const CartProvider = ({ children, userId }: { children: ReactNode, userId
       product._id === productId ? { ...product, quantity } : product
     );
     setCart(updatedCart);
+    localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCart)); // Update local storage
   };
 
   const addToCartWithQuantity = (product: Product, quantity: number) => {
@@ -110,6 +113,7 @@ export const CartProvider = ({ children, userId }: { children: ReactNode, userId
     }
 
     setCart(updatedCart);
+    localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCart)); // Update local storage
 
     // Show popup message
     setPopupMessage('Successfully added to cart!');

@@ -100,7 +100,10 @@ const Payment = () => {
                 name: user.name,
                 email: user.email,
                 contact: user.contact,
+                country: user.country,
                 address: user.address,
+                state: user.state,
+                city: user.city,
                 pincode: user.pincode,
                 orderId: order.id,
                 amount: amount / 100, // Convert back to main currency unit
@@ -109,6 +112,8 @@ const Payment = () => {
                 products: cart.map(product => ({
                   productId: product._id,
                   name: product.name,
+                  image: product.image1,
+                  description: product.description,
                   quantity: product.quantity,
                   price: product.price
                 }))

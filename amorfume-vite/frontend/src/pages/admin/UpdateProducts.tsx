@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import NavLogo from '../../assets/images/amorfumeLogoBlack.png';
 import { BetweenHorizontalEnd, ScanEye } from 'lucide-react';
+import AdminNav from './AdminNav';
 
 function UpdateProduct() {
   const navigate = useNavigate();
@@ -82,12 +83,13 @@ function UpdateProduct() {
         </div>
 
         <div className="flex flex-1 overflow-hidden">
-          <div className="w-64 bg-slate-600 text-black flex flex-col">
+          {/* <div className="w-64 bg-slate-600 text-black flex flex-col">
             <div className="flex p-5 font-bold text-lg text-white">Operations</div>
             <button onClick={InsertProducts} className=" flex py-2 px-4 hover:bg-gray-700 text-white"> <BetweenHorizontalEnd className='text-white px-1' />Insert Products</button>
             <button onClick={ViewProducts} className="flex py-2 px-4 hover:bg-gray-700 text-white"><ScanEye className=' text-white px-1' /> View & Update Products</button>
      
-          </div>
+          </div> */}
+          <AdminNav />
 
           <div className="flex-1 p-10 overflow-auto">
             <div>

@@ -30,6 +30,7 @@ import TrialProductview from './trial/TrialProductview';
 import Disclaimer from './pages/company/Disclaimer';
 import Sustainability from './pages/company/Sustainability';
 import Payment from './pages/Payment/Payment';
+import OrderHistory from './pages/admin/orderHistory';
 
 function App() {
   return (
@@ -67,6 +68,7 @@ function App() {
             <Route path="/admin-dashboard/insert-products" element={<Products />} />
             <Route path="/admin-dashboard/view-products" element={<ViewProducts />} />
             <Route path="/update-product/:productId" element={<UpdateProduct />} />
+            <Route path="/admin-dashboard/order-history" element={<OrderHistory />} />
           </Route>
           
        </Routes>

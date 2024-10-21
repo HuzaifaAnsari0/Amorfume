@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom'; // Assuming you're using react-router for navigation
 import NavLogo from '../../assets/images/amorfumeLogoBlack.png'
 import { BetweenHorizontalEnd, ScanEye } from 'lucide-react';
+import AdminNav from './AdminNav';
 
 function ProductForm() {
 
@@ -94,11 +95,12 @@ function ProductForm() {
         {/* Main Content with Sidebar */}
         <div className="flex flex-1 overflow-hidden">
           {/* Sidebar */}
-          <div className="w-64 bg-slate-600 text-black flex flex-col">
+          {/* <div className="w-64 bg-slate-600 text-black flex flex-col">
             <div className="flex p-5 font-bold text-lg text-white">Operations</div>
             <button onClick={InsertProducts} className=" flex py-2 px-4 hover:bg-gray-700 text-white"> <BetweenHorizontalEnd className='text-white px-1' />Insert Products</button>
             <button onClick={ViewProducts} className="flex py-2 px-4 hover:bg-gray-700 text-white"><ScanEye className=' text-white px-1' /> View & Update Products</button>
-          </div>
+          </div> */}
+          <AdminNav />
 
           {/* Content Area */}
           <div className="flex-1 py-0  overflow-auto">

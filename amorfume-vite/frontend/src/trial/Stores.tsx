@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../components/CartContext';
 import Footer from "../components/Footer"
 import Header from "../components/Header"
@@ -11,8 +11,6 @@ import Feature3 from "./images/feature/f3.png"
 import Feature4 from "./images/feature/f4.png"
 import Feature5 from "./images/feature/f5.png"
 import Feature6 from "./images/feature/f6.png"
-
-import Product1 from "./images/productImages/1.png"
 import { ShoppingBag } from "lucide-react"
 
 interface Product {
@@ -31,6 +29,11 @@ const Stores = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
+  const navigate  = useNavigate();
+
+  const handleSubs = () =>{
+    navigate('/contact')
+  }
 
   useEffect(() => {
     fetch('http://localhost:5000/view-products')
@@ -247,7 +250,7 @@ const Stores = () => {
                 placeholder="Subscribe"
                 aria-label="subscribe"
               />
-              <button className="btn" type="submit">Subscribe</button>
+              <button className="btn" type="submit" onClick={handleSubs}>Subscribe</button>
             </form>
           </div>
         </div>

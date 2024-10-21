@@ -2,6 +2,7 @@ const express = require('express');
 const Product = require('../model/productModel.js'); // Adjust the path as necessary
 const router = express.Router();
 const User = require('../model/userModel.js'); // Adjust the path as necessary
+const OrderHistory = require('../model/orderHistory.js'); // Adjust the path as necessary
 
 router.post('/insert-products', async (req, res) => {
     try {
@@ -54,4 +55,14 @@ router.post('/insert-products', async (req, res) => {
       res.status(500).json({ message: 'Error fetching user details', error });
     }
   });
+
+  router.get('/admin-dashboard/order-history', async (req, res) => {
+    try {
+      const orderHistory = await OrderHistory.find().populate('products.productId'); // Populate product details if needed
+      res.json(orderHistory);
+    } catch (error) {
+      res.status(500).json({ message: 'Error fetching order history', error });
+    }
+  });
+
 module.exports = router;
