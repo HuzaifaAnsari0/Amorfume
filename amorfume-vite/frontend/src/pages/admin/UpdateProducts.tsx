@@ -1,18 +1,11 @@
 import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import NavLogo from '../../assets/images/amorfumeLogoBlack.png';
-import { BetweenHorizontalEnd, ScanEye } from 'lucide-react';
 import AdminNav from './AdminNav';
 
 function UpdateProduct() {
   const navigate = useNavigate();
 
-  const InsertProducts = () => {
-    navigate('/admin-dashboard/insert-products');
-  };
-  const ViewProducts = () => {
-    navigate('/admin-dashboard/view-products');
-  };
   const goToWebsite = () => {
     navigate('/');
   };

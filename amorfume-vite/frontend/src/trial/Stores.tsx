@@ -23,6 +23,7 @@ interface Product {
   image2: string;
   image3: string;
   category: 'adult' | 'kids' | 'teens';
+  createdAt: string; // Added createdAt property
 }
 
 const Stores = () => {

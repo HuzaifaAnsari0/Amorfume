@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import NavLogo from '../assets/images/amorfumeLogoBlack.png';
-import { ChevronDown, ShoppingBag, User } from 'lucide-react';
+import { ShoppingBag, User } from 'lucide-react';
 import axios from 'axios';
 import {jwtDecode} from 'jwt-decode';
 
@@ -9,10 +9,14 @@ interface DecodedToken {
   isAdmin: number;
   // Add other properties if needed
 }
+interface Result {
+  _id: string;
+  name: string;
+}
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState<Result[]>([]); // Specify the type here
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 

@@ -1,10 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import {jwtDecode} from 'jwt-decode';
+// import {jwtDecode} from 'jwt-decode';
 // import jwt from 'jsonwebtoken';
 
-const PersonalInfoForm = () => {
-    // const token = localStorage.getItem('token');
+interface FormDataType {
+  name: string;
+  email: string;
+  contact: string;
+  country: string;
+  address: string;
+  city: string;
+  state: string;
+  pincode: string;
+}
+
+const PersonalInfoForm: React.FC<{ userId: string | null}> = ({ userId }) => {
+  // const token = localStorage.getItem('token');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -16,14 +27,26 @@ const PersonalInfoForm = () => {
     pincode: '',
   });
   
-  const [originalData, setOriginalData] = useState({}); // To store the original data for cancellation
+  const [originalData, setOriginalData] = useState<FormDataType>(formData); // Match formData's structure
   const [isEditable, setIsEditable] = useState(false);  // Controls edit mode
   const [popupMessage, setPopupMessage] = useState<string | null>(null); // State for popup message
 
-  const token = localStorage.getItem('token'); // Fetch userId from local storage
-  const decoded = jwtDecode(token);
-  // console.log(decoded);
-  const userId = decoded.userId; // Fetch userId from local storage
+  // interface DecodedToken {
+  //   userId: string;
+  //   // Add other properties if needed
+  // }
+
+  //const token = localStorage.getItem('token'); // Fetch token from local storage
+
+  // if (token) {
+  //   // Decode the token only if it exists
+  //   const decoded = jwtDecode<DecodedToken>(token); // Specify the type for the decoded token
+  //   // const userId = decoded.userId; // Now you can access userId safely
+  //   // console.log(userId);
+  // } else {
+  //   console.warn('No token found in local storage');
+  //   // Handle the case where the token is missing
+  // }
 
   // Fetch the user data from the database on component mount
   useEffect(() => {
@@ -41,6 +64,7 @@ const PersonalInfoForm = () => {
           name: userData.name || '',
           email: userData.email || '',
           country: userData.country || '',
+          contact: userData.contact || '',
           address: userData.address || '',
           city: userData.city || '',
           state: userData.state || '',

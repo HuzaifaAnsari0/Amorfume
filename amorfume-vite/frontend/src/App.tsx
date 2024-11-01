@@ -12,7 +12,7 @@ import Customise from './pages/Customise';
 import Kids from './pages/Category/Kids';
 import Adults from './pages/Category/Adults';
 import Teens from './pages/Category/Teens';
-import Store from './pages/Store';
+// import Store from './pages/Store';
 import About from './pages/company/About';
 import Blog from './pages/company/Blog';
 import Terms from './pages/company/Terms';
@@ -35,6 +35,7 @@ import OrderHistory from './pages/admin/orderHistory';
 function App() {
   return (
       <div className="App">
+      <Router>
        <Routes>
        <Route path="*" element={<PageNotFound />} />
        <Route path="/signup" element={<Signup />} />
@@ -72,7 +73,9 @@ function App() {
           </Route>
           
        </Routes>
+       </Router>
       </div>
+    
   );
 }
 

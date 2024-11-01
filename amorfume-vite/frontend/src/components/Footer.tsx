@@ -1,4 +1,3 @@
-import React from 'react';
 import amorfumeLogo from './../assets/images/amorfumeLogoWhite.png'; // Adjust the path as necessary
 const Footer = () => {
     return (

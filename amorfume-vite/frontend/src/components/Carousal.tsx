@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import { useState} from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { DotFilledIcon } from "@radix-ui/react-icons";
 
@@ -31,7 +31,7 @@ const Carousal = () => {
     setCurrentIndex(newIndex)
   }
 
-  const goToSlide = (slideIndex) =>  {
+  const goToSlide = (slideIndex : number) =>  {
     setCurrentIndex(slideIndex)
   }
 
@@ -46,7 +46,7 @@ const Carousal = () => {
           <ArrowRight onClick={nextSlide} size={30} />
         </div>
         <div className="flex top-4 justify-center py-2">
-          {slides.map((slide, slideIndex) => (
+          {slides.map((_, slideIndex) => (
             <div
              key={slideIndex} 
              onClick={() => goToSlide(slideIndex)} 

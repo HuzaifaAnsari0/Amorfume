@@ -10,7 +10,7 @@ import Random from "../assets/images/random.png"
 import Logo from "../assets/images/Amor.png"
 import Header from '../components/Header';
 import { Icons } from '../@/components/Icons';
-import { Reviews } from '../components/Reviews';
+// import { Reviews } from '../components/Reviews';
 import arrow from "../assets/images/arrow.png"
 import horse from "../assets/images/horse.jpg"
 import { Link } from 'react-router-dom';

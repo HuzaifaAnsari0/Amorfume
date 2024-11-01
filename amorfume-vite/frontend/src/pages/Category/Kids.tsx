@@ -1,4 +1,4 @@
-import { ArrowRight, Check, Star } from 'lucide-react';
+// import { ArrowRight, Check, Star } from 'lucide-react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 

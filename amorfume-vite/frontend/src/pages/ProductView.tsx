@@ -23,7 +23,7 @@ interface Product {
 
 const ProductView = () => {
     const { id } = useParams<{ id: string }>();
-    const [product, setProduct] = useState<Product | null>(null);
+    const [product, setProduct] = useState<Product>();
     const [loading, setLoading] = useState(true);
     const [quantity, setQuantity] = useState(1);
     const { addToCartWithQuantity } = useCart();
@@ -39,8 +39,13 @@ const ProductView = () => {
     };
 
     const handleBuyNow = ()=> {
-        addToCartWithQuantity(product, quantity);
-        navigate('/cart');    
+        if (product) { // Check if product is defined
+            addToCartWithQuantity(product, quantity);
+            navigate('/cart');
+        } else {
+            // Handle the case where the product is not defined, if necessary
+            console.error("Product is undefined, cannot add to cart");
+        } 
     }
 
     useEffect(() => {
@@ -69,7 +74,7 @@ const ProductView = () => {
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mx-auto max-md:px-2 ">
                             <div className="img">
                                     <div className="img-box h-full max-lg:mx-auto ">
-                                        <img src={mainImage} alt={product.name}
+                                        <img src={mainImage ?? undefined} alt={product.name}
                                             className="max-lg:mx-auto lg:ml-auto h-auto" />
                                         <div className="flex space-x-7 mt-3">
                                             <img className="h-28 w-28 cursor-pointer" src={product.image2} alt="Thumbnail 2" onClick={() => setMainImage(product.image2)} />

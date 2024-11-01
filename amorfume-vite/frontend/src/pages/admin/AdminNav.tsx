@@ -1,7 +1,4 @@
-import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import NavLogo from '../../assets/images/amorfumeLogoBlack.png'
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { BetweenHorizontalEnd, ScanEye } from 'lucide-react';
 import Order from "../../assets/images/order-history.svg"
 

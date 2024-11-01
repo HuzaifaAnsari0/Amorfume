@@ -10,6 +10,7 @@ interface Product {
   volume: number;
   description: string;
   image1: string;
+  quantity: number; // Add this line to include quantity
 }
 
 interface Order {

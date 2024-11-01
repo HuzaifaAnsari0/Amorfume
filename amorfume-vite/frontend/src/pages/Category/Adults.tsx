@@ -1,4 +1,4 @@
-import { ArrowRight, Check, Star } from 'lucide-react';
+import { Check, Star } from 'lucide-react';
 import User1 from "../../assets/images/users/user-1.png"
 import User2 from "../../assets/images/users/user-1.png"
 import User3 from "../../assets/images/users/user-1.png"

@@ -79,7 +79,7 @@ const UserProfilePage = () => {
               {/* Personal Info Section */}
               <div className="mb-5 main-data p-8 sm:p-14 bg-gray-50 rounded-3xl"> 
                 <h2 className="text-center font-manrope font-semibold text-4xl text-black mb-10">Personal Information</h2>
-                <PersonalInfoForm />
+                <PersonalInfoForm userId={userId} />
               </div>
 
               {/* Order History Section */}

@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom"
 import Footer from "../../components/Footer"
 import MaxWidthWrapper from "../../@/components/MaxWidthWrapper"
 import Header from "../../components/Header"

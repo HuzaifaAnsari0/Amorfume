@@ -4,6 +4,8 @@ import UpdateUser from './UpdateUser'; // Import the UpdateUser component
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../components/CartContext'; // Import useCart to get cart details
 
+declare var Razorpay: any; // Declare Razorpay
+
 const Payment = () => {
   const [user, setUser] = useState<any>({
     name: '',

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Assuming you're using react-router for navigation
 import NavLogo from '../../assets/images/amorfumeLogoBlack.png';
-import { BetweenHorizontalEnd, ScanEye } from 'lucide-react';
 import AdminNav from './AdminNav';
 
 interface Product {
@@ -19,13 +18,6 @@ interface Product {
 function Products() {
   const navigate = useNavigate();
 
-  const InsertProducts = () => {
-    navigate('/admin-dashboard/insert-products');
-  };
-
-  const ViewProducts = () => {
-    navigate('/admin-dashboard/view-products');
-  };
 
   const goToWebsite = () => {
     navigate('/');

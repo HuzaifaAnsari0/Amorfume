@@ -2,14 +2,17 @@
 
 import { useState } from "react"
 import { cn } from "../../@/lib/utils"
-import Dropzone, {FileRejection} from "react-dropzone"
+// import Dropzone, {FileRejection} from "react-dropzone"
+
 
 const Custom = () => {
 
-    const [isDragOver, setIsDragOver] = useState<boolean>(false)
+    // const [isDragOver, setIsDragOver] = useState<boolean>(false)
+    const [isDragOver] = useState<boolean>(false)
 
-    const onDropRejected = () => {}
-    const onDropAccepted = () => {}
+
+    // const onDropRejected = () => {}
+    // const onDropAccepted = () => {}
 
 
     return (
@@ -18,7 +21,7 @@ const Custom = () => {
             "ring-blue-900/25 bg-blue-900/10": isDragOver
         })}>
         <div className="relative flex flex-1 flex-col items-center justify-center w-full">
-            <Dropzone onDropRejected={}></Dropzone>
+            {/* <Dropzone onDropRejected={}></Dropzone> */}
         </div>
         </div>
     )
