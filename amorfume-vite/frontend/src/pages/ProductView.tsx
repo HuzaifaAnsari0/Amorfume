@@ -29,6 +29,7 @@ const ProductView = () => {
     const { addToCartWithQuantity } = useCart();
     const [mainImage, setMainImage] = useState<string | null>(null);
     const navigate = useNavigate();
+    const url = import.meta.env.VITE_BACKEND_URL; // Use process.env in CRA
 
     const handleIncrement = () => {
         setQuantity(prevQuantity => prevQuantity + 1);
@@ -49,7 +50,7 @@ const ProductView = () => {
     }
 
     useEffect(() => {
-        fetch(`http://localhost:5000/store/view-product/${id}`)
+        fetch(`${url}/store/view-product/${id}`)
             .then(response => response.json())
             .then(data => {
                 setProduct(data);

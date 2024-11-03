@@ -34,6 +34,7 @@ function OrderHistory() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const url = import.meta.env.VITE_BACKEND_URL; // Use process.env in CRA
 
   const goToWebsite = () => {
     navigate('/');
@@ -42,7 +43,7 @@ function OrderHistory() {
   useEffect(() => {
     const fetchOrderHistory = async () => {
       try {
-        const response = await fetch('http://localhost:5000/admin-dashboard/order-history', {
+        const response = await fetch(`${url}/admin-dashboard/order-history`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }

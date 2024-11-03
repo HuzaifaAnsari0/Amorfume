@@ -10,6 +10,7 @@ const Product = require('../model/productModel.js'); // Adjust the path as neces
 const OrderHistory = require('../model/orderHistory.js'); // Assuming you have the orderHistory model
 
 const router = express.Router();
+const url = process.env.FRONTEND_URL
 
 //----------------------------------------------
 router.post('/register', async (req, res) => {
@@ -54,13 +55,14 @@ router.post('/forgot-password', async (req, res) => {
     return res.status(404).send('User not found');
   }
 
+
   const resetToken = crypto.randomBytes(20).toString('hex');
   const hash = await bcrypt.hash(resetToken, 10);
   user.resetPasswordToken = hash;
   user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
   await user.save();
 
-  const resetUrl = `http://localhost:3000/reset-password/${user._id}/${resetToken}`;
+  const resetUrl = `${url}/reset-password/${user._id}/${resetToken}`;
   await sendEmail(user.email, 'Password Reset', `Please reset your password by clicking: ${resetUrl}`);
 
   res.send('Password reset email sent.');

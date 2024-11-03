@@ -28,12 +28,13 @@ const StoreOF = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const { addToCart } = useCart();
   const navigate  = useNavigate();
+  const url = import.meta.env.VITE_BACKEND_URL; // Use process.env in CRA
 
   const handleSubs = () =>{
     navigate('/contact')
   }
   useEffect(() => {
-    fetch('http://localhost:5000/view-products')
+    fetch(`${url}/view-products`)
       .then(response => response.json())
       .then(data => {
         setProducts(data);

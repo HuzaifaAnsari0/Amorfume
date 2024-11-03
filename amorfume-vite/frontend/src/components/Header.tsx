@@ -4,7 +4,8 @@ import NavLogo from '../assets/images/amorfumeLogoBlack.png';
 import { ShoppingBag, User } from 'lucide-react';
 import axios from 'axios';
 import {jwtDecode} from 'jwt-decode';
-
+const url = import.meta.env.VITE_BACKEND_URL; // Use process.env in CRA
+// console.log(url);
 interface DecodedToken {
   isAdmin: number;
   // Add other properties if needed
@@ -33,7 +34,7 @@ const Header = () => {
 
   const performSearch = async (query: string) => {
     try {
-      const response = await axios.get(`http://localhost:5000/search`, { params: { q: query } });
+      const response = await axios.get(`${url}/search`, { params: { q: query } });
       setSearchResults(response.data);
 
       // If there is exactly one search result, navigate to the product page

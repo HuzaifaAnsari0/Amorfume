@@ -18,9 +18,11 @@ const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
+  const url = import.meta.env.VITE_BACKEND_URL; // Use process.env in CRA
+
 
   useEffect(() => {
-    fetch('http://localhost:5000/view-products')
+    fetch(`${url}/view-products`)
       .then(response => response.json())
       .then(data => {
         setProducts(data);

@@ -8,11 +8,12 @@ const UpdateUser = ({ user, setUser, setDetailsConfirmed, userId }: any) => {
       [name]: value
     }));
   };
+  const url = import.meta.env.VITE_BACKEND_URL; // Use process.env in CRA
 
   const updateUserData = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post('http://localhost:5000/updateUser', {
+      const response = await axios.post(`${url}/updateUser`, {
         userId: userId,
         contact: user.contact,
         country: user.country,

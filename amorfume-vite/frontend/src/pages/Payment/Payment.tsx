@@ -14,6 +14,7 @@ const Payment = () => {
     address: '',
     pincode: ''
   });
+  const url = import.meta.env.VITE_BACKEND_URL; // Use process.env in CRA
 
   const [detailsConfirmed, setDetailsConfirmed] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
@@ -22,7 +23,7 @@ const Payment = () => {
   const { cart, calculateTotal, setCart } = useCart(); // Get cart details and total amount
 
   const fetchUserData = async () => {
-    const response = await fetch('http://localhost:5000/user', {
+    const response = await fetch(`${url}/user`, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
@@ -51,7 +52,7 @@ const Payment = () => {
       // Fetch user data
       const user = await fetchUserData();
 
-      const response = await fetch('http://localhost:5000/order', {
+      const response = await fetch(`${url}/order`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -77,7 +78,7 @@ const Payment = () => {
         handler: async function (response: any) {
           const body = { ...response };
 
-          const validateResponse = await fetch('http://localhost:5000/validate', {
+          const validateResponse = await fetch(`${url}/validate`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -91,7 +92,7 @@ const Payment = () => {
           if (jsonResponse.status === 'success') {
             console.log("inside")
             // Create order in order history
-            await fetch('http://localhost:5000/order-history', {
+            await fetch(`${url}/order-history`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

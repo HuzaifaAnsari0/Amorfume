@@ -30,6 +30,7 @@ const PersonalInfoForm: React.FC<{ userId: string | null}> = ({ userId }) => {
   const [originalData, setOriginalData] = useState<FormDataType>(formData); // Match formData's structure
   const [isEditable, setIsEditable] = useState(false);  // Controls edit mode
   const [popupMessage, setPopupMessage] = useState<string | null>(null); // State for popup message
+  const url = import.meta.env.VITE_BACKEND_URL; // Use process.env in CRA
 
   // interface DecodedToken {
   //   userId: string;
@@ -52,7 +53,7 @@ const PersonalInfoForm: React.FC<{ userId: string | null}> = ({ userId }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/user', {
+        const response = await fetch(`${url}/user`, {
             headers: {
               'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
@@ -103,7 +104,7 @@ const PersonalInfoForm: React.FC<{ userId: string | null}> = ({ userId }) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token'); // Fetch token from local storage
-      const response = await axios.post('http://localhost:5000/updateUserProfile', {
+      const response = await axios.post(`${url}/updateUserProfile`, {
         userId: userId, // Ensure this userId is correctly handled
         name: formData.name,
         email: formData.email,

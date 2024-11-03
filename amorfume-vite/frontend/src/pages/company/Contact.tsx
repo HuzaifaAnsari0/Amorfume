@@ -11,6 +11,7 @@ function Contact() {
       email: '',
       message: '',
     });
+    const url = import.meta.env.VITE_BACKEND_URL; // Use process.env in CRA
   
     const handleChange = (e:any) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,7 +20,7 @@ function Contact() {
     const handleSubmit = async (e:any) => {
       e.preventDefault();
       try {
-        await axios.post('http://localhost:5000/contactus', formData);
+        await axios.post(`${url}/contactus`, formData);
         alert('Message sent successfully');
         // Clear form or redirect user
       } catch (error) {

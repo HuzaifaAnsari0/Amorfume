@@ -26,6 +26,7 @@ const UserProfilePage = () => {
   const [orderHistory, setOrderHistory] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const url = import.meta.env.VITE_BACKEND_URL; // Use process.env in CRA
 
   // Assuming userId is stored in localStorage or some global state
   const token = localStorage.getItem('token'); // Fetch token from local storage
@@ -47,7 +48,7 @@ const UserProfilePage = () => {
       if (!userId) return;
 
       try {
-        const response = await axios.get(`http://localhost:5000/order-history/${userId}`); // Use absolute URL
+        const response = await axios.get(`${url}/order-history/${userId}`); // Use absolute URL
         const data = response.data;
         console.log(data);
 

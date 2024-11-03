@@ -7,6 +7,7 @@ import AdminNav from './AdminNav';
 function ProductForm() {
 
   const navigate = useNavigate();
+  const url = import.meta.env.VITE_BACKEND_URL; // Use process.env in CRA
 
   const goToWebsite = () => {
     // Assuming you have a route for your main website
@@ -52,7 +53,7 @@ function ProductForm() {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/insert-products', product, {
+      const response = await axios.post(`${url}/insert-products`, product, {
         headers: {
           'Content-Type': 'application/json',
         },

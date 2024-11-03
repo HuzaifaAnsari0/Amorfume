@@ -9,6 +9,7 @@ function ResetPassword() {
     const [message, setMessage] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
+    const url = import.meta.env.VITE_BACKEND_URL; // Use process.env in CRA
     const { id, token } = useParams();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -17,7 +18,7 @@ function ResetPassword() {
             setMessage('Passwords do not match.');
             return;
         }
-        axios.post(`http://localhost:5000/reset-password/${id}/${token}`, { password })
+        axios.post(`${url}/reset-password/${id}/${token}`, { password })
             .then(res => {
                 if (res.data.Status === "Success") {
                     setIsModalOpen(true);

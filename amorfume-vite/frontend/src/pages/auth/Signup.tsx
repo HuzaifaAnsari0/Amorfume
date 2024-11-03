@@ -11,7 +11,8 @@ function Signup() {
     password: '',
     confirmPassword: '',
   });
-
+  
+  const url = import.meta.env.VITE_BACKEND_URL; // Use process.env in CRA
   // Handle form input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -30,7 +31,7 @@ function Signup() {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:5000/register', formData);
+      const response = await axios.post(`${url}/register`, formData);
       // console.log('Signup successful:', response.data);
       localStorage.setItem('token', response.data.token); // Storing the token
       // Redirect to login page or dashboard as needed
@@ -50,7 +51,7 @@ function Signup() {
   // Handle Google Signup
   const handleGoogleSignup = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    window.open("http://localhost:5000/auth/google/callback", "_self");
+    window.open(`${url}/auth/google/callback`, "_self");
   };
 
   return (

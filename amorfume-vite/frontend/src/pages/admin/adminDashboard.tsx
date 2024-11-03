@@ -20,9 +20,11 @@ interface User {
 const AdminDashboard = () => {
     const [users, setUsers] = useState<User[]>([]);
     const navigate = useNavigate();
+    const url = import.meta.env.VITE_BACKEND_URL; // Use process.env in CRA
+
 
     useEffect(() => {
-        axios.get('http://localhost:5000/admin-dashboard')
+        axios.get(`${url}/admin-dashboard`)
             .then(response => {
                 setUsers(response.data);
             })

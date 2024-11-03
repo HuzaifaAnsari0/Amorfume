@@ -17,6 +17,7 @@ interface Product {
 
 function Products() {
   const navigate = useNavigate();
+  const url = import.meta.env.VITE_BACKEND_URL; // Use process.env in CRA
 
 
   const goToWebsite = () => {
@@ -27,7 +28,7 @@ function Products() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:5000/view-products')
+    fetch(`${url}/view-products`)
       .then(response => response.json())
       .then(data => {
         setProducts(data);
@@ -45,7 +46,7 @@ function Products() {
   };
 
   const handleDelete = (productId: string) => {
-    fetch(`http://localhost:5000/delete-product/${productId}`, { method: 'DELETE' })
+    fetch(`${url}/delete-product/${productId}`, { method: 'DELETE' })
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

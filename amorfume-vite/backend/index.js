@@ -16,10 +16,11 @@ const crypto = require("crypto");
 const jwt = require('jsonwebtoken');
 // Connect to MongoDB
 connectDB();
+const url = process.env.FRONTEND_URL
 
 app.use(
   cors({
-    origin: "http://localhost:3000", // Allow only the client app to connect
+    origin: `${url}`, // Allow only the client app to connect
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true, // Allow cookies to be sent from the client
   })
@@ -133,22 +134,22 @@ passport.deserializeUser(async (id, done) => {
 app.get("/auth/google",passport.authenticate("google-register",{scope:["profile","email"]}));
 
 app.get("/auth/google/callback", passport.authenticate("google-register", {
-  failureRedirect: "http://localhost:3000/signup"
+  failureRedirect: `${url}/signup`
 }), (req, res) => {
   if (req.user && req.user.token) {
-    res.redirect(`http://localhost:3000/?token=${req.user.token}`);
+    res.redirect(`${url}/?token=${req.user.token}`);
   } else {
-    res.redirect('http://localhost:3000/signup');
+    res.redirect(`${url}/signup`);
   }
 });
 
 app.get("/auth/google/login/callback", passport.authenticate("google-login", {
-  failureRedirect: "http://localhost:3000/login"
+  failureRedirect: `${url}/login`
 }), (req, res) => {
   if (req.user && req.user.token) {
-    res.redirect(`http://localhost:3000/?token=${req.user.token}`);
+    res.redirect(`${url}/?token=${req.user.token}`);
   } else {
-    res.redirect('http://localhost:3000/login');
+    res.redirect(`${url}/login`);
   }
 });
 

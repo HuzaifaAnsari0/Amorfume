@@ -8,6 +8,7 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const url = import.meta.env.VITE_BACKEND_URL; // Use process.env in CRA
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         interface DecodedToken {
@@ -16,7 +17,7 @@ const Login = () => {
           }
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/login', { email, password});
+            const response = await axios.post(`${url}/login`, { email, password});
             const token = response.data.token;
             localStorage.setItem('token', token); // Store the token
             // console.log('Login successful:', response.data);
@@ -46,7 +47,7 @@ const Login = () => {
   const handleGoogleSignup = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('Google Signup');
-    window.open("http://localhost:5000/auth/google/login/callback", "_self");
+    window.open(`${url}/auth/google/login/callback`, "_self");
   };
 
     return (<div className="md:py-8 dark:bg-gray-800 flex flex-col items-center justify-center px-6 py-4 mx-auto md:h-screen lg:py-0 xl:px-20">

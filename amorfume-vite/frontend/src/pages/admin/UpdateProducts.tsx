@@ -5,6 +5,7 @@ import AdminNav from './AdminNav';
 
 function UpdateProduct() {
   const navigate = useNavigate();
+  const url = import.meta.env.VITE_BACKEND_URL; // Use process.env in CRA
 
   const goToWebsite = () => {
     navigate('/');
@@ -42,7 +43,7 @@ function UpdateProduct() {
       return acc;
     }, {} as Record<string, string>);
 
-    fetch(`http://localhost:5000/update-product/${productId}`, {
+    fetch(`${url}/update-product/${productId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

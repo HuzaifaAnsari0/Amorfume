@@ -6,11 +6,12 @@ import Modal from '../../components/Modal';
 function ForgetPassword() {
   const [email, setEmail] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const url = import.meta.env.VITE_BACKEND_URL; // Use process.env in CRA
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/forgot-password', { email }, {
+      const response = await axios.post(`${url}/forgot-password`, { email }, {
         headers: { 'Content-Type': 'application/json' },
       });
       if (response.status === 200) {
