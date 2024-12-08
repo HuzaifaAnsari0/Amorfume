@@ -18,6 +18,9 @@ interface Product {
     image1: string;
     image2: string;
     image3: string;
+    image4: string;
+    image5: string;
+    image6: string;
     category: 'adult' | 'kids' | 'teens';
 }
 
@@ -80,6 +83,9 @@ const ProductView = () => {
                                         <div className="flex space-x-7 mt-3">
                                             <img className="h-28 w-28 cursor-pointer" src={product.image2} alt="Thumbnail 2" onClick={() => setMainImage(product.image2)} />
                                             <img className="h-28 w-28 cursor-pointer" src={product.image3} alt="Thumbnail 3" onClick={() => setMainImage(product.image3)} />
+                                            <img className="h-28 w-28 cursor-pointer" src={product.image4} alt="Thumbnail 4" onClick={() => setMainImage(product.image4)} />
+                                            <img className="h-28 w-28 cursor-pointer" src={product.image5} alt="Thumbnail 5" onClick={() => setMainImage(product.image5)} />
+                                            <img className="h-28 w-28 cursor-pointer" src={product.image6} alt="Thumbnail 6" onClick={() => setMainImage(product.image6)} />
                                         </div>
                                     </div>
                                 </div>
