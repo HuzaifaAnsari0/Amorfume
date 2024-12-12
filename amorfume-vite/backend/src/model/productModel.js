@@ -82,9 +82,12 @@ const productSchema = new mongoose.Schema({
     type: [String], // Array for shopping and return details
     required: true
   },
-  personalization: {
+  behindThePerfume: {
     type: String, // Customizable details
     default: null
+  },
+  whyParentsLoveIt: {
+    type: String,
   },
   certifiedSafe: {
     type: Boolean,
