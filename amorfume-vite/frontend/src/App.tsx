@@ -31,6 +31,7 @@ import Disclaimer from './pages/company/Disclaimer';
 import Sustainability from './pages/company/Sustainability';
 import Payment from './pages/Payment/Payment';
 import OrderHistory from './pages/admin/orderHistory';
+// import Productviewtest from './pages/product/Productviewtest';
 
 function App() {
   return (

@@ -15,55 +15,90 @@ const Features = () => {
       </svg>
       <h2 className="my-8 text-2xl font-bold text-white md:text-4xl">Why Parents & Adults love it?</h2>
     </div>
-    <div className="mt-16 grid divide-x divide-y  divide-gray-700 overflow-hidden  rounded-3xl border text-gray-600 border-gray-700 sm:grid-cols-2 lg:grid-cols-4  lg:divide-y-0 xl:grid-cols-4">
+    <div className="mt-16 grid divide-x divide-y  divide-gray-700 overflow-hidden  rounded-3xl border text-gray-600 border-gray-700 sm:grid-cols-2 lg:grid-cols-6  lg:divide-y-0 xl:grid-cols-6">
        
        
         <div className="group relative bg-gray-800 transition hover:z-[1] hover:shadow-2xl  hover:shadow-gray-600/10">
-          <div className="relative space-y-8 py-12 p-8">
-            <img src="https://www.svgrepo.com/show/164986/logo.svg" loading="lazy" width="200" height="200"className="w-12 h-12 rounded-full"
+          <div className="relative space-y-8  p-2 parents-love-features">
+            <img src="https://www.svgrepo.com/show/164986/logo.svg" loading="lazy" width="200" height="200"className="w-12 h-12 mx-auto my-1 rounded-full"
           //    style="color:transparent"
             />
             <div className="space-y-2">
-              <h5 className="text-xl font-semibold text-white transition group-hover:text-secondary">Xyz.com</h5>
-              <p className="text-gray-300">Platform to convert Domains into Content websites.</p>
+              <h5 className="text-xl font-semibold text-white transition group-hover:text-secondary">Safe & Gentle:</h5>
+              <p className="text-gray-300">Free from phthalates, parabens, SLS, and phenoxyethanol, cruelty-free, and enriched with glycerin for skin care.
+              </p>
             </div>
           </div>
         </div>
 
+        <div className="group relative bg-gray-800 transition hover:z-[1] hover:shadow-2xl  hover:shadow-gray-600/10">
+          <div className="relative space-y-8  p-2 parents-love-features">
+            <img src="https://www.svgrepo.com/show/164986/logo.svg" loading="lazy" width="200" height="200"className="w-12 h-12 mx-auto my-1 rounded-full"
+          //    style="color:transparent"
+            />
+            <div className="space-y-2">
+              <h5 className="text-xl font-semibold text-white transition group-hover:text-secondary">Safe & Gentle:</h5>
+              <p className="text-gray-300">Free from phthalates, parabens, SLS, and phenoxyethanol, cruelty-free, and enriched with glycerin for skin care.
+              </p>
+            </div>
+          </div>
+        </div>
 
-      <div className="group relative bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10">
-        <div className="relative space-y-8 py-12 p-8">
-          <img src="https://www.svgrepo.com/show/120853/logo.svg" loading="lazy" width="200" height="200"className="w-12 h-12 rounded-full" 
-        //   style="color:transparent" 
-          />
-          <div className="space-y-2">
-            <h5 className="text-xl font-semibold text-white transition group-hover:text-secondary">ABC.com</h5>
-            <p className="text-gray-300">Platform to create dynamic widgets for websites.</p>
+        <div className="group relative bg-gray-800 transition hover:z-[1] hover:shadow-2xl  hover:shadow-gray-600/10">
+          <div className="relative space-y-8  p-2 parents-love-features">
+            <img src="https://www.svgrepo.com/show/164986/logo.svg" loading="lazy" width="200" height="200"className="w-12 h-12 mx-auto my-1 rounded-full"
+          //    style="color:transparent"
+            />
+            <div className="space-y-2">
+              <h5 className="text-xl font-semibold text-white transition group-hover:text-secondary">Safe & Gentle:</h5>
+              <p className="text-gray-300">Free from phthalates, parabens, SLS, and phenoxyethanol, cruelty-free, and enriched with glycerin for skin care.
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="group relative bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10">
-        <div className="relative space-y-8 py-12 p-8">
-          <img src="https://www.svgrepo.com/show/120852/logo.svg" loading="lazy" width="200" height="200"className="w-12 h-12 rounded-full"
-        //    style="color:transparent" 
-           />
-          <div className="space-y-2">
-            <h5 className="text-xl font-semibold text-white transition group-hover:text-secondary">ASD.com</h5>
-            <p className="text-gray-300">API SaaS Platform that provides API Suit to help you ship fast.</p>
+
+        <div className="group relative bg-gray-800 transition hover:z-[1] hover:shadow-2xl  hover:shadow-gray-600/10">
+          <div className="relative space-y-8  p-2 parents-love-features">
+            <img src="https://www.svgrepo.com/show/164986/logo.svg" loading="lazy" width="200" height="200"className="w-12 h-12 mx-auto my-1 rounded-full"
+          //    style="color:transparent"
+            />
+            <div className="space-y-2">
+              <h5 className="text-xl font-semibold text-white transition group-hover:text-secondary">Safe & Gentle:</h5>
+              <p className="text-gray-300">Free from phthalates, parabens, SLS, and phenoxyethanol, cruelty-free, and enriched with glycerin for skin care.
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="group relative bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10">
-        <div className="relative space-y-8 py-12 p-8">
-          <img src="https://www.svgrepo.com/show/120850/logo.svg" loading="lazy" width="200" height="200"className="w-12 h-12 rounded-full"
-        //    style="color:transparent"
-           />
-          <div className="space-y-2">
-            <h5 className="text-xl font-semibold text-white transition group-hover:text-secondary">TMK.co</h5>
-            <p className="text-gray-300">Chrome Extension that lets you add ChatGPT on any website</p>
+
+        <div className="group relative bg-gray-800 transition hover:z-[1] hover:shadow-2xl  hover:shadow-gray-600/10">
+          <div className="relative space-y-8  p-2 parents-love-features">
+            <img src="https://www.svgrepo.com/show/164986/logo.svg" loading="lazy" width="200" height="200"className="w-12 h-12 mx-auto my-1 rounded-full"
+          //    style="color:transparent"
+            />
+            <div className="space-y-2">
+              <h5 className="text-xl font-semibold text-white transition group-hover:text-secondary">Safe & Gentle:</h5>
+              <p className="text-gray-300">Free from phthalates, parabens, SLS, and phenoxyethanol, cruelty-free, and enriched with glycerin for skin care.
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+
+        <div className="group relative bg-gray-800 transition hover:z-[1] hover:shadow-2xl  hover:shadow-gray-600/10">
+          <div className="relative space-y-8  p-2 parents-love-features">
+            <img src="https://www.svgrepo.com/show/164986/logo.svg" loading="lazy" width="200" height="200"className="w-12 h-12 mx-auto my-1 rounded-full"
+          //    style="color:transparent"
+            />
+            <div className="space-y-2">
+              <h5 className="text-xl font-semibold text-white transition group-hover:text-secondary">Safe & Gentle:</h5>
+              <p className="text-gray-300">Free from phthalates, parabens, SLS, and phenoxyethanol, cruelty-free, and enriched with glycerin for skin care.
+              </p>
+            </div>
+          </div>
+        </div>
+        
+
+
+
     </div>
   </div>
 </div>

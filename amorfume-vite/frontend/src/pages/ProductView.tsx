@@ -7,6 +7,7 @@ import Features from "../components/Features";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useCart } from '../components/CartContext';
+import ProductGallery from "./ProductGallery";
 
 
 interface Product {
@@ -76,7 +77,7 @@ const ProductView = () => {
                     <section className="relative ">
                         <div className="w-full mx-auto px-4 sm:px-6 lg:px-0">
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mx-auto max-md:px-2 ">
-                            <div className="img">
+                            {/* <div className="img">
                                     <div className="img-box h-full max-lg:mx-auto ">
                                         <img src={mainImage ?? undefined} alt={product.name}
                                             className="max-lg:mx-auto lg:ml-auto h-auto" />
@@ -88,7 +89,9 @@ const ProductView = () => {
                                             <img className="h-28 w-28 cursor-pointer" src={product.image6} alt="Thumbnail 6" onClick={() => setMainImage(product.image6)} />
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
+
+                                <ProductGallery product={product} />
                                 <div
                                     className="data w-full lg:pr-8 pr-0 xl:justify-start justify-center flex items-center max-lg:pb-10 xl:my-2 lg:my-5 my-0">
                                     <div className="data w-full max-w-xl">
