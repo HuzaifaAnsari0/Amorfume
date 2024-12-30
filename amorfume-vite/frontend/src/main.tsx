@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
+import App from './App'
 import './index.css'
-import { CartProvider } from './components/CartContext.tsx';
+import { CartProvider } from './components/CartContext';
 import {jwtDecode} from 'jwt-decode'; // Import jwt-decode library
 
 // Ensure you handle cases where the token might not be present
