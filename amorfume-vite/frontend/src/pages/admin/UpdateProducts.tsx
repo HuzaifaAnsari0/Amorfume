@@ -43,7 +43,7 @@ interface Product {
 
 function UpdateProduct() {
   const navigate = useNavigate();
-  const url = import.meta.env.VITE_BACKEND_URL; // Use process.env in CRA
+  const url = import.meta.env.VITE_BACKEND_URL;
 
   const goToWebsite = () => {
     navigate('/');
@@ -121,79 +121,93 @@ function UpdateProduct() {
     fetchProduct();
   }, [productId, url]);
 
- const handleChange = (
-  e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>
-) => {
-  const { name, value } = e.target;
-  if (name.startsWith('fragranceNotes')) {
-    const noteKey = name.split('.')[1];
-    setProduct((prevState) => ({
-      ...prevState,
-      fragranceNotes: {
-        ...prevState.fragranceNotes,
-        [noteKey]: value
-      }
-    }));
-  } else if (name.startsWith('legalInfo.isolates')) {
-    const index = parseInt(name.split('.')[2], 10);
-    setProduct((prevState) => {
-      const updatedIsolates = [...prevState.legalInfo.isolates];
-      updatedIsolates[index] = value;
-      return {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    if (name.startsWith('fragranceNotes')) {
+      const noteKey = name.split('.')[1];
+      setProduct((prevState) => ({
+        ...prevState,
+        fragranceNotes: {
+          ...prevState.fragranceNotes,
+          [noteKey]: value
+        }
+      }));
+    } else if (name.startsWith('legalInfo.isolates')) {
+      const index = parseInt(name.split('.')[2], 10);
+      setProduct((prevState) => {
+        const updatedIsolates = [...prevState.legalInfo.isolates];
+        updatedIsolates[index] = value;
+        return {
+          ...prevState,
+          legalInfo: {
+            ...prevState.legalInfo,
+            isolates: updatedIsolates
+          }
+        };
+      });
+    } else if (name === 'legalInfo.ingredients') {
+      setProduct((prevState) => ({
         ...prevState,
         legalInfo: {
           ...prevState.legalInfo,
-          isolates: updatedIsolates
+          ingredients: value
         }
-      };
-    });
-  } else if (name === 'legalInfo.ingredients') {
-    setProduct((prevState) => ({
-      ...prevState,
-      legalInfo: {
-        ...prevState.legalInfo,
-        ingredients: value
-      }
-    }));
-  } else {
-    setProduct((prevState) => ({
-      ...prevState,
-      [name]: value
-    }));
-  }
-};
-
-const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-  event.preventDefault();
-
-  try {
-    const response = await axios.put(`${url}/update-product/${productId}`, product, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    console.log('Product updated:', response.data);
-    alert('Product updated successfully.');
-    navigate('/admin-dashboard/view-products');
-  } catch (error) {
-    console.error('Error updating product:', error);
-    setError('Failed to update product. Please try again.');
-  }
-};
-
-  const handleListChange = (e: React.ChangeEvent<HTMLInputElement>, index: number, field: keyof Product) => {
-    const { value } = e.target;
-    setProduct((prevState) => {
-      const updatedList = [...(prevState[field] as string[])];
-      updatedList[index] = value;
-      return {
+      }));
+    } else {
+      setProduct((prevState) => ({
         ...prevState,
-        [field]: updatedList
-      };
-    });
+        [name]: value
+      }));
+    }
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    try {
+      const response = await axios.put(`${url}/update-product/${productId}`, product, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log('Product updated:', response.data);
+      alert('Product updated successfully.');
+      navigate('/admin-dashboard/view-products');
+    } catch (error) {
+      console.error('Error updating product:', error);
+      setError('Failed to update product. Please try again.');
+    }
+  };
+
+  const handleListChange = (e: React.ChangeEvent<HTMLInputElement>, index: number, field: keyof Product | 'legalInfo.isolates') => {
+    const { value } = e.target;
+    if (field === 'legalInfo.isolates') {
+      setProduct((prevState) => {
+        const updatedIsolates = [...prevState.legalInfo.isolates];
+        updatedIsolates[index] = value;
+        return {
+          ...prevState,
+          legalInfo: {
+            ...prevState.legalInfo,
+            isolates: updatedIsolates
+          }
+        };
+      });
+    } else {
+      setProduct((prevState) => {
+        const updatedList = [...(prevState[field] as string[])];
+        updatedList[index] = value;
+        return {
+          ...prevState,
+          [field]: updatedList
+        };
+      });
+    }
   };
   
-  const addListItem = (field: keyof Product) => {
+  const addListItem = (field: keyof Product | 'legalInfo.isolates') => {
     if (field === 'legalInfo.isolates') {
       setProduct((prevState) => ({
         ...prevState,
@@ -210,7 +224,7 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     }
   };
   
-  const removeListItem = (index: number, field: keyof Product) => {
+  const removeListItem = (index: number, field: keyof Product | 'legalInfo.isolates') => {
     if (field === 'legalInfo.isolates') {
       setProduct((prevState) => {
         const updatedIsolates = [...prevState.legalInfo.isolates];
@@ -219,7 +233,7 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
           ...prevState,
           legalInfo: {
             ...prevState.legalInfo,
-            isolates: updatedIsolates
+            isolates: updatedIsolates.length ? updatedIsolates : ['']
           }
         };
       });
@@ -229,7 +243,7 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         updatedList.splice(index, 1);
         return {
           ...prevState,
-          [field]: updatedList
+          [field]: updatedList.length ? updatedList : ['']
         };
       });
     }
@@ -495,7 +509,7 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
                         type="text"
                         name={`legalInfo.isolates.${index}`}
                         value={isolate}
-                        onChange={handleChange}
+                        onChange={(e) => handleListChange(e, index, 'legalInfo.isolates')}
                         className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none focus:ring"
                       />
                       <button

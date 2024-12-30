@@ -4,6 +4,40 @@ import { Link, useNavigate } from 'react-router-dom';
 import NavLogo from '../../assets/images/amorfumeLogoBlack.png';
 import AdminNav from './AdminNav';
 
+interface Product {
+  name: string;
+  price: string;
+  volume: string;
+  description: string;
+  image1: string;
+  image2: string;
+  image3: string;
+  image4: string;
+  image5: string;
+  image6: string;
+  category: string;
+  features: string[];
+  fragranceNotes: {
+    olfactiveFamily: string;
+    top: string;
+    heart: string;
+    base: string;
+  };
+  applicationTips: string[];
+  feelings: string[];
+  legalInfo: {
+    ingredients: string;
+    isolates: string[];
+  };
+  occasions: string[];
+  shoppingAndReturn: string[];
+  behindThePerfume: string;
+  whyParentsLoveIt: string;
+  certifiedSafe: boolean;
+  aiTechFormulated: boolean;
+  [key: string]: any;
+}
+
 function ProductForm() {
   const navigate = useNavigate();
   const url = import.meta.env.VITE_BACKEND_URL;
@@ -12,7 +46,7 @@ function ProductForm() {
     navigate('/');
   };
 
-  const [product, setProduct] = useState({
+  const [product, setProduct] = useState<Product>({
     name: '',
     price: '',
     volume: '',
@@ -45,7 +79,7 @@ function ProductForm() {
     aiTechFormulated: true
   });
 
-  const handleListChange = (e: any, index: number, field: string) => {
+  const handleListChange = (e: React.ChangeEvent<HTMLInputElement>, index: number, field: string) => {
     const { value } = e.target;
     setProduct((prevState) => {
       const updatedList = [...prevState[field]];
@@ -103,7 +137,7 @@ function ProductForm() {
 
   const [error, setError] = useState('');
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     if (name.startsWith('fragranceNotes')) {
       const noteKey = name.split('.')[1];
@@ -161,14 +195,14 @@ function ProductForm() {
     navigate('/admin-dashboard/view-products');
   };
 
-  const handleSubmit = async (e:any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
 
     try {
       const payload = {
         ...product,
-        images: [product.image1, product.image2, product.image3, product.image4, product.image5, product.image6].filter(Boolean), // Filter empty image fields
+        images: [product.image1, product.image2, product.image3, product.image4, product.image5, product.image6].filter(Boolean),
       };
 
       const response = await axios.post(`${url}/insert-products`, payload, {
@@ -562,4 +596,3 @@ function ProductForm() {
 }
 
 export default ProductForm;
-

@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from "react";
 
-const ProductGallery = ({ product }) => {
-  const [mainImage, setMainImage] = useState(product?.image1);
+interface Product {
+  name: string;
+  image1: string;
+  images: string[];
+}
+
+interface ProductGalleryProps {
+  product: Product;
+}
+
+const ProductGallery: React.FC<ProductGalleryProps> = ({ product }) => {
+  const [mainImage, setMainImage] = useState<string | undefined>(product?.image1);
   const [currentStartIndex, setCurrentStartIndex] = useState(0);
   const thumbnailsToShow = 4;
 
@@ -46,7 +56,7 @@ const ProductGallery = ({ product }) => {
           <div className="flex space-x-7">
             {product.images
               .slice(currentStartIndex, currentStartIndex + thumbnailsToShow)
-              .map((image, index) => (
+              .map((image: string, index: number) => (
                 <img
                   key={index}
                   className="h-28 w-28 cursor-pointer"
