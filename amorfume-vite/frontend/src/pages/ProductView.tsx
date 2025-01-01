@@ -12,8 +12,10 @@ import ProductGallery from "./ProductGallery";
 interface Product {
     _id: string;
     name: string;
-    price: number;
-    volume: number;
+    bottleOptions: {
+        type: string;
+        price: number;
+    }[];
     description: string;
     image1: string;
     image2: string;
@@ -33,6 +35,8 @@ const ProductView = () => {
     const { addToCartWithQuantity } = useCart();
     const navigate = useNavigate();
     const url = import.meta.env.VITE_BACKEND_URL;
+    const [selectedBottle, setSelectedBottle] = useState<{type: string; price: number} | null>(null);
+    const [popupMessage, setPopupMessage] = useState<string | null>(null);
 
     const handleIncrement = () => {
         setQuantity(prevQuantity => prevQuantity + 1);
@@ -42,14 +46,36 @@ const ProductView = () => {
         setQuantity(prevQuantity => (prevQuantity > 1 ? prevQuantity - 1 : 1));
     };
 
-    const handleBuyNow = () => {
-        if (product) {
-            addToCartWithQuantity(product, quantity);
-            navigate('/cart');
-        } else {
-            console.error("Product is undefined, cannot add to cart");
+    const handleAddToCart = () => {
+        if (!selectedBottle) {
+            setPopupMessage('Please select a bottle size');
+            return;
         }
-    }
+
+        if (product) {
+            const productWithBottle = {
+                ...product,
+                selectedBottle: selectedBottle
+            };
+            addToCartWithQuantity(productWithBottle, quantity);
+        }
+    };
+
+    const handleBuyNow = () => {
+        if (!selectedBottle) {
+            setPopupMessage('Please select a bottle size');
+            return;
+        }
+
+        if (product) {
+            const productWithBottle = {
+                ...product,
+                selectedBottle: selectedBottle
+            };
+            addToCartWithQuantity(productWithBottle, quantity);
+            navigate('/cart');
+        }
+    };
 
     useEffect(() => {
         fetch(`${url}/store/view-product/${id}`)
@@ -60,6 +86,9 @@ const ProductView = () => {
                     images: [data.image1, data.image2, data.image3, data.image4, data.image5, data.image6].filter(Boolean)
                 };
                 setProduct(productWithImages);
+                if (data.bottleOptions && data.bottleOptions.length > 0) {
+                    setSelectedBottle(data.bottleOptions[0]);
+                }
                 setLoading(false);
             })
             .catch(error => {
@@ -89,7 +118,7 @@ const ProductView = () => {
                                         <div className="flex flex-col sm:flex-row sm:items-center mb-6">
                                             <h6
                                                 className="font-manrope font-semibold text-2xl leading-9 text-gray-900 pr-5 sm:border-r border-gray-200 mr-5">
-                                                ${product.price}</h6>
+                                                ₹{selectedBottle?.price || product.bottleOptions[0]?.price}</h6>
 
                                             <div className="flex items-center gap-2">
                                                 <div className="flex items-center gap-1">
@@ -211,18 +240,30 @@ const ProductView = () => {
                                                 <span className="font-normal text-base text-gray-900 ">Rose, jasmine, and other floral scents.</span>
                                             </li>
                                         </ul>
-                                        <p className="text-gray-900 text-lg leading-8 font-medium mb-0">Size</p>
+                                        <p className="text-gray-900 text-lg leading-8 font-medium mb-2">Select Size</p>
                                         <div className="w-full pb-4 border-b border-gray-100 flex-wrap">
                                             <div className="grid grid-cols-3 min-[500px]:grid-cols-3 gap-3 max-w-md">
-                                                <button
-                                                    className="bg-white text-center h-16 py-4 px-1 w-auto font-semibold text-lg leading-8 text-gray-900 border border-gray-200 flex items-center rounded-full justify-center transition-all duration-300 hover:bg-gray-50 hover:shadow-sm hover:shadow-gray-100 hover:border-gray-300 visited:border-gray-300 visited:bg-gray-50">30 ML</button>
-                                                <button
-                                                    className="bg-white text-center h-16 py-4 px-1 w-full font-semibold text-lg leading-8 text-gray-900 border border-gray-200 flex items-center rounded-full justify-center transition-all duration-300 hover:bg-gray-50 hover:shadow-sm hover:shadow-gray-100 hover:border-gray-300 visited:border-gray-300 visited:bg-gray-50">50 ML</button>
-                                                <button
-                                                    className="bg-white text-center h-16 py-4 px-1 w-full font-semibold text-lg leading-8 text-gray-900 border border-gray-200 flex items-center rounded-full justify-center transition-all duration-300 hover:bg-gray-50 hover:shadow-sm hover:shadow-gray-100 hover:border-gray-300 visited:border-gray-300 visited:bg-gray-50">100 ML</button>
-
+                                                {product?.bottleOptions.map((option) => (
+                                                    <button
+                                                        key={option.type}
+                                                        onClick={() => setSelectedBottle(option)}
+                                                        className={`
+                                                            bg-white text-center h-16 py-2 px-1 w-full 
+                                                            font-semibold text-lg leading-6 
+                                                            rounded-full flex flex-col items-center justify-center 
+                                                            transition-all duration-300 
+                                                            ${
+                                                                selectedBottle?.type === option.type 
+                                                                    ? 'border-2 border-indigo-600 bg-indigo-100 text-indigo-700 shadow-md' 
+                                                                    : 'border border-gray-200 text-gray-900 hover:bg-gray-50'
+                                                            }
+                                                        `}
+                                                    >
+                                                        <span className="text-sm">{option.type}</span>
+                                                        <span className="text-base">₹{option.price}</span>
+                                                    </button>
+                                                ))}
                                             </div>
-
                                         </div>
 
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 py-3">
@@ -270,7 +311,14 @@ const ProductView = () => {
                                                 </button>
                                             </div>
                                             <button
-                                                className="group py-4 px-5 rounded-full bg-indigo-50 text-indigo-600 font-semibold text-lg w-full flex items-center justify-center gap-2 transition-all duration-500 hover:bg-indigo-100" onClick={() => addToCartWithQuantity(product, quantity)}>
+                                                onClick={handleAddToCart}
+                                                className={`group py-4 px-5 rounded-full ${
+                                                    !selectedBottle 
+                                                        ? 'bg-gray-200 cursor-not-allowed' 
+                                                        : 'bg-indigo-50 text-indigo-600 hover:bg-indigo-100'
+                                                } font-semibold text-lg w-full flex items-center justify-center gap-2`}
+                                                disabled={!selectedBottle}
+                                            >
                                                 <svg className="stroke-indigo-600 " width="22" height="22" viewBox="0 0 22 22" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
                                                     <path
@@ -281,8 +329,14 @@ const ProductView = () => {
                                         </div>
                                         <div className="flex items-center gap-3">
                                             <button
-                                                className="text-center w-full px-5 py-4 rounded-[100px] bg-indigo-600 flex items-center justify-center font-semibold text-lg text-white shadow-sm transition-all duration-500 hover:bg-indigo-700 hover:shadow-indigo-400"
-                                                onClick={handleBuyNow}>
+                                                onClick={handleBuyNow}
+                                                className={`text-center w-full px-5 py-4 rounded-[100px] ${
+                                                    !selectedBottle 
+                                                        ? 'bg-gray-200 cursor-not-allowed' 
+                                                        : 'bg-indigo-600 hover:bg-indigo-700'
+                                                } text-white`}
+                                                disabled={!selectedBottle}
+                                            >
                                                 Buy Now
                                             </button>
                                         </div>
@@ -297,6 +351,11 @@ const ProductView = () => {
             <Slider />
             <Faq />
             <Footer />
+            {popupMessage && (
+                <div className="fixed bottom-4 right-4 bg-red-500 text-white p-4 rounded shadow-lg">
+                    {popupMessage}
+                </div>
+            )}
         </>
     )
 }

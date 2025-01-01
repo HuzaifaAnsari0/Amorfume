@@ -10,12 +10,17 @@ interface UserDetails {
 interface Product {
   _id: string;
   name: string;
-  price: number;
   description: string;
   image1: string;
-  image2: string;
-  image3: string;
   category: 'adult' | 'kids' | 'teens';
+  bottleOptions: {
+    type: string;
+    price: number;
+  }[];
+  selectedBottle?: {
+    type: string;
+    price: number;
+  };
   quantity?: number;
 }
 
@@ -25,7 +30,7 @@ interface CartContextType {
   setUserDetails: (details: UserDetails) => void;
   addToCart: (product: Product) => void;
   removeFromCart: (productId: string) => void;
-  updateCartQuantity: (productId: string, quantity: number) => void;
+  updateCartQuantity: (productId: string, quantity: number, bottleType: string) => void;
   addToCartWithQuantity: (product: Product, quantity: number) => void;
   calculateTotal: () => number;
   setCart: React.Dispatch<React.SetStateAction<Product[]>>; // Add setCart to the context type
@@ -43,8 +48,9 @@ export const useCart = () => {
   return context;
 };
 
-export const CartProvider = ({ children, userId }: { children: ReactNode, userId: string }) => {
+export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [cart, setCart] = useState<Product[]>([]);
+  const [userId, setUserId] = useState<string | null>(null);
   const [userDetails, setUserDetails] = useState<UserDetails>({
     name: '',
     number: '',
@@ -53,15 +59,23 @@ export const CartProvider = ({ children, userId }: { children: ReactNode, userId
   });
   const [popupMessage, setPopupMessage] = useState<string | null>(null); // State for popup message
 
+  // Load cart when component mounts
   useEffect(() => {
-    const storedCart = localStorage.getItem(`cart_${userId}`);
-    if (storedCart) {
-      setCart(JSON.parse(storedCart));
+    const storedUserId = localStorage.getItem('userId');
+    if (storedUserId) {
+      setUserId(storedUserId);
+      const savedCart = localStorage.getItem(`cart_${storedUserId}`);
+      if (savedCart) {
+        setCart(JSON.parse(savedCart));
+      }
     }
-  }, [userId]);
+  }, []);
 
+  // Save cart whenever it changes
   useEffect(() => {
-    localStorage.setItem(`cart_${userId}`, JSON.stringify(cart));
+    if (userId) {
+      localStorage.setItem(`cart_${userId}`, JSON.stringify(cart));
+    }
   }, [cart, userId]);
 
   const addToCart = (product: Product) => {
@@ -92,38 +106,62 @@ export const CartProvider = ({ children, userId }: { children: ReactNode, userId
     localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCart)); // Update local storage
   };
 
-  const updateCartQuantity = (productId: string, quantity: number) => {
-    const updatedCart = cart.map(product =>
-      product._id === productId ? { ...product, quantity } : product
-    );
-    setCart(updatedCart);
-    localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCart)); // Update local storage
+  const updateCartQuantity = (productId: string, quantity: number, bottleType: string) => {
+    setCart(prevCart => {
+      if (quantity <= 0) {
+        // Remove product if quantity is 0 or less
+        return prevCart.filter(
+          product => 
+            !(product._id === productId && product.selectedBottle?.type === bottleType)
+        );
+      }
+
+      // Update quantity if greater than 0
+      return prevCart.map(product =>
+        product._id === productId && product.selectedBottle?.type === bottleType
+          ? { ...product, quantity }
+          : product
+      );
+    });
   };
 
   const addToCartWithQuantity = (product: Product, quantity: number) => {
-    const existingProductIndex = cart.findIndex(p => p._id === product._id);
-    let updatedCart;
-
-    if (existingProductIndex !== -1) {
-      updatedCart = cart.map((p, index) => 
-        index === existingProductIndex ? { ...p, quantity: (p.quantity || 0) + quantity } : p
-      );
-    } else {
-      updatedCart = [...cart, { ...product, quantity }];
+    if (!product.selectedBottle) {
+      setPopupMessage('Please select a bottle size');
+      return;
     }
 
-    setCart(updatedCart);
-    localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCart)); // Update local storage
+    setCart(prevCart => {
+      const existingProductIndex = prevCart.findIndex(
+        item => 
+          item._id === product._id && 
+          item.selectedBottle?.type === product.selectedBottle?.type
+      );
 
-    // Show popup message
+      if (existingProductIndex !== -1) {
+        // Update existing product
+        return prevCart.map((item, index) =>
+          index === existingProductIndex
+            ? { ...item, quantity: (item.quantity || 0) + quantity }
+            : item
+        );
+      }
+
+      // Add new product
+      return [...prevCart, { ...product, quantity }];
+    });
+
     setPopupMessage('Successfully added to cart!');
     setTimeout(() => {
       setPopupMessage(null);
-    }, 5000);
+    }, 3000);
   };
 
   const calculateTotal = () => {
-    return cart.reduce((total, product) => total + (product.price * (product.quantity || 1)), 0);
+    return cart.reduce((total, product) => {
+      const price = product.selectedBottle?.price || product.bottleOptions[0].price;
+      return total + (price * (product.quantity || 1));
+    }, 0);
   };
 
   return (

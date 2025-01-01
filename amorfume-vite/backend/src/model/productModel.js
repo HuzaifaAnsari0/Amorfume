@@ -6,14 +6,25 @@ const productSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  price: {
-    type: Number,
-    required: true
-  },
-  volume: {
-    type: Number,
-    required: true
-  },
+  bottleOptions: [{
+    type: {
+      type: String,
+      required: true,
+      enum: ['Round Tall - 30ml', 'Cylindrical - 30ml', 'Flat - 50ml', 'Rectangle - 50ml', 'Flat - 100ml']
+    },
+    price: {
+      type: Number,
+      required: true
+    }
+  }],
+  // price: {
+  //   type: Number,
+  //   required: true
+  // },
+  // volume: {
+  //   type: Number,
+  //   required: true
+  // },
   description: {
     type: String,
     required: true,

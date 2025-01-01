@@ -6,8 +6,10 @@ import AdminNav from './AdminNav';
 
 interface Product {
   name: string;
-  price: string;
-  volume: string;
+  bottleOptions: {
+    type: string;
+    price: number;
+  }[];
   description: string;
   image1: string;
   image2: string;
@@ -38,6 +40,14 @@ interface Product {
   [key: string]: any;
 }
 
+const BOTTLE_TYPES = [
+  'Round Tall - 30ml',
+  'Cylindrical - 30ml',
+  'Flat - 50ml',
+  'Rectangle - 50ml',
+  'Flat - 100ml'
+] as const;
+
 function ProductForm() {
   const navigate = useNavigate();
   const url = import.meta.env.VITE_BACKEND_URL;
@@ -48,8 +58,7 @@ function ProductForm() {
 
   const [product, setProduct] = useState<Product>({
     name: '',
-    price: '',
-    volume: '',
+    bottleOptions: BOTTLE_TYPES.map(type => ({ type, price: 0 })),
     description: '',
     image1: '',
     image2: '',
@@ -78,6 +87,16 @@ function ProductForm() {
     certifiedSafe: true,
     aiTechFormulated: true
   });
+
+    // Add handleBottleOptionChange
+    const handleBottleOptionChange = (bottleType: string, price: number) => {
+      setProduct(prev => ({
+        ...prev,
+        bottleOptions: prev.bottleOptions.map(option => 
+          option.type === bottleType ? { ...option, price } : option
+        )
+      }));
+    };  
 
   const handleListChange = (e: React.ChangeEvent<HTMLInputElement>, index: number, field: string) => {
     const { value } = e.target;
@@ -261,27 +280,21 @@ function ProductForm() {
                 </div>
   
                 <div>
-                  <label className="text-black text-semibold">Price</label>
-                  <input
-                    type="number"
-                    name="price"
-                    value={product.price}
-                    onChange={handleChange}
-                    required
-                    className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none focus:ring"
-                  />
-                </div>
-  
-                <div>
-                  <label className="text-black text-semibold">Volume</label>
-                  <input
-                    type="number"
-                    name="volume"
-                    value={product.volume}
-                    onChange={handleChange}
-                    required
-                    className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none focus:ring"
-                  />
+                  <label className="text-black text-semibold">Bottle Options & Prices</label>
+                  {BOTTLE_TYPES.map((bottleType) => (
+                    <div key={bottleType} className="mt-4 p-4 border rounded">
+                      <div className="flex items-center justify-between">
+                        <span className="font-medium">{bottleType}</span>
+                        <input
+                          type="number"
+                          placeholder="Price"
+                          value={product.bottleOptions.find(opt => opt.type === bottleType)?.price || ''}
+                          onChange={(e) => handleBottleOptionChange(bottleType, Number(e.target.value))}
+                          className="w-32 px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none focus:ring"
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </div>
   
                 <div>

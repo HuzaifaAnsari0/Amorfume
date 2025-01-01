@@ -5,22 +5,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { ShoppingBag } from "lucide-react";
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useCart } from '../components/CartContext';
+// import { useCart } from '../components/CartContext';
 import "./style.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 interface Product {
   _id: string;
   name: string;
-  price: number;
-  volume: number;
   description: string;
+  bottleOptions: {
+    type: string;
+    price: number;
+  }[];
   image1: string;
-  image2: string;
-  image3: string;
-  image4: string;
-  image5: string;
-  image6: string;
   category: 'adult' | 'kids' | 'teens';
 }
 
@@ -29,13 +25,13 @@ const StoreOF = () => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const { addToCart } = useCart();
-  const navigate  = useNavigate();
-  const url = import.meta.env.VITE_BACKEND_URL; // Use process.env in CRA
+  const navigate = useNavigate();
+  const url = import.meta.env.VITE_BACKEND_URL;
 
-  const handleSubs = () =>{
+  const handleSubs = () => {
     navigate('/contact')
   }
+
   useEffect(() => {
     fetch(`${url}/view-products`)
       .then(response => response.json())
@@ -83,23 +79,8 @@ const StoreOF = () => {
             <button type="button" className={`btn ${selectedCategory === 'adult' ? 'active' : ''}`} onClick={() => handleCategoryChange('adult')}>Adults</button>
             <button type="button" className={`btn ${selectedCategory === 'teens' ? 'active' : ''}`} onClick={() => handleCategoryChange('teens')}>Teens</button>
           </div>
-
-          {/* Product Search */}
-          {/* <div className="col-md-12 col-lg-6">
-            <form className="d-flex" role="search">
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button className="btn js-submit" type="submit">Search</button>
-            </form>
-          </div> */}
-          {/* Product Search END */}
         </div>
       </div>
-      {/* Product Filter END */}
 
       {/* Products */}
       <div className="container" id="products">
@@ -116,10 +97,10 @@ const StoreOF = () => {
                     <img src={product.image1} className="card-img-top" alt={product.name} />
                     <div className="card-body">
                       <h5 className="card-title">{product.name}</h5>
-                      <a href="/" className="btn btn-primary">
-                        <ShoppingBag className="bi bi-cart-plus" onClick={() => addToCart(product)} />
-                      </a>
-                      <h4 id="price">${product.price}</h4>
+                      <Link to={`/store/productview/${product._id}`} className="btn btn-primary">
+                        <ShoppingBag className="bi bi-cart-plus" />
+                      </Link>
+                      <h4 id="price">₹{Math.min(...product.bottleOptions.map(opt => opt.price))}</h4>
                     </div>
                   </Link>
                 </div>
@@ -128,30 +109,13 @@ const StoreOF = () => {
           )}
         </div>
       </div>
-      {/* Products END */}
 
-      {/* <div className="container buttons">
-        <div className="row">
-          <div className="col text-center">
-            <a href="#"><button type="button" className="btn">1</button></a>
-            <a href="#"><button type="button" className="btn">2</button></a>
-            <a href="#">
-              <button type="button" className="btn">
-                <ArrowRight />
-              </button>
-            </a>
-          </div>
-        </div>
-      </div> */}
-
+      {/* Newsletter Section */}
       <div className="container-fluid">
         <div className="row" id="bg-7">
           <div className="col">
             <h1>Sign Up For Newsletters</h1>
-            <p>
-              Get email updates about your latest shop and
-              <span>Special Offers.</span>
-            </p>
+            <p>Get email updates about your latest shop and <span>Special Offers.</span></p>
           </div>
           <div className="col">
             <form className="d-flex" role="search">

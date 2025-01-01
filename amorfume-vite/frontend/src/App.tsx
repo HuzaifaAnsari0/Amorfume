@@ -44,12 +44,12 @@ function App() {
           <Route path="/forgot-password" element={<ForgetPassword />} />
           <Route path="/reset-password/:id/:token" element={<ResetPassword />} />
           {/* Trial */}
-          <Route path="/stores" element={<Stores />} />
+          <Route path="/" element={<Stores />} />
           <Route path="/storeof" element={<StoreOF />} />
           <Route path="/pview" element={<TrialProductview />} />
           <Route path="/store" element={<StoreOF />} />
           {/* Trial END */}
-          <Route path="/" element={<Stores />} />
+          {/* <Route path="/" element={<Stores />} /> */}
           <Route path="/kids" element={<Kids />} />
           <Route path="/teens" element={<Teens />} />
           <Route path="/adults" element={<Adults />} />

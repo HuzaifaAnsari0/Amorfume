@@ -1,10 +1,30 @@
 import { useEffect, useState } from 'react';
 import logo from '../../assets/images/bottleBlack.png';
-import UpdateUser from './UpdateUser'; // Import the UpdateUser component
+import UpdateUser from './UpdateUser';
 import { useNavigate } from 'react-router-dom';
-import { useCart } from '../../components/CartContext'; // Import useCart to get cart details
+import { useCart } from '../../components/CartContext';
 
-declare var Razorpay: any; // Declare Razorpay
+declare var Razorpay: any;
+
+interface CartProduct {
+  _id: string;
+  name: string;
+  description: string;
+  image1: string;
+  bottleOptions: {
+    type: string;
+    price: number;
+  }[];
+  selectedBottle?: {
+    type: string;
+    price: number;
+  };
+  quantity?: number;
+}
+
+interface Product extends CartProduct {
+  quantity: number;
+}
 
 const Payment = () => {
   const [user, setUser] = useState<any>({
@@ -14,13 +34,38 @@ const Payment = () => {
     address: '',
     pincode: ''
   });
-  const url = import.meta.env.VITE_BACKEND_URL; // Use process.env in CRA
-
+  const url = import.meta.env.VITE_BACKEND_URL;
   const [detailsConfirmed, setDetailsConfirmed] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
-  const [popupMessage, setPopupMessage] = useState<string | null>(null); // State for popup message
+  const [popupMessage, setPopupMessage] = useState<string | null>(null);
   const navigate = useNavigate();
-  const { cart, calculateTotal, setCart } = useCart(); // Get cart details and total amount
+  const { cart, calculateTotal, setCart } = useCart();
+
+  const saveOrderHistory = async (orderData: any) => {
+    try {
+      console.log('Sending order data:', orderData);
+
+      const response = await fetch(`${url}/order-history`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(orderData)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Server error:', errorData);
+        throw new Error(`Failed to save order history: ${errorData.message || 'Unknown error'}`);
+      }
+
+      return response.json();
+    } catch (error) {
+      console.error('Save order error:', error);
+      throw error;
+    }
+  };
 
   const fetchUserData = async () => {
     const response = await fetch(`${url}/user`, {
@@ -29,7 +74,7 @@ const Payment = () => {
       }
     });
     const userData = await response.json();
-    setUserId(userData._id); // Assuming the user ID is in the _id field
+    setUserId(userData._id);
     return userData;
   };
 
@@ -44,106 +89,91 @@ const Payment = () => {
   const paymentHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    const amount = calculateTotal() * 100; // Convert to smallest currency unit (e.g., paise for INR)
-    const currency = 'INR';
-    const receiptId = `receipt_${Date.now()}`;
-
     try {
-      // Fetch user data
       const user = await fetchUserData();
+      const amount = Math.max(calculateTotal() * 100, 100); // Minimum amount ₹1
+      const currency = 'INR';
+      const receiptId = `receipt_${Date.now()}`;
 
-      const response = await fetch(`${url}/order`, {
+      const orderResponse = await fetch(`${url}/order`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
           amount,
-          currency,
-          receipt: receiptId
+          currency, 
+          receipt: receiptId 
         })
       });
 
-      const order = await response.json();
-      console.log('order', order);
+      if (!orderResponse.ok) {
+        const errorData = await orderResponse.json();
+        console.error('Order creation error:', errorData);
+        throw new Error('Failed to create order');
+      }
+
+      const order = await orderResponse.json();
 
       const options = {
-        key: "rzp_test_qE4CFpkQIJgBAY", // Add your Razorpay key here
+        key: import.meta.env.VITE_RAZORPAY_KEY,
         amount,
         currency,
         name: "Amorfume",
-        description: "some description",
+        description: "Perfume Purchase",
         image: logo,
         order_id: order.id,
         handler: async function (response: any) {
-          const body = { ...response };
-
-          const validateResponse = await fetch(`${url}/validate`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
-          });
-
-          const jsonResponse = await validateResponse.json();
-          console.log('jsonResponse', jsonResponse);
-
-          if (jsonResponse.status === 'success') {
-            console.log("inside")
-            // Create order in order history
-            await fetch(`${url}/order-history`, {
+          try {
+            const validateResponse = await fetch(`${url}/validate`, {
               method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-              },
-              body: JSON.stringify({
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(response)
+            });
+
+            const validationResult = await validateResponse.json();
+
+            if (validationResult.status === 'success') {
+              const orderHistoryData = {
                 userId,
                 name: user.name,
                 email: user.email,
-                contact: user.contact,
-                country: user.country,
-                address: user.address,
-                state: user.state,
-                city: user.city,
-                pincode: user.pincode,
+                contact: user.contact || '',
+                address: user.address || '',
+                pincode: user.pincode || '',
                 orderId: order.id,
-                amount: amount / 100, // Convert back to main currency unit
+                amount: amount / 100,
                 currency,
                 status: 'completed',
-                products: cart.map(product => ({
+                products: cart.map((product: CartProduct) => ({
                   productId: product._id,
                   name: product.name,
                   image: product.image1,
                   description: product.description,
-                  quantity: product.quantity,
-                  price: product.price
+                  quantity: product.quantity ?? 1,
+                  selectedBottle: product.selectedBottle ?? product.bottleOptions[0]
                 }))
-              })
-            });
+              };
 
-            // Show success popup message
-            setPopupMessage('Order created successfully!');
-            setTimeout(() => {
-              setPopupMessage(null);
-            }, 5000);
-
-            // Empty the cart
-            setCart([]);
-            localStorage.setItem(`cart_${userId}`, JSON.stringify([]));
-
-            // Redirect to success page or show success message
-            navigate('/');
+              await saveOrderHistory(orderHistoryData);
+              
+              setPopupMessage('Order placed successfully!');
+              setCart([]);
+              localStorage.setItem(`cart_${userId}`, JSON.stringify([]));
+              setTimeout(() => {
+                navigate('/');
+              }, 2000);
+            }
+          } catch (error) {
+            console.error('Error processing order:', error);
+            setPopupMessage('Error processing order. Please contact support.');
           }
         },
         prefill: {
-          name: user.name, // Use fetched user data here
-          email: user.email, // Use fetched user data here
-          contact: user.contact, // Use fetched user data here
+          name: user.name,
+          email: user.email,
+          contact: user.contact,
         },
         notes: {
-          address: user.address, // Use fetched user data here
+          address: user.address,
         },
         theme: {
           color: "#3399cc",
@@ -152,18 +182,14 @@ const Payment = () => {
 
       const rzp1 = new Razorpay(options);
       rzp1.on("payment.failed", function (response: any) {
-        alert(response.error.code);
-        alert(response.error.description);
-        alert(response.error.source);
-        alert(response.error.step);
-        alert(response.error.reason);
-        alert(response.error.metadata.order_id);
-        alert(response.error.metadata.payment_id);
+        console.error('Payment failed:', response.error);
+        setPopupMessage('Payment failed. Please try again.');
       });
 
       rzp1.open();
     } catch (error) {
-      console.error('Error in paymentHandler:', error);
+      console.error('Error in payment handler:', error);
+      setPopupMessage('Error initiating payment. Please try again.');
     }
   };
 

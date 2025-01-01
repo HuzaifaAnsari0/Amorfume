@@ -235,31 +235,17 @@ router.post('/updateUserProfile', authenticate, async (req, res) => {
 
 //----------------------------------------------
 router.post('/order-history', async (req, res) => {
-  const { userId, name, email, contact, country, address, state, city, pincode, orderId, amount, currency, status, products } = req.body;
-
   try {
-    // console.log('Order history:', req.body);
-    const orderHistory = new OrderHistory({
-      userId,
-      name,
-      email,
-      contact,
-      country,
-      address,
-      state,
-      city,
-      pincode,
-      orderId,
-      amount,
-      currency,
-      status,
-      products
-    });
-
-    await orderHistory.save();
-    res.json({ message: 'Order added to history successfully' });
+    const orderHistory = new OrderHistory(req.body);
+    const savedOrder = await orderHistory.save();
+    
+    res.status(201).json({ message: 'Order saved successfully', order: savedOrder });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error('Order save error:', error); // Add this for debugging
+    res.status(500).json({ 
+      message: 'Failed to save order', 
+      error: error.message 
+    });
   }
 });
 

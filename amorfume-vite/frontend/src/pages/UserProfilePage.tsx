@@ -12,7 +12,14 @@ interface Product {
   description: string;
   image: string;
   quantity: number;
-  price: number;
+  bottleOptions: {
+    type: string;
+    price: number;
+  }[];
+  selectedBottle?: {
+    type: string;
+    price: number;
+  };
 }
 
 interface Order {
@@ -99,20 +106,33 @@ const UserProfilePage = () => {
                       <div className="flex flex-col space-y-4">
                         {order.products.map((product) => (
                           <div key={product._id} className="flex flex-col sm:flex-row items-center sm:items-start space-y-2 sm:space-y-0 sm:space-x-4">
-                            <img src={product.image || "default-image.jpg"} alt={product.name || "Product image"} className="h-28 w-28 rounded-xl" />
+                            <img 
+                              src={product.image || "default-image.jpg"} 
+                              alt={product.name || "Product image"} 
+                              className="h-28 w-28 rounded-xl" 
+                            />
                             <div className="flex flex-col">
                               <h5 className="font-manrope font-semibold text-2xl leading-9 text-black mb-1">
                                 {product.name || "Unknown Product"}
                               </h5>
-                              <p className="font-normal text-base leading-7 text-gray-600">{product.description || "No description"}</p>
-                              <p className="font-semibold text-xl leading-8 text-black">${product.price}</p>
+                              <p className="font-normal text-base leading-7 text-gray-600">
+                                {product.description || "No description"}
+                              </p>
+                              <p className="font-normal text-base leading-7 text-gray-600">
+                                {product.selectedBottle?.type || product.bottleOptions[0]?.type}
+                              </p>
+                              <p className="font-semibold text-xl leading-8 text-black">
+                                ₹{product.selectedBottle?.price || product.bottleOptions[0]?.price} x {product.quantity}
+                              </p>
                             </div>
                           </div>
                         ))}
                       </div>
                       <div className="flex justify-between mt-4">
-                        <p className="font-semibold text-xl leading-8 text-black">Total: ${order.amount}</p>
-                        <p className="font-semibold text-xl leading-8 text-black">{new Date(order.createdAt).toLocaleDateString()}</p>
+                        <p className="font-semibold text-xl leading-8 text-black">Total: ₹{order.amount}</p>
+                        <p className="font-semibold text-xl leading-8 text-black">
+                          {new Date(order.createdAt).toLocaleDateString()}
+                        </p>
                       </div>
                     </div>
                   ))

@@ -16,27 +16,24 @@ import { ShoppingBag } from "lucide-react"
 interface Product {
   _id: string;
   name: string;
-  price: number;
-  volume: number;
   description: string;
+  bottleOptions: {
+    type: string;
+    price: number;
+  }[];
   image1: string;
-  image2: string;
-  image3: string;
-  image4: string;
-  image5: string;
-  image6: string;
   category: 'adult' | 'kids' | 'teens';
-  createdAt: string; // Added createdAt property
+  createdAt: string;
 }
 
 const Stores = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
-  const navigate  = useNavigate();
-  const url = import.meta.env.VITE_BACKEND_URL; // Use process.env in CRA
+  const navigate = useNavigate();
+  const url = import.meta.env.VITE_BACKEND_URL;
 
-  const handleSubs = () =>{
+  const handleSubs = () => {
     navigate('/contact')
   }
 
@@ -54,8 +51,8 @@ const Stores = () => {
   }, []);
 
   const latestProducts = products
-  .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())  // Sort by newest
-  .slice(0, 8);  // Take the latest 8 products
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .slice(0, 8);
 
   if (loading) return <p>Loading...</p>;
 
@@ -123,21 +120,21 @@ const Stores = () => {
 
       <div className="container" id="products">
         <div className="row">
-        {products.map((product) => (
-          <div className="col-12 col-lg-3 col-md-4">
-            <div className="card">
-            <Link to={`/store/productview/${product._id}`}>
-              <img src={product.image1} className="card-img-top" alt="..." />
-              <div className="card-body">
-                <h5 className="card-title">{product.name}</h5>
-                {/* <p className="card-text mb-4">{product.description}</p> */}
-                <a href="/" className="btn btn-primary"
-                ><ShoppingBag className="bi bi-cart-plus" onClick={() => addToCart(product)}/></a>
-                <h4 id="price">${product.price}</h4>
+          {products.map((product) => (
+            <div key={product._id} className="col-12 col-lg-3 col-md-4">
+              <div className="card">
+                <Link to={`/store/productview/${product._id}`}>
+                  <img src={product.image1} className="card-img-top" alt="..." />
+                  <div className="card-body">
+                    <h5 className="card-title">{product.name}</h5>
+                    <Link to={`/store/productview/${product._id}`} className="btn btn-primary">
+                      <ShoppingBag className="bi bi-cart-plus" />
+                    </Link>
+                    <h4 id="price">₹{Math.min(...product.bottleOptions.map(opt => opt.price))}</h4>
+                  </div>
+                </Link>
               </div>
-              </Link>
             </div>
-          </div>
           ))}
         </div>
       </div>
@@ -170,21 +167,21 @@ const Stores = () => {
       {/*Products*/}
       <div className="container" id="products">
         <div className="row">
-        {latestProducts.map((product) => (
-          <div className="col-12 col-lg-3 col-md-4">
-            <div className="card">
-            <Link to={`/store/productview/${product._id}`}>
-              <img src={product.image1} className="card-img-top" alt="..." />
-              <div className="card-body">
-                <h5 className="card-title">{product.name}</h5>
-                {/* <p className="card-text mb-4">{product.description}</p> */}
-                <a href="/" className="btn btn-primary"
-                ><ShoppingBag className="bi bi-cart-plus" onClick={() => addToCart(product)}/></a>
-                <h4 id="price">${product.price}</h4>
+          {latestProducts.map((product) => (
+            <div key={product._id} className="col-12 col-lg-3 col-md-4">
+              <div className="card">
+                <Link to={`/store/productview/${product._id}`}>
+                  <img src={product.image1} className="card-img-top" alt="..." />
+                  <div className="card-body">
+                    <h5 className="card-title">{product.name}</h5>
+                    <Link to={`/store/productview/${product._id}`} className="btn btn-primary">
+                      <ShoppingBag className="bi bi-cart-plus" />
+                    </Link>
+                    <h4 id="price">₹{Math.min(...product.bottleOptions.map(opt => opt.price))}</h4>
+                  </div>
+                </Link>
               </div>
-              </Link>
             </div>
-          </div>
           ))}
         </div>
       </div>

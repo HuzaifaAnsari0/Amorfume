@@ -6,8 +6,14 @@ import AdminNav from './AdminNav';
 interface Product {
   _id: string;
   name: string;
-  price: number;
-  volume: number;
+  bottleOptions: {
+    type: string;
+    price: number;
+  }[];
+  selectedBottle?: {
+    type: string;
+    price: number;
+  };
   description: string;
   image1: string;
   quantity: number; // Add this line to include quantity
@@ -130,7 +136,8 @@ function OrderHistory() {
                 <ul className="list-disc list-inside">
                     {order.products.map((product) => (
                     <li key={product._id} className="whitespace-nowrap">
-                        {product.name} - ${product.price} x {product.quantity}
+                        {product.name} - {product.selectedBottle?.type || 'N/A'} - 
+                        ${product.selectedBottle?.price || product.bottleOptions[0]?.price} x {product.quantity}
                     </li>
                     ))}
                 </ul>

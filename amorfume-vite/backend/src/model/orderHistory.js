@@ -25,9 +25,16 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  price: {
-    type: Number,
-    required: true
+  selectedBottle: {
+    type: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    price: {
+      type: Number,
+      required: true
+    }
   }
 }, { _id: false });
 

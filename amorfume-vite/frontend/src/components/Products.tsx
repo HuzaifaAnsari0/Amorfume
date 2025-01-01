@@ -5,16 +5,13 @@ import { useCart } from './CartContext';
 interface Product {
     _id: string;
     name: string;
-    price: number;
-    volume: number;
     description: string;
     image1: string;
-    image2: string;
-    image3: string;
-    image4: string;
-    image5: string;
-    image6: string;
     category: 'adult' | 'kids' | 'teens';
+    bottleOptions: {
+        type: string;
+        price: number;
+    }[];
 }
 
 const Products = () => {
@@ -48,9 +45,11 @@ const Products = () => {
               <img src={product.image1} alt={product.name} />
               <h1 className="text-3xl my-5">{product.name}</h1>
               <p className="mb-5">{product.description}</p>
-              <h2 className="font-semibold mb-5">${product.price}</h2>
+              <h2 className="font-semibold mb-5">₹{Math.min(...product.bottleOptions.map(opt => opt.price))}</h2>
             </Link>
-            <button className="p-2 px-6 bg-purple-500 text-white rounded-md hover:bg-purple-600" onClick={() => addToCart(product)}>Add To Cart</button>
+            <Link to={`/store/productview/${product._id}`} className="p-2 px-6 bg-purple-500 text-white rounded-md hover:bg-purple-600">
+              View Options
+            </Link>
           </section>
         ))}
       </section>

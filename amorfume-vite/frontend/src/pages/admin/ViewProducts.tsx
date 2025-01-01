@@ -6,8 +6,10 @@ import AdminNav from './AdminNav';
 interface Product {
   _id: string;
   name: string;
-  price: number;
-  volume: number;
+  bottleOptions: {
+    type: string;
+    price: number;
+  }[];
   description: string;
   image1: string;
   image2: string;
@@ -106,13 +108,19 @@ function Products() {
                     <img className="object-cover w-full h-60" src={product.image1} alt="product image" />
                     <div className="mt-4 px-5 pb-5">
                       <h5 className="text-lg py-1 tracking-tight text-slate-900"><span className='font-bold'>Name: </span>{product.name}</h5>
-                      <p className="text-lg py-1 tracking-tight text-slate-900"><span className='font-bold'>Volume: </span>{product.volume}</p>
                       <p className="text-sm py-1 tracking-tight text-slate-900"><span className='font-bold'>Description: </span>{product.description}</p>
                       <p className="text-lg py-1 tracking-tight text-slate-900"><span className='font-bold'>Category: </span>{product.category}</p>
                       <div className="mt-2 mb-1 flex items-center justify-between">
-                        <p>
-                          <span className="text-lg text-slate-900"><span className='font-bold'>Price: </span>${product.price}</span>
-                        </p>
+                        <div>
+                          <span className="text-lg text-slate-900">
+                            <span className='font-bold'>Prices: </span>
+                            {product.bottleOptions.map((option, index) => (
+                              <div key={index} className="text-sm">
+                                {option.type}: ${option.price}
+                              </div>
+                            ))}
+                          </span>
+                        </div>
                       </div>
                       <div className='flex justify-items-center'>
                         <button

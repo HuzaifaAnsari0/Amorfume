@@ -6,6 +6,12 @@ const OrderHistory = require('../model/orderHistory.js'); // Adjust the path as 
 
 router.post('/insert-products', async (req, res) => {
     try {
+      if (!req.body.bottleOptions || !Array.isArray(req.body.bottleOptions)) {
+        return res.status(400).json({ 
+          message: 'Invalid product data: bottleOptions array is required' 
+        });
+      }
+
       const product = new Product(req.body);
       await product.save();
       res.status(201).json({ message: 'Product created successfully', product });
@@ -37,7 +43,18 @@ router.post('/insert-products', async (req, res) => {
 
   router.put('/update-product/:id', async (req, res) => {
     try {
-      const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+      if (!req.body.bottleOptions || !Array.isArray(req.body.bottleOptions)) {
+        return res.status(400).json({ 
+          message: 'Invalid product data: bottleOptions array is required' 
+        });
+      }
+
+      const updatedProduct = await Product.findByIdAndUpdate(
+        req.params.id, 
+        req.body, 
+        { new: true }
+      );
+      
       if (!updatedProduct) {
         return res.status(404).json({ message: 'Product not found' });
       }
