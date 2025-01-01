@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useCart } from '../components/CartContext';
+// import { useCart } from '../components/CartContext';
 import Footer from "../components/Footer"
 import Header from "../components/Header"
 import "./style.css"
@@ -29,7 +29,7 @@ interface Product {
 const Stores = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const { addToCart } = useCart();
+  // const { addToCart } = useCart();
   const navigate = useNavigate();
   const url = import.meta.env.VITE_BACKEND_URL;
 

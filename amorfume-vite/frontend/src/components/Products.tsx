@@ -17,7 +17,7 @@ interface Product {
 const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const { addToCart } = useCart();
+  const { /* addToCart */ } = useCart();
   const url = import.meta.env.VITE_BACKEND_URL; // Use process.env in CRA
 
 

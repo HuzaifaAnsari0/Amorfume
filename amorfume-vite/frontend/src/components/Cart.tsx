@@ -8,11 +8,11 @@ import EmptyCart from "./EmptyCart";
 
 const Cart = () => {
     const navigate = useNavigate();
-    const { cart, removeFromCart, updateCartQuantity, calculateTotal } = useCart();
+    const { cart, updateCartQuantity, calculateTotal } = useCart();
 
-    const handleRemoveFromCart = (productId: string) => {
-        removeFromCart(productId);
-    };
+    // const handleRemoveFromCart = (productId: string) => {
+    //     removeFromCart(productId);
+    // };
 
     const handleQuantityChange = (
         productId: string, 

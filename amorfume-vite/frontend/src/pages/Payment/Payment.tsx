@@ -22,9 +22,9 @@ interface CartProduct {
   quantity?: number;
 }
 
-interface Product extends CartProduct {
-  quantity: number;
-}
+// interface Product extends CartProduct {
+//   quantity: number;
+// }
 
 const Payment = () => {
   const [user, setUser] = useState<any>({

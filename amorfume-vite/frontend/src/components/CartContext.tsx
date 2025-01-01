@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 interface UserDetails {
   name: string;
@@ -48,7 +48,12 @@ export const useCart = () => {
   return context;
 };
 
-export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+interface CartProviderProps {
+  children: React.ReactNode;
+  userId?: string; // Make userId optional
+}
+
+export const CartProvider: React.FC<CartProviderProps> = ({ children, userId: providedUserId }) => {
   const [cart, setCart] = useState<Product[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const [userDetails, setUserDetails] = useState<UserDetails>({
@@ -61,15 +66,17 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Load cart when component mounts
   useEffect(() => {
-    const storedUserId = localStorage.getItem('userId');
+    // Use provided userId if available, otherwise get from localStorage
+    const storedUserId = providedUserId || localStorage.getItem('userId');
+    setUserId(storedUserId);
+
     if (storedUserId) {
-      setUserId(storedUserId);
       const savedCart = localStorage.getItem(`cart_${storedUserId}`);
       if (savedCart) {
         setCart(JSON.parse(savedCart));
       }
     }
-  }, []);
+  }, [providedUserId]);
 
   // Save cart whenever it changes
   useEffect(() => {
