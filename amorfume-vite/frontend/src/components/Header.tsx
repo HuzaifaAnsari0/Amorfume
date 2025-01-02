@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import NavLogo from '../assets/images/amorfumeLogoBlack.png';
 import { ShoppingBag, User } from 'lucide-react';
@@ -10,44 +10,77 @@ interface DecodedToken {
   isAdmin: number;
   // Add other properties if needed
 }
-interface Result {
+// interface Result {
+//   _id: string;
+//   name: string;
+// }
+
+interface SearchResult {
   _id: string;
   name: string;
+  description: string;
+  image1: string;
+  score: number;
+  category: string;
 }
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<Result[]>([]); // Specify the type here
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [showResults, setShowResults] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value);
-  };
-
-  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    await performSearch(searchQuery);
-  };
-
-  const performSearch = async (query: string) => {
-    try {
-      const response = await axios.get(`${url}/search`, { params: { q: query } });
-      setSearchResults(response.data);
-
-      // If there is exactly one search result, navigate to the product page
-      if (response.data.length === 1) {
-        navigate(`/store/productview/${response.data[0]._id}`);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowResults(false);
       }
-    } catch (error) {
-      console.error('Error fetching search results:', error);
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleInputChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+    
+    // Only show results if there's a query
+    if (query.trim()) {
+      setShowResults(true);
+      setIsSearching(true);
+      try {
+        const response = await axios.get(`${url}/search`, { 
+          params: { query } 
+        });
+        setSearchResults(response.data.results);
+      } catch (error) {
+        console.error('Search error:', error);
+      } finally {
+        setIsSearching(false);
+      }
+    } else {
+      setShowResults(false);
+      setSearchResults([]);
     }
   };
 
-  const handleResultClick = (id: string) => {
+  const handleResultClick = (id: string, event: React.MouseEvent) => {
+    // Prevent any default behavior
+    event.preventDefault();
+    event.stopPropagation();
+
+    // Navigate immediately
     navigate(`/store/productview/${id}`);
+    
+    // Clean up search state
+    setSearchQuery('');
+    setShowResults(false);
   };
 
   const checkUserLoggedIn = () => {
@@ -75,6 +108,14 @@ const Header = () => {
     setIsLoggedIn(checkUserLoggedIn());
   }, []);
 
+  // Add form submit handler
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchResults.length > 0) {
+      handleResultClick(searchResults[0]._id, e as unknown as React.MouseEvent);
+    }
+  };
+
   return (
     <div className='shadow-md w-full'>
       <div className='md:px-10 py-4 px-7 md:flex justify-between items-center bg-white'>
@@ -87,13 +128,15 @@ const Header = () => {
         {/* NavLink */}
         <ul className='flex items-center pl-9 md:pl-0'>
           <li className='font-semibold my-7 md:my-0 md:ml-10'>
-            <div className="relative mx-auto w-max">
-              <form onSubmit={handleFormSubmit} className="relative">
+            <div className="relative mx-auto w-max" ref={searchRef}>
+              <form onSubmit={handleSubmit} className="relative">
                 <input
                   type="search"
                   value={searchQuery}
                   onChange={handleInputChange}
-                  className="peer cursor-pointer relative z-10 h-10 w-12 rounded-full border bg-transparent pl-12 outline-none focus:w-full focus:cursor-text focus:border-fuchsia-300 focus:pl-16 focus:pr-4"
+                  onFocus={() => setShowResults(true)}
+                  className="relative z-10 h-10 w-full rounded-full border bg-transparent pl-12 outline-none border-fuchsia-300 pr-4"
+                  placeholder="Search products..."
                 />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -110,17 +153,31 @@ const Header = () => {
                   />
                 </svg>
               </form>
-              {Array.isArray(searchResults) && searchResults.length > 0 && (
-                <div className='absolute z-10 w-full bg-white border border-gray-300 rounded-md mt-1'>
-                  {searchResults.map((result) => (
-                    <div
-                      key={result._id}
-                      className='p-2 hover:bg-gray-100 cursor-pointer'
-                      onClick={() => handleResultClick(result._id)}
-                    >
-                      <p>{result.name}</p>
-                    </div>
-                  ))}
+              {showResults && (searchQuery || isSearching) && (
+                <div className="absolute z-10 w-full bg-white border border-gray-300 rounded-md mt-1 shadow-lg max-h-96 overflow-y-auto">
+                  {isSearching ? (
+                    <div className="p-3 text-center text-gray-500">Searching...</div>
+                  ) : searchResults.length > 0 ? (
+                    searchResults.map((result) => (
+                      <div
+                        key={result._id}
+                        className="p-3 hover:bg-gray-100 cursor-pointer flex items-center"
+                        onClick={(e) => handleResultClick(result._id, e)}
+                      >
+                        <img 
+                          src={result.image1} 
+                          alt={result.name} 
+                          className="w-12 h-12 object-cover rounded mr-3"
+                        />
+                        <div>
+                          <div className="font-semibold">{result.name}</div>
+                          <div className="text-sm text-gray-600">{result.category}</div>
+                        </div>
+                      </div>
+                    ))
+                  ) : searchQuery ? (
+                    <div className="p-3 text-center text-gray-500">No results found</div>
+                  ) : null}
                 </div>
               )}
             </div>

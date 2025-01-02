@@ -113,20 +113,62 @@ router.get('/store/view-product/:id', async (req, res) => {
 
 //----------------------------------------------
 router.get('/search', async (req, res) => {
-  const query = req.query.q;
-  if (!query) {
-    return res.status(400).send({ error: 'Query parameter "q" is required' });
-  }
-
-  console.log('Search query:', query); // Log the query
-
   try {
-    const results = await Product.find({ name: new RegExp(query, 'i') });
-    console.log('Search results:', results); // Log the results
-    res.send(results);
+    const { query } = req.query;
+    
+    if (!query) {
+      return res.status(400).json({ message: 'Search query is required' });
+    }
+
+    // Create a case-insensitive regex pattern
+    const searchPattern = new RegExp(query, 'i');
+
+    // Search across multiple fields
+    const results = await Product.find({
+      $or: [
+        { name: searchPattern },
+        { description: searchPattern },
+        { category: searchPattern },
+        { 'bottleOptions.type': searchPattern }
+      ]
+    }).select('name description image1 bottleOptions category'); // Select only needed fields
+
+    // Add relevance scoring
+    const scoredResults = results.map(product => {
+      let score = 0;
+      
+      // Higher score for name matches
+      if (product.name.toLowerCase().includes(query.toLowerCase())) {
+        score += 3;
+      }
+      
+      // Score for description matches
+      if (product.description.toLowerCase().includes(query.toLowerCase())) {
+        score += 1;
+      }
+      
+      // Score for category matches
+      if (product.category.toLowerCase().includes(query.toLowerCase())) {
+        score += 2;
+      }
+
+      return {
+        ...product.toObject(),
+        score
+      };
+    });
+
+    // Sort by relevance score
+    scoredResults.sort((a, b) => b.score - a.score);
+
+    res.json({
+      count: scoredResults.length,
+      results: scoredResults
+    });
+
   } catch (error) {
-    console.error('Error fetching search results:', error);
-    res.status(500).send({ error: 'Internal Server Error' });
+    console.error('Search error:', error);
+    res.status(500).json({ message: 'Error performing search', error: error.message });
   }
 });
 
