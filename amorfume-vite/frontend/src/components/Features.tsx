@@ -31,7 +31,7 @@ const Features = () => {
   if (!product) return <div>Product not found</div>;
 
   return (
-    <div className="bg-gray-700 p-4 min-h-[600px] mt-10">
+    <div className="bg-gray-700 p-1 min-h-[500px]">
       <div aria-hidden="true" className="absolute inset-0 h-max w-full m-auto grid grid-cols-2 -space-x-52 opacity-20">
         <div className="blur-[106px] h-56 bg-gradient-to-br to-purple-400 from-blue-700"></div>
         <div className="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-indigo-600"></div>
@@ -46,19 +46,16 @@ const Features = () => {
         <div className="mt-16 grid divide-x divide-y divide-gray-700 overflow-hidden rounded-3xl border text-gray-600 border-gray-700">
           <div className="group relative bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10">
             <div className="relative space-y-8 p-8">
-              <img 
+              {/* <img 
                 src="https://www.svgrepo.com/show/164986/logo.svg" 
                 loading="lazy" 
                 width="200" 
                 height="200"
                 className="w-16 h-16 mx-auto my-1 rounded-full"
                 alt="feature icon"
-              />
+              /> */}
               <div className="space-y-2">
-                <h5 className="text-xl font-semibold text-white transition group-hover:text-secondary text-center">
-                  Parents' Trust
-                </h5>
-                <p className="text-gray-300 text-center leading-relaxed">
+                <p className="text-gray-300 text-justify leading-relaxed">
                   {product.whyParentsLoveIt}
                 </p>
               </div>
