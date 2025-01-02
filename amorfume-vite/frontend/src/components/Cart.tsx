@@ -4,27 +4,30 @@ import Header from "./Header";
 import { useNavigate } from 'react-router-dom';
 import { useCart } from './CartContext';
 import EmptyCart from "./EmptyCart";
+import Modal from './Modal';
+import { useState } from 'react';
 
 
 const Cart = () => {
     const navigate = useNavigate();
-    const { cart, updateCartQuantity, calculateTotal } = useCart();
-
-    // const handleRemoveFromCart = (productId: string) => {
-    //     removeFromCart(productId);
-    // };
+    const { cart, updateCartQuantity, calculateTotal, removeFromCart } = useCart();
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleQuantityChange = (
         productId: string, 
         quantity: number, 
         bottleType: string
     ) => {
-        updateCartQuantity(productId, quantity, bottleType);
+        if (quantity === 0) {
+            updateCartQuantity(productId, 0, bottleType);
+        } else {
+            updateCartQuantity(productId, quantity, bottleType);
+        }
     };
 
     const navigateToPaymentPage = () => {
         if (cart.length === 0) {
-            alert("Your cart is empty. Please add items to the cart before proceeding to payment.");
+            setIsModalOpen(true);
             return;
         }
         const token = localStorage.getItem('token');
@@ -37,91 +40,125 @@ const Cart = () => {
 
     return (
         <>
+            <Modal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                title="Empty Cart"
+            >
+                <p className="text-gray-600">Your cart is empty. Please add items to the cart before proceeding to payment.</p>
+            </Modal>
+
             {cart.length === 0 ? (
                 <EmptyCart />
             ) : (
-                <div>
+                <div className="min-h-screen bg-gray-50">
                     <Header />
                     <MaxWidthWrapper>
-                        <section className="py-24 relative">
-                            <div className="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto">
-                                <h2 className="title font-manrope font-bold text-4xl leading-10 mb-8 text-center text-black">Shopping Cart</h2>
-                                <div className="hidden lg:grid grid-cols-2 py-6">
-                                    <div className="font-normal text-xl leading-8 text-gray-500">Product</div>
-                                    <p className="font-normal text-xl leading-8 text-gray-500 flex items-center justify-between">
-                                        <span className="w-full max-w-[260px] text-center">Quantity</span>
-                                        <span className="w-full max-w-[200px] text-center">Total</span>
-                                    </p>
-                                </div>
+                        <section className="py-12">
+                            <div className="max-w-12xl mx-auto px-4">
+                                <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Your Shopping Cart</h2>
+                                
+                                <div className="bg-white rounded-xl shadow-md overflow-hidden">
+                                    <div className="hidden lg:grid grid-cols-4 p-6 border-b border-gray-100 bg-gray-50">
+                                        <div className="col-span-2 text-sm font-medium text-gray-600">Product Details</div>
+                                        <div className="text-sm font-medium text-gray-600 text-center">Quantity</div>
+                                        <div className="text-sm font-medium text-gray-600 text-right">Price</div>
+                                    </div>
 
-                                {cart.map((product) => {
-                                    const quantity = product.quantity || 1;
-                                    const price = product.selectedBottle?.price || product.bottleOptions[0].price;
-                                    const totalPrice = price * quantity;
+                                    <div className="divide-y divide-gray-100">
+                                        {cart.map((product) => {
+                                            const quantity = product.quantity || 1;
+                                            const price = product.selectedBottle?.price || product.bottleOptions[0].price;
+                                            const totalPrice = price * quantity;
 
-                                    return (
-                                        <div key={`${product._id}-${product.selectedBottle?.type}`} className="grid grid-cols-2 lg:grid-cols-2 min-[550px]:gap-6 border-t border-gray-200 py-6">
-                                            <div className="flex items-center flex-col min-[550px]:flex-row gap-3 min-[550px]:gap-6 w-full max-xl:justify-center max-xl:max-w-xl max-xl:mx-auto">
-                                                <img src={product.image1} alt={product.name} className="w-16 h-16" />
-                                                <div className="ml-4">
-                                                    <h5 className="font-medium text-lg leading-8">{product.name}</h5>
-                                                    <p className="font-normal text-lg leading-8 text-gray-500 my-2 min-[550px]:my-3 max-[550px]:text-center">
-                                                        {product.selectedBottle?.type || product.bottleOptions[0].type}
-                                                    </p>
+                                            return (
+                                                <div 
+                                                    key={`${product._id}-${product.selectedBottle?.type}`} 
+                                                    className="grid grid-cols-2 lg:grid-cols-4 gap-4 p-6 items-center hover:bg-gray-50 transition-colors"
+                                                >
+                                                    <div className="col-span-2 flex items-center space-x-4">
+                                                        <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-lg border border-gray-200">
+                                                            <img 
+                                                                src={product.image1} 
+                                                                alt={product.name} 
+                                                                className="h-full w-full object-cover object-center"
+                                                            />
+                                                        </div>
+                                                        <div className="flex flex-col flex-grow">
+                                                            <h3 className="font-medium text-gray-900 text-lg">{product.name}</h3>
+                                                            <p className="mt-1 text-sm text-gray-500">
+                                                                {product.selectedBottle?.type || product.bottleOptions[0].type}
+                                                            </p>
+                                                            <p className="mt-1 text-sm text-indigo-600">₹{price.toFixed(2)}</p>
+                                                            <button 
+                                                                onClick={() => removeFromCart(product._id)}
+                                                                className="mt-2 text-red-500 hover:text-red-700 text-sm font-medium flex items-center w-fit"
+                                                            >
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                                </svg>
+                                                                Remove
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="flex justify-center items-center">
+                                                        <div className="flex items-center border border-gray-200 rounded-lg shadow-sm">
+                                                            <button 
+                                                                onClick={() => handleQuantityChange(
+                                                                    product._id, 
+                                                                    quantity - 1,
+                                                                    product.selectedBottle?.type || ''
+                                                                )}
+                                                                className="p-2 hover:bg-gray-50 text-gray-600 hover:text-gray-800 transition-colors disabled:opacity-50"
+                                                                disabled={quantity <= 1}
+                                                            >
+                                                                -
+                                                            </button>
+                                                            <span className="px-4 py-2 text-center min-w-[40px] font-medium">
+                                                                {quantity}
+                                                            </span>
+                                                            <button 
+                                                                onClick={() => handleQuantityChange(
+                                                                    product._id, 
+                                                                    quantity + 1,
+                                                                    product.selectedBottle?.type || ''
+                                                                )}
+                                                                className="p-2 hover:bg-gray-50 text-gray-600 hover:text-gray-800 transition-colors"
+                                                            >
+                                                                +
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="text-right">
+                                                        <p className="text-lg font-medium text-indigo-600">₹{totalPrice.toFixed(2)}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="font-normal text-xl leading-8 text-gray-500 flex items-center justify-between">
-                                                <div className="quantity-controls">
-                                                    <button 
-                                                        onClick={() => handleQuantityChange(
-                                                            product._id, 
-                                                            (product.quantity || 1) - 1,
-                                                            product.selectedBottle?.type || ''
-                                                        )}
-                                                        style={{padding: "8px"}}
-                                                    >
-                                                        -
-                                                    </button>
-                                                    <span>{product.quantity || 1}</span>
-                                                    <button 
-                                                        onClick={() => handleQuantityChange(
-                                                            product._id, 
-                                                            (product.quantity || 1) + 1,
-                                                            product.selectedBottle?.type || ''
-                                                        )}
-                                                        style={{padding: "8px"}}
-                                                    >
-                                                        +
-                                                    </button>
-                                                </div>
-                                                <div>
-                                                    <h6 className="font-medium text-lg leading-8 text-indigo-600">₹{totalPrice.toFixed(2)}</h6>
-                                                </div>
-                                            </div>
+                                            );
+                                        })}
+                                    </div>
+
+                                    <div className="p-6 bg-gray-50 border-t border-gray-100">
+                                        <div className="flex justify-between items-center mb-6">
+                                            <span className="text-lg font-medium text-gray-900">Total Amount</span>
+                                            <span className="text-2xl font-bold text-indigo-600">₹{calculateTotal().toFixed(2)}</span>
                                         </div>
-                                    );
-                                })}
 
-                                <div className="flex items-center justify-between w-full py-6">
-                                    <p className="font-manrope font-medium text-2xl leading-9 text-gray-900">Total</p>
-                                    <h6 className="font-manrope font-medium text-2xl leading-9 text-indigo-500">₹{calculateTotal().toFixed(2)}</h6>
-                                </div>
-
-                                <div className="flex items-center flex-col sm:flex-row justify-center gap-3 mt-8">
-                                    <button className="rounded-full py-4 w-full max-w-[280px] flex items-center bg-indigo-50 justify-center transition-all duration-500 hover:bg-indigo-100">
-                                        <span className="px-2 font-semibold text-lg leading-8 text-indigo-600">Add Coupon Code</span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
-                                            <path d="M8.25324 5.49609L13.7535 10.9963L8.25 16.4998" stroke="#4F46E5" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                                        </svg>
-                                    </button>
-                                    <button
-                                        className="rounded-full w-full max-w-[280px] py-4 text-center justify-center items-center bg-indigo-600 font-semibold text-lg text-white flex transition-all duration-500 hover:bg-indigo-700"
-                                        onClick={navigateToPaymentPage}>
-                                        Continue to Payment
-                                        <svg className="ml-2" xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
-                                            <path d="M8.75324 5.49609L14.2535 10.9963L8.75 16.4998" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                                        </svg>
-                                    </button>
+                                        <div className="flex flex-col sm:flex-row gap-4 justify-end">
+                                            <button 
+                                                className="px-6 py-3 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-800 hover:bg-gray-50 transition-colors shadow-sm"
+                                            >
+                                                Add Coupon Code
+                                            </button>
+                                            <button
+                                                onClick={navigateToPaymentPage}
+                                                className="px-6 py-3 rounded-full text-sm font-medium bg-indigo-600 text-white hover:bg-indigo-700 transition-colors shadow-sm"
+                                            >
+                                                Continue to Payment
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </section>

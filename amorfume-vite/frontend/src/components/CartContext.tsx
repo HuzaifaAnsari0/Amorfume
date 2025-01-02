@@ -115,20 +115,20 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children, userId: pr
 
   const updateCartQuantity = (productId: string, quantity: number, bottleType: string) => {
     setCart(prevCart => {
-      if (quantity <= 0) {
-        // Remove product if quantity is 0 or less
-        return prevCart.filter(
-          product => 
-            !(product._id === productId && product.selectedBottle?.type === bottleType)
-        );
-      }
-
-      // Update quantity if greater than 0
-      return prevCart.map(product =>
-        product._id === productId && product.selectedBottle?.type === bottleType
-          ? { ...product, quantity }
-          : product
-      );
+        if (quantity === 0) {
+            // Remove the item from cart
+            return prevCart.filter(item => 
+                !(item._id === productId && item.selectedBottle?.type === bottleType)
+            );
+        }
+        
+        // Update quantity for existing item
+        return prevCart.map(item => {
+            if (item._id === productId && item.selectedBottle?.type === bottleType) {
+                return { ...item, quantity };
+            }
+            return item;
+        });
     });
   };
 
