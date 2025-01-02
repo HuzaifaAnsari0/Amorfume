@@ -1,14 +1,96 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import MaxWidthWrapper from "../@/components/MaxWidthWrapper";
 import FaqImage from "../assets/images/FaqImage.webp";
 
-const Faq = () => {
-  // State to track the currently open accordion
-  const [activeIndex, setActiveIndex] = useState(null);
+interface Product {
+  fragranceNotes: {
+    olfactiveFamily: string;
+    top: string;
+    heart: string;
+    base: string;
+  };
+  applicationTips: string[];
+  feelings: string[];
+  legalInfo: {
+    ingredients: string;
+    isolates: string[];
+  };
+  occasions: string[];
+  behindThePerfume: string;
+  shoppingAndReturn: string[];
+}
 
-  const toggleAccordion = (index) => {
+const Faq = () => {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
+  const { id } = useParams();
+  const url = import.meta.env.VITE_BACKEND_URL;
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await fetch(`${url}/store/view-product/${id}`);
+        const data = await response.json();
+        setProduct(data);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [id, url]);
+
+  const toggleAccordion = (index: number) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!product) {
+    return <div>Product not found</div>;
+  }
+
+  const faqItems = [
+    {
+      title: "Fragrance Notes",
+      content: `Olfactive Family: ${product.fragranceNotes.olfactiveFamily}
+                Top Notes: ${product.fragranceNotes.top}
+                Heart Notes: ${product.fragranceNotes.heart}
+                Base Notes: ${product.fragranceNotes.base}`,
+    },
+    {
+      title: "Application Tips",
+      content: product.applicationTips.join("\n"),
+    },
+    {
+      title: "Feelings",
+      content: product.feelings.join(", "),
+    },
+    {
+      title: "Legal Info (Ingredients and Isolates)",
+      content: `Ingredients: ${product.legalInfo.ingredients}\n
+                Isolates: ${product.legalInfo.isolates.join(", ")}`,
+    },
+    {
+      title: "Occasions",
+      content: product.occasions.join(", "),
+    },
+    {
+      title: "Behind the Perfume",
+      content: product.behindThePerfume,
+    },
+    {
+      title: "Shopping and Return",
+      content: `Free 2ml Try-Me included with your purchase so you can experience the fragrance before committing.
+      Easy returns if you’re not completely satisfied—no questions asked.`,
+    },
+  ];
 
   return (
     <div className="bg-slate-50">
@@ -34,28 +116,7 @@ const Faq = () => {
                     </h2>
                   </div>
                   <div className="accordion-group">
-                    {[
-                      {
-                        title: "Ingredients",
-                        content:
-                          "Aqua (De-ionized Water), Organic Vegan Glycerin, Parfum (Fragrance Oil).",
-                      },
-                      {
-                        title: "Isolates",
-                        content:
-                          "Terpineol (🍃), Limonene (🍋), Linalyl Acetate (🌸), Damascone (🌹), and more...",
-                      },
-                      {
-                        title: "Occasions",
-                        content:
-                          "Perfect for daily wear. Ideal for spring events, outdoor activities, or casual gatherings.",
-                      },
-                      {
-                        title: "Behind the Perfume",
-                        content:
-                          "Spring Party 11 blends the effervescent freshness of grapefruit, raspberry, and more...",
-                      },
-                    ].map((item, index) => (
+                    {faqItems.map((item, index) => (
                       <div
                         key={index}
                         className={`accordion py-4 border-b border-solid border-gray-200 ${

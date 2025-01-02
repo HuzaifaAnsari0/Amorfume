@@ -1,7 +1,6 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import MaxWidthWrapper from "../@/components/MaxWidthWrapper";
-import Slider from "../components/Slider";
 import Faq from "../components/Faq";
 import Features from "../components/Features";
 import { useNavigate, useParams } from "react-router-dom";
@@ -25,6 +24,7 @@ interface Product {
     image6: string;
     category: 'adult' | 'kids' | 'teens';
     images: string[];
+    features: string[];
 }
 
 const ProductView = () => {
@@ -190,7 +190,7 @@ const ProductView = () => {
 
                                                 </div>
 
-                                                <span className="pl-2 font-normal leading-7 text-gray-500 text-sm ">1624 review</span>
+                                                {/* <span className="pl-2 font-normal leading-7 text-gray-500 text-sm ">1624 review</span> */}
                                             </div>
 
                                         </div>
@@ -199,46 +199,18 @@ const ProductView = () => {
                                             {product.description}
                                         </p>
                                         <ul className="grid gap-y-4 mb-8">
-                                            <li className="flex items-center gap-3">
-                                                <svg width="26" height="26" viewBox="0 0 26 26" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <rect width="26" height="26" rx="13" fill="#4F46E5" />
-                                                    <path
-                                                        d="M7.66669 12.629L10.4289 15.3913C10.8734 15.8357 11.0956 16.0579 11.3718 16.0579C11.6479 16.0579 11.8701 15.8357 12.3146 15.3913L18.334 9.37183"
-                                                        stroke="white" strokeWidth="1.6" strokeLinecap="round" />
-                                                </svg>
-                                                <span className="font-normal text-base text-gray-900 ">Citrus, apple, berries, etc.</span>
-                                            </li>
-                                            <li className="flex items-center gap-3">
-                                                <svg width="26" height="26" viewBox="0 0 26 26" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <rect width="26" height="26" rx="13" fill="#4F46E5" />
-                                                    <path
-                                                        d="M7.66669 12.629L10.4289 15.3913C10.8734 15.8357 11.0956 16.0579 11.3718 16.0579C11.6479 16.0579 11.8701 15.8357 12.3146 15.3913L18.334 9.37183"
-                                                        stroke="white" strokeWidth="1.6" strokeLinecap="round" />
-                                                </svg>
-                                                <span className="font-normal text-base text-gray-900 ">Exotic spices, amber, and vanilla.</span>
-                                            </li>
-                                            <li className="flex items-center gap-3">
-                                                <svg width="26" height="26" viewBox="0 0 26 26" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <rect width="26" height="26" rx="13" fill="#4F46E5" />
-                                                    <path
-                                                        d="M7.66669 12.629L10.4289 15.3913C10.8734 15.8357 11.0956 16.0579 11.3718 16.0579C11.6479 16.0579 11.8701 15.8357 12.3146 15.3913L18.334 9.37183"
-                                                        stroke="white" strokeWidth="1.6" strokeLinecap="round" />
-                                                </svg>
-                                                <span className="font-normal text-base text-gray-900 ">Citrus, apple, berries, etc.</span>
-                                            </li>
-                                            <li className="flex items-center gap-3">
-                                                <svg width="26" height="26" viewBox="0 0 26 26" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <rect width="26" height="26" rx="13" fill="#4F46E5" />
-                                                    <path
-                                                        d="M7.66669 12.629L10.4289 15.3913C10.8734 15.8357 11.0956 16.0579 11.3718 16.0579C11.6479 16.0579 11.8701 15.8357 12.3146 15.3913L18.334 9.37183"
-                                                        stroke="white" strokeWidth="1.6" strokeLinecap="round" />
-                                                </svg>
-                                                <span className="font-normal text-base text-gray-900 ">Rose, jasmine, and other floral scents.</span>
-                                            </li>
+                                            {product.features.map((feature, index) => (
+                                                <li key={index} className="flex items-center gap-3">
+                                                    <svg width="26" height="26" viewBox="0 0 26 26" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <rect width="26" height="26" rx="13" fill="#4F46E5" />
+                                                        <path
+                                                            d="M7.66669 12.629L10.4289 15.3913C10.8734 15.8357 11.0956 16.0579 11.3718 16.0579C11.6479 16.0579 11.8701 15.8357 12.3146 15.3913L18.334 9.37183"
+                                                            stroke="white" strokeWidth="1.6" strokeLinecap="round" />
+                                                    </svg>
+                                                    <span className="font-normal text-base text-gray-900">{feature}</span>
+                                                </li>
+                                            ))}
                                         </ul>
                                         <p className="text-gray-900 text-lg leading-8 font-medium mb-2">Select Size</p>
                                         <div className="w-full pb-4 border-b border-gray-100 flex-wrap">
@@ -348,7 +320,6 @@ const ProductView = () => {
                 </MaxWidthWrapper>
             </div>
             <Features />
-            <Slider />
             <Faq />
             <Footer />
             {popupMessage && (
