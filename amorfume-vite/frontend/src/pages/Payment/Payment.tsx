@@ -43,7 +43,7 @@ const Payment = () => {
 
   const saveOrderHistory = async (orderData: any) => {
     try {
-      console.log('Sending order data:', orderData);
+      // console.log('Sending order data:', orderData);
 
       const response = await fetch(`${url}/order-history`, {
         method: 'POST',
@@ -195,10 +195,10 @@ const Payment = () => {
 
   return (
     <div className='mt-3'>
-      <div className="max-w-lg mx-auto p-5 border border-gray-300 rounded-lg bg-gray-100">
+      <div className="max-w-6xl m-auto p-3 border border-gray-300 rounded-lg bg-gray-100">
         <h1 className="text-center mb-4 text-2xl font-bold">Razor Pay</h1>
         <UpdateUser user={user} setUser={setUser} setDetailsConfirmed={setDetailsConfirmed} userId={userId} />
-        <div className="flex justify-center mt-4 mb-0">
+        <div className="flex justify-center mt-4">
           <button
             className={`inline-block px-4 py-2 bg-blue-500 text-white items-center rounded hover:bg-blue-600 ${!detailsConfirmed ? 'opacity-50 cursor-not-allowed' : ''}`}
             onClick={paymentHandler}
