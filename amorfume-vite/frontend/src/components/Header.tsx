@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import NavLogo from '../assets/images/amorfumeLogoBlack.png';
+import NavLogo from '../assets/logo/amorfume_logoBlack.svg';
 import { ShoppingBag, User } from 'lucide-react';
 import axios from 'axios';
 import {jwtDecode} from 'jwt-decode';

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import MaxWidthWrapper from "../@/components/MaxWidthWrapper";
-import Logo1 from '../assets/images/amorfumeLogoBlack.png';
+import Logo1 from '../assets/logo/amorfume_logoBlack.svg';
 import { buttonVariants } from "../@/components/button";
 import { useEffect, useState } from "react";
 

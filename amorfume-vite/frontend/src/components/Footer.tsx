@@ -1,4 +1,4 @@
-import amorfumeLogo from './../assets/images/amorfumeLogoWhite.png'; // Adjust the path as necessary
+import amorfumeLogo from './../assets/logo/amorfume_logoWhite.svg'; // Adjust the path as necessary
 const Footer = () => {
     return (
 
