@@ -1,4 +1,4 @@
-# MERN Stack Project with TypeScript and Vite
+# [Amorfume](https://amorfume.com)
 
 This project is a starter template for a MERN (MongoDB, Express, React, Node) stack application using TypeScript, Vite, and other essential tools. This setup allows for efficient development in a TypeScript environment.
 
