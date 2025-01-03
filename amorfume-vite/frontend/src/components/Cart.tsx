@@ -7,7 +7,6 @@ import EmptyCart from "./EmptyCart";
 import Modal from './Modal';
 import { useState } from 'react';
 
-
 const Cart = () => {
     const navigate = useNavigate();
     const { cart, updateCartQuantity, calculateTotal, removeFromCart } = useCart();
@@ -67,6 +66,8 @@ const Cart = () => {
 
                                     <div className="divide-y divide-gray-100">
                                         {cart.map((product) => {
+                                            if (!product.bottleOptions?.length) return null;
+                                            
                                             const quantity = product.quantity || 1;
                                             const price = product.selectedBottle?.price || product.bottleOptions[0].price;
                                             const totalPrice = price * quantity;
@@ -171,4 +172,3 @@ const Cart = () => {
 };
 
 export default Cart;
-

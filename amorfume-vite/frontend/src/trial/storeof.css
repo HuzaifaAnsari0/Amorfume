@@ -91,3 +91,38 @@
     margin-left: 0px;
   }
 }
+
+.product-card {
+  transition: transform 0.3s ease-in-out;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.hover-overlay {
+  background: rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.product-card:hover .hover-overlay {
+  opacity: 1;
+}
+
+.product-title {
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.price-tag {
+  margin-top: 0.5rem;
+}
+
+.product-image {
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.05);
+}

@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { ShoppingBag } from "lucide-react";
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-// import { useCart } from '../components/CartContext';
+import { useCart } from '../components/CartContext';
 import "./style.css";
 
 interface Product {
@@ -18,9 +18,12 @@ interface Product {
   }[];
   image1: string;
   category: 'adult' | 'kids' | 'teens';
+  price?: number;
+  bottleType?: string;
 }
 
 const StoreOF = () => {
+  const { addToCart } = useCart();
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -58,6 +61,27 @@ const StoreOF = () => {
     setSelectedCategory(category);
   };
 
+  const handleAddToCart = (e: React.MouseEvent, product: Product) => {
+    e.preventDefault();
+    const lowestPriceOption = product.bottleOptions.reduce((min, opt) => 
+      opt.price < min.price ? opt : min
+    );
+    
+    addToCart({
+      _id: product._id,
+      name: product.name,
+      description: product.description,
+      image1: product.image1,
+      category: product.category,
+      bottleOptions: product.bottleOptions,
+      selectedBottle: {
+        type: lowestPriceOption.type,
+        price: lowestPriceOption.price
+      },
+      quantity: 1
+    });
+  };
+
   return (
     <>
       <Header />
@@ -84,7 +108,7 @@ const StoreOF = () => {
 
       {/* Products */}
       <div className="container" id="products">
-        <div className="row">
+        <div className="row g-4">
           {loading ? (
             <div className="text-center">Loading...</div>
           ) : filteredProducts.length === 0 ? (
@@ -92,15 +116,31 @@ const StoreOF = () => {
           ) : (
             filteredProducts.map((product) => (
               <div className="col-12 col-lg-3 col-md-4" key={product._id}>
-                <div className="card">
-                  <Link to={`/store/productview/${product._id}`}>
-                    <img src={product.image1} className="card-img-top" alt={product.name} />
-                    <div className="card-body">
-                      <h5 className="card-title">{product.name}</h5>
-                      <Link to={`/store/productview/${product._id}`} className="btn btn-primary">
-                        <ShoppingBag className="bi bi-cart-plus" />
-                      </Link>
-                      <h4 id="price">₹{Math.min(...product.bottleOptions.map(opt => opt.price))}</h4>
+                <div className="product-card h-100 border-0 shadow-sm rounded-3 overflow-hidden">
+                  <Link to={`/store/productview/${product._id}`} className="text-decoration-none">
+                    <div className="position-relative">
+                      <img 
+                        src={product.image1} 
+                        className="card-img-top product-image" 
+                        alt={product.name}
+                        style={{ height: '300px', objectFit:'fill' }}
+                      />
+                      <div className="hover-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
+                        <button 
+                          className="btn btn-light rounded-circle p-3 m-2" 
+                          onClick={(e) => handleAddToCart(e, product)}
+                        >
+                          <ShoppingBag className="text-primary" size={20} />
+                        </button>
+                      </div>
+                    </div>
+                    <div className="card-body text-center p-4">
+                      <h5 className="product-title fw-semibold mb-2">{product.name}</h5>
+                      <div className="price-tag">
+                        <span className="text-primary fs-5 fw-bold">
+                          ₹{Math.min(...product.bottleOptions.map(opt => opt.price))}
+                        </span>
+                      </div>
                     </div>
                   </Link>
                 </div>
