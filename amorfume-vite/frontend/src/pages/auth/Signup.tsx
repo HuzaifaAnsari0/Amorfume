@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import logo from '../../assets/images/fullBlack.png';
+import logo from '../../assets/logo/amorfume_logoBlack.svg';
 
 function Signup() {
 
