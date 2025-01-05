@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import NavLogo from '../../assets/images/amorfumeLogoBlack.png'
+import NavLogo from '../../assets/logo/amorfume_logoBlack.svg'
 import axios from 'axios';
 import AdminNav from './AdminNav';
 

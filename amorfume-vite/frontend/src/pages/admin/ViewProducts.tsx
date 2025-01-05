@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Assuming you're using react-router for navigation
-import NavLogo from '../../assets/images/amorfumeLogoBlack.png';
+import NavLogo from '../../assets/logo/amorfume_logoBlack.svg';
 import AdminNav from './AdminNav';
 
 interface Product {
