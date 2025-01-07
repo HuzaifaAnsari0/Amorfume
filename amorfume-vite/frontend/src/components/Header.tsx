@@ -194,7 +194,7 @@ const Header = () => {
             <Link to="/cart"><ShoppingBag /></Link>
           </li>
           <li className='font-semibold my-7 md:my-0 md:ml-8'>
-            <Link to="/user"><User /></Link>
+            <Link to={isLoggedIn ? "/user" : "/login"}><User /></Link>
           </li>
           {isAdmin && (
             <li className='font-semibold my-7 md:my-0 md:ml-8'>

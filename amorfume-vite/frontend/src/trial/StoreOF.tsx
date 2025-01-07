@@ -136,11 +136,11 @@ const StoreOF = () => {
                     </div>
                     <div className="card-body text-center p-4">
                       <h5 className="product-title fw-semibold mb-2">{product.name}</h5>
-                      <div className="price-tag">
+                      {/* <div className="price-tag">
                         <span className="text-primary fs-5 fw-bold">
                           ₹{Math.min(...product.bottleOptions.map(opt => opt.price))}
                         </span>
-                      </div>
+                      </div> */}
                     </div>
                   </Link>
                 </div>

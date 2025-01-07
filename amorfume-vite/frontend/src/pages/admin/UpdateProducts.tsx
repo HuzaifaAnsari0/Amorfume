@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import NavLogo from '../../assets/images/amorfumeLogoBlack.png';
+import NavLogo from '../../assets/logo/amorfume_logoBlack.svg';
 import AdminNav from './AdminNav';
 
 interface FragranceNotes {

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import NavLogo from '../../assets/images/amorfumeLogoBlack.png';
+import NavLogo from '../../assets/logo/amorfume_logoBlack.svg';
 import AdminNav from './AdminNav';
 
 interface Product {
