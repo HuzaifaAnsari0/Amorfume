@@ -38,20 +38,20 @@ import OrderHistory from './pages/admin/orderHistory';
 function App() {
   return (
       <div className="App">
-      <Router>
-       <Routes>
-       <Route path="*" element={<PageNotFound />} />
+      {/* <Router>
+       <Routes> */}
+       {/* <Route path="*" element={<PageNotFound />} />
        <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgetPassword />} />
-          <Route path="/reset-password/:id/:token" element={<ResetPassword />} />
+          <Route path="/reset-password/:id/:token" element={<ResetPassword />} /> */}
           {/* Trial */}
-          <Route path="/" element={<Stores />} />
+          {/* <Route path="/" element={<Stores />} />
           <Route path="/storeof" element={<StoreOF />} />
           <Route path="/pview" element={<TrialProductview />} />
-          <Route path="/store" element={<StoreOF />} />
+          <Route path="/store" element={<StoreOF />} /> */}
           {/* Trial END */}
-          <Route path="/" element={<Stores />} />
+          {/* <Route path="/" element={<Stores />} />
           <Route path="/kids" element={<Kids />} />
           <Route path="/teens" element={<Teens />} />
           <Route path="/adults" element={<Adults />} />
@@ -66,17 +66,17 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/disclaimer" element={<Disclaimer />} />
           <Route path="/sustainability" element={< Sustainability />} />
-          <Route path="/payment" element={<Payment />} />
-          <Route element={<ProtectedRoute />}>
+          <Route path="/payment" element={<Payment />} /> */}
+          {/* <Route element={<ProtectedRoute />}>
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
             <Route path="/admin-dashboard/insert-products" element={<Products />} />
             <Route path="/admin-dashboard/view-products" element={<ViewProducts />} />
             <Route path="/update-product/:productId" element={<UpdateProduct />} />
             <Route path="/admin-dashboard/order-history" element={<OrderHistory />} />
-          </Route>
+          </Route> */}
           
-       </Routes>
-       </Router>
+       {/* </Routes>
+       </Router> */}
       </div>
     
   );
