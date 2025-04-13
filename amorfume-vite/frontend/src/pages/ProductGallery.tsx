@@ -33,7 +33,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ product }) => {
           className="w-full h-auto object-contain rounded-lg"
         />
         <div className="mt-4">
-          <div className="flex gap-2 sm:gap-4 overflow-x-auto">
+          <div className="flex gap-2 sm:gap-4 overflow-x-auto py-2 px-1 scroll-px-2 scrollbar-hide touch-pan-x">
             {product.images.map((image: string, index: number) => (
               <img
                 key={index}

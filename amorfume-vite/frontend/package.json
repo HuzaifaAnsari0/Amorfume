@@ -28,6 +28,7 @@
     "react-dropzone": "^14.2.3",
     "react-router-dom": "^6.21.3",
     "tailwind-merge": "^2.2.0",
+    "tailwind-scrollbar-hide": "^2.0.0",
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
