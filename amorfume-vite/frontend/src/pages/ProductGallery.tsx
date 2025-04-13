@@ -39,7 +39,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ product }) => {
                 key={index}
                 src={image}
                 alt={`Thumbnail ${index + 1}`}
-                className={`h-16 w-16 sm:h-20 sm:w-20 object-cover rounded-md cursor-pointer transition-all 
+                className={`h-20 w-20 sm:h-20 sm:w-20 object-cover rounded-md cursor-pointer transition-all 
                   ${mainImage === image ? 'ring-2 ring-indigo-500' : 'hover:opacity-80'}`}
                 onClick={() => setMainImage(image)}
               />
