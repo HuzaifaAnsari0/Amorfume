@@ -142,38 +142,36 @@ const Stores = () => {
     -------------------------------------------------------- */}
 
       <div className="container" id="products">
-        <div className="row g-4">
+        <div className="row g-3 g-md-5">
           {products.map((product) => (
-            <div key={product._id} className="col-12 col-lg-3 col-md-4">
-              <div className="product-card h-100 border-0 shadow-sm rounded-3 overflow-hidden">
-                <Link to={`/store/productview/${product._id}`} className="text-decoration-none">
-                  <div className="position-relative">
-                    <img 
-                      src={product.image1} 
-                      className="card-img-top product-image" 
-                      alt={product.name}
-                      style={{ height: '300px', objectFit: 'fill' }}
-                    />
-                    <div className="hover-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
-                      <button 
-                        className="btn btn-light rounded-circle p-3 m-2" 
-                        onClick={(e) => handleAddToCart(e, product)}
-                      >
-                        <ShoppingBag className="text-primary" size={20} />
-                      </button>
-                    </div>
-                  </div>
-                  <div className="card-body text-center p-4">
-                    <h5 className="product-title fw-semibold mb-2">{product.name}</h5>
-                    {/* <div className="price-tag">
-                      <span className="text-primary fs-5 fw-bold">
-                        ₹{Math.min(...product.bottleOptions.map(opt => opt.price))}
-                      </span>
-                    </div> */}
-                  </div>
-                </Link>
+        <div key={product._id} className="col-6 col-md-4 col-lg-3">
+          <div className="product-card h-100 border-0 shadow-sm rounded-3 overflow-hidden">
+            <Link to={`/store/productview/${product._id}`} className="text-decoration-none">
+              <div
+          className="position-relative"
+          style={{ aspectRatio: '1', overflow: 'hidden' }}
+              >
+          <img 
+            src={product.image1} 
+            className="card-img-top product-image img-fluid" 
+            alt={product.name}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+          <div className="hover-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
+            <button 
+              className="btn btn-light rounded-circle p-3 m-2" 
+              onClick={(e) => handleAddToCart(e, product)}
+            >
+              <ShoppingBag className="text-primary" size={20} />
+            </button>
+          </div>
               </div>
-            </div>
+              <div className="card-body text-center p-2 p-md-4">
+          <h5 className="product-title fw-semibold mb-2">{product.name}</h5>
+              </div>
+            </Link>
+          </div>
+        </div>
           ))}
         </div>
       </div>
