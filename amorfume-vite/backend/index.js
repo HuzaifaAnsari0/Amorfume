@@ -14,6 +14,8 @@ const bodyParser = require('body-parser');
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
 const jwt = require('jsonwebtoken');
+const recommendations = require("./src/router/recommendations.js"); // Adjust the path as necessary
+
 // Connect to MongoDB
 connectDB();
 const url = process.env.FRONTEND_URL
@@ -207,6 +209,7 @@ app.use('/', adminRoutes); // admin routes
 
 // Use router for all routes
 app.use("/", router);
+app.use("/", recommendations); // recommendations routes
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

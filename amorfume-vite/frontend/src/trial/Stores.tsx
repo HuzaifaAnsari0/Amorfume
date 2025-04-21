@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../components/CartContext';
-import Footer from "../components/Footer"
-import Header from "../components/Header"
-import "./style.css"
-import "bootstrap/dist/css/bootstrap.min.css"
-import Feature1 from "./images/feature/f1.png"
-import Feature2 from "./images/feature/f2.png"
-import Feature3 from "./images/feature/f3.png"
-import Feature4 from "./images/feature/f4.png"
-import Feature5 from "./images/feature/f5.png"
-import Feature6 from "./images/feature/f6.png"
-import { ShoppingBag } from "lucide-react"
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import Chat from "../components/chat";
+import "./style.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Feature1 from "./images/feature/f1.png";
+import Feature2 from "./images/feature/f2.png";
+import Feature3 from "./images/feature/f3.png";
+import Feature4 from "./images/feature/f4.png";
+import Feature5 from "./images/feature/f5.png";
+import Feature6 from "./images/feature/f6.png";
+import { ShoppingBag } from "lucide-react";
 
 interface Product {
   _id: string;
@@ -107,7 +108,6 @@ const Stores = () => {
           </div>
           <div className="col-6 col-md-4 col-lg-2">
             <div className="cols">
-              <img src="images/feature/f4.png" alt="" />
               <img src={Feature4} alt="" />
               <p style={{ backgroundColor: '#f9f2f4' }}>Best quality</p>
             </div>
@@ -312,8 +312,9 @@ const Stores = () => {
       </div>
 
       <Footer />
+      <Chat />
     </>
   )
 }
 
-export default Stores
+export default Stores;
